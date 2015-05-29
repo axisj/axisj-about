@@ -1,0 +1,104 @@
+<article class="cover">
+
+    <h1 data-menu-item="css-guide">CSS Guide</h1>
+
+    <p>
+        ui/[테마폴더명]/AXJ.min.css 파일을 페이지에 삽입하면 사용할 수 있는 AXISJ의 CSS클래스에 대해서 설명합니다.
+    </p>
+</article>
+
+
+
+
+<article class="content">
+    <h2 data-menu-item="css-table">Table</h2>
+
+	<p>
+		리스트형 테이블 .AXGridTable 적용
+	</p>
+<pre>
+<table cellpadding="0" cellspacing="0" class="AXGridTable">
+    <colgroup>
+        <col width="60" /><col /><col />
+    </colgroup>
+    <thead>
+	    <tr>
+	        <td>&nbsp;</td>
+	        <td colspan="2">발생건수</td>
+	    </tr>
+    </thead>
+    <tbody>
+	    <tr>
+	        <td>사고</td>
+	        <td>55건</td>
+	        <td>99</td>
+	    </tr>
+	    <tr>
+	        <td>사고</td>
+	        <td>55건</td>
+	        <td>99</td>
+	    </tr>
+    </tbody>
+</table>
+</pre>
+
+	<p>
+		폼형 테이블 .AXFormTable 적용
+	</p>
+<pre>
+<table cellpadding="0" cellspacing="0" class="AXFormTable">
+	<colgroup>
+		<col width="60" /><col /><col />
+	</colgroup>
+	<tbody>
+	<tr>
+		<th>사고</th>
+		<td class="blue">55건</td>
+		<td class="red">99</td>
+	</tr>
+	<tr class="gray"> <!-- red|green|blue|yellow 사용가능 -->
+		<th>사고</th>
+		<td>55건</td>
+		<td class="green">99</td>
+	</tr>
+	</tbody>
+</table>
+</pre>
+
+</article>
+
+
+
+
+
+<article class="content">
+    <h2 data-menu-item="css-button">Button</h2>
+	<p>.AXButton 클래스에 Red, Green, Blue, Classic클래스를 합성하면 각각 다른 상태의 버튼으로 만들 수 있습니다. AXButton 클래는 button태그외에도 <code>A, Input</code>태그에도 사용할 수 있습니다.</p>
+<pre>
+<div class="tag-result">
+    <button class="AXButton">버튼</button>
+    <button class="AXButton Red">버튼</button>
+    <button class="AXButton Green">버튼</button>
+    <button class="AXButton Blue">버튼</button>
+    <button class="AXButton Classic">버튼</button>
+	<a class="AXButton">버튼</a>
+	<input class="AXButton" type="button" value="버튼">
+
+	<button class="AXButton Classic" disabled="disabled">버튼</button>
+</div>
+</pre>
+	<div class="DH30"></div>
+	<h3>AXIcon</h3>
+	<p>또한 AXICON과 조합하여 사용하면 손쉽게 버튼에 아이콘이미지를 사용할 수 있습니다. 액시콘은 <a href="http://axicon.axisj.com" target="_blank">http://axicon.axisj.com</a>에서 확인 하세요.</p>
+<pre>
+<div class="tag-result">
+	<button class="AXButton"><i class="axi axi-check-circle-o"></i> 버튼</button>
+	<button class="AXButton Red"><i class="axi axi-trash-o"></i> 버튼</button>
+	<button class="AXButton Green"><i class="axi axi-clock-o"></i> 버튼</button>
+	<button class="AXButton Blue"><i class="axi axi-facebook-square"></i> 버튼</button>
+	<button class="AXButton Classic"><i class="axi axi-camera-retro"></i> 버튼</button>
+	<a class="AXButton"><i class="axi axi-thumbs-o-up"></i> 버튼</a>
+</div>
+</pre>
+</article>
+

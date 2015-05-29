@@ -17,7 +17,6 @@
 					'samples/layout/head.html',
 					'samples/layout/visual-dom.html',
 					'samples/axisj/core/*.html',
-					'samples/axisj/css/*.html',
 					'samples/layout/bottom.html'
 				],
 				dest: 'samples/index.html'
@@ -25,7 +24,7 @@
 		},
 		watch: {
             core: {
-                files: ['samples/ax5/util/*.html', 'samples/ax5/dom/*.html', 'samples/ax5/xhr/*.html'],
+                files: ['samples/axisj/core/*.html'],
                 tasks: ['concat:core', 'replace:core']
             }
 		},

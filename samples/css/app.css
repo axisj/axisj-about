@@ -1,11 +1,36 @@
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
 html, body {
   margin: 0px;
   padding: 0px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #555555;
   height: 100%;
   line-height: 1.6em; }
+  html input, html button, html select, html textarea, body input, body button, body select, body textarea {
+    box-sizing: border-box;
+    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 28px; }
+    html input:hover, html button:hover, html select:hover, html textarea:hover, body input:hover, body button:hover, body select:hover, body textarea:hover {
+      font-family: Inherit; }
+  html .AXButton, body .AXButton {
+    line-height: 28px;
+    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    html .AXButton .axi, body .AXButton .axi {
+      font-size: 15px;
+      line-height: 28px;
+      height: 28px;
+      display: block;
+      float: left;
+      margin-right: 3px; }
+    html .AXButton:hover, body .AXButton:hover {
+      font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  html .AXInput, body .AXInput {
+    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 28px;
+    height: 28px; }
+    html .AXInput:hover, body .AXInput:hover {
+      font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0.5em auto;

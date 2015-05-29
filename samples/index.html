@@ -6,8 +6,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ax5</title>
-	
+    <title>AXISJ 소개서</title>
+
+	<link rel="shortcut icon" href="http://dev.axisj.com/ui/axisj.ico" type="image/x-icon" />
+	<link rel="icon" href="http://dev.axisj.com/ui/axisj.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://dev.axisj.com/ui/AXJ.png" />
+	<link rel="apple-touch-icon-precomposed" href="http://dev.axisj.com/ui/AXJ.png" />
+
     <link rel="stylesheet" type="text/css" href="../plugins/prettify/github.css">
     <link rel="stylesheet" type="text/css" href="css/app.css">
 	<link rel="stylesheet" type="text/css" href="../plugins/ax5/css/jellyfish/ax5.min.css">
@@ -15,6 +20,10 @@
 	
     <script type="text/javascript" src="../plugins/prettify/prettify.js"></script>
     <script type="text/javascript" src="../plugins/ax5/ax5.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axisj/ui/arongi/AXJ.min.css" />
+	<script type="text/javascript" src="http://cdn.axisj.com/axisj/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdn.axisj.com/axisj/dist/AXJ.min.js"></script>
 
 </head>
 <body>
@@ -56,34 +65,281 @@
 
 <article class="cover">
 
-    <h1 data-menu-item="ax5-dom">ax5.dom</h1>
+    <h1 data-menu-item="core">Core</h1>
 
     <p>
-        ax5.dom은 jQuery방식의 dom select와 네이티브 방식의 select를 혼용하여 사용 할 수 있게 설계되었다.
-        예를 들어 <code>ax5.dom("#id")</code>로 엘리먼트 select를 해둔 상태에서 ax5.dom에 준비된 다양한 method들을 사용하다가
-        <code>for</code>구문 안에서 element를 다룰 때에는 <code>ax5.dom.css(element, {width:100});</code>처럼 select를 다시 하시 않고 좀더 가볍고 직접적인 방법으로
-        원하는 기능을 사용하는 것이다.
+        axisj 라이브러리를 구동시키기 위한 유틸리티와 공통 UI 컴포넌트를 말합니다.
     </p>
 
     <div class="callout good">
-        <h4>ax5.dom() <span class="ax info">vs</span> ax5.dom.get()</h4>
+        <h4>AXISJ Core의 구성요소</h4>
         <ul>
-            <li>
-                ax5.dom("#id").elements[0] === ax5.dom.get("#id")[0]
-            </li>
-            <li>
-                ax5.dom("#ax5-dom-get").width( ); === ax5.dom.width( ax5.dom.get("#ax5-dom-get") );
-            </li>
-            <li>
-                ax5.dom("#ax5-dom-get").attr("id"); === ax5.dom.attr( ax5.dom.get("#ax5-dom-get"), "id" );
-            </li>
+            <li>AXConfig.js - 액시스제이 환경설정 변수 모음</li>
+            <li>AXUtil.js - Prototype함수, util함수, Class 패턴 지원</li>
+            <li>AXCore.js - UI Class원형, 공용으로 쓰이는 UI클래스들 (AXMask, AXScroll..)</li>
         </ul>
+        <p>
+            위 3가지 파일을 합쳐서 AXJ.js 파일을 만들고 다시 Uglify처리하여 AXJ.coremin.js 파일을 만듭니다.
+        </p>
     </div>
+</article>
+
+
+
+<!-- split -->
+
+<!--<label data-menu-item="label"><span>Get</span></label>-->
+<article class="content">
+	<h2 data-menu-item="axconfig">AXConfig</h2>
+	<p>
+		AXConfig에 대한 자세한 정보는
+		<a href="http://jdoc.axisj.com/AXConfig.html" target="_blank">http://jdoc.axisj.com/AXConfig.html</a>
+		에서 얻으 실 수 있습니다. UI를 구성하는 각종 설정변수를 사용자에 요구에 맞게 재 정의 하는데 사용합니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="div-axisj-axconfig" class="script-result">&lt;/div>
+&lt;script>
+(function(){
+	$("#div-axisj-axconfig").html( Object.toJSON(AXConfig) );
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="div-axisj-axconfig" class="script-result"></div>
+<script>
+(function(){
+	$("#div-axisj-axconfig").html( Object.toJSON(AXConfig) );
+})();
+</script>
+
+	<p>예를 들어 AXGrid의 <code>empty of list</code>를 변경하려면, 아래와 같이 페이지 상단에 정의 할 수 있습니다. (스크립트는 선언 순서대로 실행되므로 위치가 잘못 되면 원하는 결과를 얻지 못할 수 있습니다.)</p>
+<pre class="prettyprint linenums">
+AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
+</pre>
+</article>
+
+<!-- split -->
+
+<!--<label data-menu-item="label"><span>Get</span></label>-->
+<article class="content">
+	<h2 data-menu-item="axutil">AXUtil</h2>
+	<p>
+		AXUtil은 다른이름으로 <code>axf</code>로 쓰이기도 합니다. 보다 자세한 정보는
+		<a href="http://jdoc.axisj.com/axf.html" target="_blank">http://jdoc.axisj.com/axf.html</a>
+		에서 얻을 수 있습니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="div-axisj-axutil" class="script-result">&lt;/div>
+&lt;script>
+(function(){
+	$("#div-axisj-axutil").html( Object.toJSON(axf.browser) );
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="div-axisj-axutil" class="script-result"></div>
+<script>
+(function(){
+	$("#div-axisj-axutil").html( Object.toJSON(axf.browser) );
+})();
+</script>
+
+	<p>
+		웹 애플리케이션을 개발하기 위해서 필요한, 웹 UI를 개발하기 위해 꼭 필요한 기본 유틸리티 함수가 정의 되어 있습니다.
+	</p>
+</article>
+
+<!-- split -->
+
+<!--<label data-menu-item="label"><span>Get</span></label>-->
+<article class="content">
+	<h2 data-menu-item="core-axcore">AXCore</h2>
+	<div class="callout good">
+		<h4>AXCore.js파일에 선언되어 있는 UI클래스 리스트</h4>
+		<ul>
+			<li>AXJ - UI 클래스 원형</li>
+			<li>AXReq - AJAX 통신처리 클래스</li>
+			<li>AXMask - 애플케이션 사용자 화면 입력금지 / 통신중 상태표시</li>
+			<li>AXNotification - 애플리케이션 상태 변경 알림처리</li>
+			<li>AXScroll - 레이어안에 레이어 스크롤</li>
+			<li>AXCalendar - 달력 테이블 생성</li>
+			<li>AXMultiSelect - 레이어 안에 아이템 다중선택 지원</li>
+			<li>AXResizable - 레이어 리사이즈 지원</li>
+			<li>AXContentMenuClass - 컨텍스트메뉴 타입 UI</li>
+			<li>AXPopOverClass - 팝오버 타입 UI</li>
+			<li>AXMobileModal - 모바일 페이지용 모달</li>
+			<li>jQuery extends - 제이쿼리 확장 함수</li>
+		</ul>
+	</div>
+	<p>
+		AXCore안에 정의된 UI클래스 들에 대해서는 아래에서 자세히 하나씩 짚어 가도록 하겠습니다.
+	</p>
+</article>
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="css-guide">CSS Guide</h1>
 
     <p>
-        얼핏 보면 <code>ax5.dom.</code>을 사용하는 것은 대단히 불편해 보인다. 하지만 프로그램의 성능을 위해서는 element select횟수를 최대한 줄이고 캐시된 element를 이용하여 코딩하려는 노력이 필요하다.
-        그리고 코드의 길이가 문제라면면각자의 개발환경에 맞도록 <code>var util = ax5.util</code>과 같은 방식으로 개인의 기호에 맞게 바꾸어 사용하면 크게 문제될 일도 아니다.
+        ui/[테마폴더명]/AXJ.min.css 파일을 페이지에 삽입하면 사용할 수 있는 AXISJ의 CSS클래스에 대해서 설명합니다.
     </p>
+</article>
+
+
+
+
+<article class="content">
+    <h2 data-menu-item="css-table">Table</h2>
+
+	<p>
+		리스트형 테이블 .AXGridTable 적용
+	</p>
+<pre class="prettyprint linenums">
+&lt;table cellpadding="0" cellspacing="0" class="AXGridTable">
+    &lt;colgroup>
+        &lt;col width="60" />&lt;col />&lt;col />
+    &lt;/colgroup>
+    &lt;thead>
+	    &lt;tr>
+	        &lt;td>&nbsp;&lt;/td>
+	        &lt;td colspan="2">발생건수&lt;/td>
+	    &lt;/tr>
+    &lt;/thead>
+    &lt;tbody>
+	    &lt;tr>
+	        &lt;td>사고&lt;/td>
+	        &lt;td>55건&lt;/td>
+	        &lt;td>99&lt;/td>
+	    &lt;/tr>
+	    &lt;tr>
+	        &lt;td>사고&lt;/td>
+	        &lt;td>55건&lt;/td>
+	        &lt;td>99&lt;/td>
+	    &lt;/tr>
+    &lt;/tbody>
+&lt;/table>
+</pre><h4>Result</h4>
+<table cellpadding="0" cellspacing="0" class="AXGridTable">
+    <colgroup>
+        <col width="60" /><col /><col />
+    </colgroup>
+    <thead>
+	    <tr>
+	        <td>&nbsp;</td>
+	        <td colspan="2">발생건수</td>
+	    </tr>
+    </thead>
+    <tbody>
+	    <tr>
+	        <td>사고</td>
+	        <td>55건</td>
+	        <td>99</td>
+	    </tr>
+	    <tr>
+	        <td>사고</td>
+	        <td>55건</td>
+	        <td>99</td>
+	    </tr>
+    </tbody>
+</table>
+
+
+	<p>
+		폼형 테이블 .AXFormTable 적용
+	</p>
+<pre class="prettyprint linenums">
+&lt;table cellpadding="0" cellspacing="0" class="AXFormTable">
+	&lt;colgroup>
+		&lt;col width="60" />&lt;col />&lt;col />
+	&lt;/colgroup>
+	&lt;tbody>
+	&lt;tr>
+		&lt;th>사고&lt;/th>
+		&lt;td class="blue">55건&lt;/td>
+		&lt;td class="red">99&lt;/td>
+	&lt;/tr>
+	&lt;tr class="gray"> &lt;!-- red|green|blue|yellow 사용가능 -->
+		&lt;th>사고&lt;/th>
+		&lt;td>55건&lt;/td>
+		&lt;td class="green">99&lt;/td>
+	&lt;/tr>
+	&lt;/tbody>
+&lt;/table>
+</pre><h4>Result</h4>
+<table cellpadding="0" cellspacing="0" class="AXFormTable">
+	<colgroup>
+		<col width="60" /><col /><col />
+	</colgroup>
+	<tbody>
+	<tr>
+		<th>사고</th>
+		<td class="blue">55건</td>
+		<td class="red">99</td>
+	</tr>
+	<tr class="gray"> <!-- red|green|blue|yellow 사용가능 -->
+		<th>사고</th>
+		<td>55건</td>
+		<td class="green">99</td>
+	</tr>
+	</tbody>
+</table>
+
+
+</article>
+
+
+
+
+
+<article class="content">
+    <h2 data-menu-item="css-button">Button</h2>
+	<p>.AXButton 클래스에 Red, Green, Blue, Classic클래스를 합성하면 각각 다른 상태의 버튼으로 만들 수 있습니다. AXButton 클래는 button태그외에도 <code>A, Input</code>태그에도 사용할 수 있습니다.</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+    &lt;button class="AXButton">버튼&lt;/button>
+    &lt;button class="AXButton Red">버튼&lt;/button>
+    &lt;button class="AXButton Green">버튼&lt;/button>
+    &lt;button class="AXButton Blue">버튼&lt;/button>
+    &lt;button class="AXButton Classic">버튼&lt;/button>
+	&lt;a class="AXButton">버튼&lt;/a>
+	&lt;input class="AXButton" type="button" value="버튼">
+
+	&lt;button class="AXButton Classic" disabled="disabled">버튼&lt;/button>
+&lt;/div>
+</pre><h4>Result</h4>
+<div class="tag-result">
+    <button class="AXButton">버튼</button>
+    <button class="AXButton Red">버튼</button>
+    <button class="AXButton Green">버튼</button>
+    <button class="AXButton Blue">버튼</button>
+    <button class="AXButton Classic">버튼</button>
+	<a class="AXButton">버튼</a>
+	<input class="AXButton" type="button" value="버튼">
+
+	<button class="AXButton Classic" disabled="disabled">버튼</button>
+</div>
+
+	<div class="DH30"></div>
+	<h3>AXIcon</h3>
+	<p>또한 AXICON과 조합하여 사용하면 손쉽게 버튼에 아이콘이미지를 사용할 수 있습니다. 액시콘은 <a href="http://axicon.axisj.com" target="_blank">http://axicon.axisj.com</a>에서 확인 하세요.</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton">&lt;i class="axi axi-check-circle-o">&lt;/i> 버튼&lt;/button>
+	&lt;button class="AXButton Red">&lt;i class="axi axi-trash-o">&lt;/i> 버튼&lt;/button>
+	&lt;button class="AXButton Green">&lt;i class="axi axi-clock-o">&lt;/i> 버튼&lt;/button>
+	&lt;button class="AXButton Blue">&lt;i class="axi axi-facebook-square">&lt;/i> 버튼&lt;/button>
+	&lt;button class="AXButton Classic">&lt;i class="axi axi-camera-retro">&lt;/i> 버튼&lt;/button>
+	&lt;a class="AXButton">&lt;i class="axi axi-thumbs-o-up">&lt;/i> 버튼&lt;/a>
+&lt;/div>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton"><i class="axi axi-check-circle-o"></i> 버튼</button>
+	<button class="AXButton Red"><i class="axi axi-trash-o"></i> 버튼</button>
+	<button class="AXButton Green"><i class="axi axi-clock-o"></i> 버튼</button>
+	<button class="AXButton Blue"><i class="axi axi-facebook-square"></i> 버튼</button>
+	<button class="AXButton Classic"><i class="axi axi-camera-retro"></i> 버튼</button>
+	<a class="AXButton"><i class="axi axi-thumbs-o-up"></i> 버튼</a>
+</div>
 
 </article>
 
@@ -91,376 +347,42 @@
 
 <!-- split -->
 
-<label data-menu-item="label"><span>Get</span></label>
-<article class="content">
-	<h2 data-menu-item="ax5-dom-get">ax5.dom.get</h2>
-	<p>
-		CSS셀렉터가 복잡하고 다양한 버전의 <code>Selecting Elements</code>를 지원하는 것을 중요하다.
-		하지만 그 보다 중요한것은 속도이다. 복잡한 형태의 <code>CSS Query</code>문을 처리 하기위해 많은 리소스를 사용하는 것은 바람직하지 않다.
-		ax5의 dom Selecting은 프로그래머가 보다 빠르게 <code>Selecting Elements</code>를 할 수 있는 제한적인 형태의 <code>CSS Query</code>
-		사용을 지향한다.
-	</p>
-	<p>
-		가급적 하나의 조건으로 Query하여 프로그램 하도록 유도하고 불가피하게 하나의 조건으로 쿼리 하지 못한다면 sub_query하여 Selecting 할 수 있도록 한다.
-	</p>
-<pre class="prettyprint linenums">
-&lt;div id="div-ax5-dom-get" class="script-result">
-	&lt;form>
-		&lt;input type="text" class="ax-inp" />
-		&lt;button class="ax-btn">OK&lt;/button>
-	&lt;/form>
-&lt;/div>
-&lt;script>
-(function(){
-	var util = ax5.util, el = ax5.dom("#div-ax5-dom-get");
-	var po = [];
-	el.append( '&lt;br/>' );
-	ax5.dom.get("a").forEach(function(item){
-		po.push( "" + item.tagName + " href=" + ax5.dom.attr(item, "href") );
-	});
-	el.append( po.join(',') );
-	el.append( '&lt;br/>' );
-
-	po = [];
-	ax5.dom.get(".visual").forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '&lt;br/>' );
-
-	po = [];
-	el.find("[type=text]").elements.forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '&lt;br/>' );
-
-	po = [];
-	ax5.dom.get("#div-ax5-dom-get", ".ax-btn").forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '&lt;br/>' );
-})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div id="div-ax5-dom-get" class="script-result">
-	<form>
-		<input type="text" class="ax-inp" />
-		<button class="ax-btn">OK</button>
-	</form>
-</div>
-<script>
-(function(){
-	var util = ax5.util, el = ax5.dom("#div-ax5-dom-get");
-	var po = [];
-	el.append( '<br/>' );
-	ax5.dom.get("a").forEach(function(item){
-		po.push( "" + item.tagName + " href=" + ax5.dom.attr(item, "href") );
-	});
-	el.append( po.join(',') );
-	el.append( '<br/>' );
-
-	po = [];
-	ax5.dom.get(".visual").forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '<br/>' );
-
-	po = [];
-	el.find("[type=text]").elements.forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '<br/>' );
-
-	po = [];
-	ax5.dom.get("#div-ax5-dom-get", ".ax-btn").forEach(function(item){
-		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
-	});
-	el.append( po.join(',') );
-	el.append( '<br/>' );
-})();
-</script>
-
-</article>
-
-
-
 
 <article class="content">
-	<h2 data-menu-item="ax5-dom-get_one">ax5.dom.get_one</h2>
-	<p>
-		get_one은 Selecting 엘리먼트중 첫번째 엘리먼트를 반환한다.
-	</p>
+    <h2 data-menu-item="css-input">Input</h2>
+	<p>.AXInput 클래스 사용하여 input태그를 꾸밀 수 있습니다.</p>
 <pre class="prettyprint linenums">
-&lt;div id="div-ax5-dom-get_one" class="script-result">&lt;/div>
-&lt;script>
-	(function(){
-		var util = ax5.util, el = ax5.dom("#div-ax5-dom-get_one");
-		el.append( 'tagName = ' + ax5.dom.get_one("#div-ax5-dom-get_one").tagName + '&lt;br/>' );
-		el.append( 'nodeType = ' + ax5.dom.get_one("#div-ax5-dom-get_one").nodeType );
-	})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div id="div-ax5-dom-get_one" class="script-result"></div>
-<script>
-	(function(){
-		var util = ax5.util, el = ax5.dom("#div-ax5-dom-get_one");
-		el.append( 'tagName = ' + ax5.dom.get_one("#div-ax5-dom-get_one").tagName + '<br/>' );
-		el.append( 'nodeType = ' + ax5.dom.get_one("#div-ax5-dom-get_one").nodeType );
-	})();
-</script>
-
-</article>
-
-
-
-
-<article class="content">
-	<h2 data-menu-item="ax5-dom-get_webgl_context">ax5.dom.get_webgl_context</h2>
-	<p>
-		webGL context 개체를 반환합니다. webGL을 지원하지 않는 브라우저에서는 <code>null</code> 을 반환합니다.
-	</p>
-<pre class="prettyprint linenums">
-&lt;div id="div-ax5-dom-get_webgl_context" class="script-result">
-	&lt;canvas id="canvas-element-id" width="200" height="80" style="border: 2px dotted blue;">
-		Your browser does not support webGL
-	&lt;/canvas>
-&lt;/div>
-&lt;script>
-	(function(){
-		var util = ax5.util, el = ax5.dom("#canvas-element-id");
-		var context = el.get_webgl_context();
-		ax5.dom("#div-ax5-dom-get_webgl_context").append(context.toString());
-	})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div id="div-ax5-dom-get_webgl_context" class="script-result">
-	<canvas id="canvas-element-id" width="200" height="80" style="border: 2px dotted blue;">
-		Your browser does not support webGL
-	</canvas>
-</div>
-<script>
-	(function(){
-		var util = ax5.util, el = ax5.dom("#canvas-element-id");
-		var context = el.get_webgl_context();
-		ax5.dom("#div-ax5-dom-get_webgl_context").append(context.toString());
-	})();
-</script>
-
-</article>
-
-<!-- split -->
-
-<article class="cover">
-    <h1 data-menu-item="ax-text">ax</h1>
-	<p class="lead">
-		AX5 CSS 시스템의 기본이 되는 class="ax" 입니다. ax로 시작하는 CSS클래스는 폰트사이즈, 글꼴, 굵기, 줄높이를 결정하여줍니다. 
-		ax에 basic, good등의 상황값을 추가 하면 상황에 맞는 색상으로 글자 색상을 변경 하거나. lg, sm, xs 등의 크기값을 추가하여 크기를 변경할 수 있습니다.
-	</p>
-</article>
-
-
-
-<article class="content">
-	
-	<h3 data-menu-item="ax-text-basic" class="capitalize">basic</h3>
-
-<pre class="prettyprint linenums">
-&lt;a class="ax" href="#">AX5 ax5 에이액스5&lt;/a>
-&lt;div class="ax">AX5 ax5 에이액스5&lt;/div>
-&lt;div class="ax">
-	AX5 ax5 에이액스5
-	&lt;span class="badge">5&lt;/span>
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput" />
+	&lt;input type="text" name="x" class="AXInput W100" placeholder="W100" />
+	&lt;input type="text" name="x" class="AXInput W50" placeholder="W50" />
+	&lt;button class="AXButton">확인&lt;/button>
+	&lt;div class="DH10">&lt;/div>
+	&lt;input type="text" name="x" class="AXInput" placeholder="readonly" readonly="readonly" />
+	&lt;input type="text" name="x" class="AXInput" placeholder="disabled" disabled="disabled" />
 &lt;/div>
 </pre><h4>Result</h4>
-<a class="ax" href="#">AX5 ax5 에이액스5</a>
-<div class="ax">AX5 ax5 에이액스5</div>
-<div class="ax">
-	AX5 ax5 에이액스5
-	<span class="badge">5</span>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput" />
+	<input type="text" name="x" class="AXInput W100" placeholder="W100" />
+	<input type="text" name="x" class="AXInput W50" placeholder="W50" />
+	<button class="AXButton">확인</button>
+	<div class="DH10"></div>
+	<input type="text" name="x" class="AXInput" placeholder="readonly" readonly="readonly" />
+	<input type="text" name="x" class="AXInput" placeholder="disabled" disabled="disabled" />
 </div>
 
-	
-	<div class="callout info">
-		<h4>a태그에는 다른태그와 다른게 테마 기본색을 사용합니다.</h4>
-		<p>
-			$theme-basic, $theme-good, $theme-info, $theme-warning, 
-			$theme-danger, $theme-special 등의 변수값에 각각의 색상코드를 사용자가 선택 할 수 있습니다.
-		</p>
+	<div class="callout danger">
+		<h4>테마</h4>
+		<p>액시스제이에는 현재 5가지의 CSS테마 세트가 공개되어 있습니다. 현재 가용한 테마는 arongi, bulldog, flybasket, kakao, cocker이며 http://dev.axisj.com에 가시면 하단의 테마 선택 링크를 이용해 CSS 테마를 변경 해볼 수 있습니다.</p>
 	</div>
 </article>
 
 
 
-<article class="content">
-	<h3 data-menu-item="ax-text-situations" class="capitalize">situations</h3>
-
-<pre class="prettyprint linenums">
-&lt;div class="ax mute">ax ax 에이액스5&lt;/div>
-&lt;div class="ax basic">ax ax 에이액스5&lt;/div>
-&lt;div class="ax good">ax ax 에이액스5&lt;/div>
-&lt;div class="ax info">ax ax 에이액스5&lt;/div>
-&lt;div class="ax warning">ax ax 에이액스5&lt;/div>
-&lt;div class="ax danger">ax ax 에이액스5&lt;/div>
-&lt;div class="ax special">ax ax 에이액스5&lt;/div>
-</pre><h4>Result</h4>
-<div class="ax mute">ax ax 에이액스5</div>
-<div class="ax basic">ax ax 에이액스5</div>
-<div class="ax good">ax ax 에이액스5</div>
-<div class="ax info">ax ax 에이액스5</div>
-<div class="ax warning">ax ax 에이액스5</div>
-<div class="ax danger">ax ax 에이액스5</div>
-<div class="ax special">ax ax 에이액스5</div>
-
-
-</article>
-
-
-
-<article class="content">
-	<h3 data-menu-item="ax-text-misc" class="capitalize">misc.</h3>
-
-<pre class="prettyprint linenums">
-&lt;div class="ax align-left special">ax ax 에이액스5&lt;/div>
-&lt;div class="ax align-right">ax ax 에이액스5&lt;/div>
-&lt;div class="ax align-center good">ax ax 에이액스5&lt;/div>
-&lt;div class="ax align-justify">ax ax 에이액스5&lt;/div>
-&lt;div class="ax nowrap">ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 &lt;/div>
-&lt;div class="ax lowercase">ABCDEFG ax&lt;/div>
-&lt;div class="ax uppercase">abcdefg ax&lt;/div>
-&lt;div class="ax capitalize">abcdefg ax&lt;/div>
-</pre><h4>Result</h4>
-<div class="ax align-left special">ax ax 에이액스5</div>
-<div class="ax align-right">ax ax 에이액스5</div>
-<div class="ax align-center good">ax ax 에이액스5</div>
-<div class="ax align-justify">ax ax 에이액스5</div>
-<div class="ax nowrap">ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 </div>
-<div class="ax lowercase">ABCDEFG ax</div>
-<div class="ax uppercase">abcdefg ax</div>
-<div class="ax capitalize">abcdefg ax</div>
-
-
-	<div class="callout info">
-		<h4>정렬, 줄넘김, 대소문자..</h4>
-		<p>
-			웹 애플리케이션 개발중 다양한 상황에 필요한 문자열 확장 클래스를 선언 해 두었습니다.
-		</p>
-	</div>
-	
-</article>
-
-
 <!-- split -->
 
-
-<article class="cover">
-	<h1 data-menu-item="ax-button">ax.button</h1>
-</article>
-
-
-
-<article class="content">
-
-	<h3 data-menu-item="ax-button-basic" class="capitalize">basic</h3>
-
-<pre class="prettyprint linenums">
-&lt;button class="ax-btn">.ax-btn&lt;/button>
-&lt;a class="ax-btn uppercase">uppercase&lt;/a>
-&lt;a class="ax-btn capitalize">capitalize&lt;/a>
-&lt;button class="ax-btn">
-	AX5 ax5 에이액스5
-	&lt;span class="badge">5&lt;/span>
-&lt;/button>
-</pre><h4>Result</h4>
-<button class="ax-btn">.ax-btn</button>
-<a class="ax-btn uppercase">uppercase</a>
-<a class="ax-btn capitalize">capitalize</a>
-<button class="ax-btn">
-	AX5 ax5 에이액스5
-	<span class="badge">5</span>
-</button>
-
-</article>
-
-
-
-<article class="content">
-	<h3 data-menu-item="ax-button-situ" class="capitalize">situations</h3>
-
-<pre class="prettyprint linenums">
-&lt;button class="ax-btn basic">basic &lt;span class="badge">5&lt;/span>&lt;/button>
-&lt;button class="ax-btn basic">기본&lt;/button>
-&lt;button class="ax-btn good">good&lt;/button>
-&lt;button class="ax-btn good">좋음&lt;/button>
-&lt;button class="ax-btn info">info&lt;/button>
-&lt;button class="ax-btn info">정보&lt;/button>
-&lt;button class="ax-btn warning">warning&lt;/button>
-&lt;button class="ax-btn warning">주의&lt;/button>
-&lt;button class="ax-btn danger">danger&lt;/button>
-&lt;button class="ax-btn danger">경고&lt;/button>
-&lt;button class="ax-btn link">link&lt;/button>
-&lt;button class="ax-btn link">링크&lt;/button>
-&lt;button class="ax-btn special">special&lt;/button>
-&lt;button class="ax-btn special">특별한&lt;/button>
-</pre><h4>Result</h4>
-<button class="ax-btn basic">basic <span class="badge">5</span></button>
-<button class="ax-btn basic">기본</button>
-<button class="ax-btn good">good</button>
-<button class="ax-btn good">좋음</button>
-<button class="ax-btn info">info</button>
-<button class="ax-btn info">정보</button>
-<button class="ax-btn warning">warning</button>
-<button class="ax-btn warning">주의</button>
-<button class="ax-btn danger">danger</button>
-<button class="ax-btn danger">경고</button>
-<button class="ax-btn link">link</button>
-<button class="ax-btn link">링크</button>
-<button class="ax-btn special">special</button>
-<button class="ax-btn special">특별한</button>
-
-</article>
-
-
-
-<article class="content">
-	<h3 data-menu-item="ax-button-size" class="capitalize">size</h3>
-<pre class="prettyprint linenums">
-&lt;button class="ax-btn basic lg">ax-btn basic lg&lt;/button>
-&lt;button class="ax-btn good">ax-btn good&lt;/button>
-&lt;button class="ax-btn info sm">ax-btn info sm&lt;/button>
-&lt;button class="ax-btn warning xs">ax-btn warning xs&lt;/button>
-</pre><h4>Result</h4>
-<button class="ax-btn basic lg">ax-btn basic lg</button>
-<button class="ax-btn good">ax-btn good</button>
-<button class="ax-btn info sm">ax-btn info sm</button>
-<button class="ax-btn warning xs">ax-btn warning xs</button>
-
-</article>
-
-
-
-<article class="content">
-	<h3 data-menu-item="ax-button-state" class="capitalize">state</h3>
-<pre class="prettyprint linenums">
-&lt;button class="ax-btn basic active">ax-btn basic active&lt;/button>
-&lt;button class="ax-btn good active">ax-btn good active&lt;/button>
-&lt;button class="ax-btn basic disabled">ax-btn basic disabled&lt;/button>
-&lt;button class="ax-btn good disabled">ax-btn good disabled&lt;/button>
-&lt;button class="ax-btn" disabled="disabled">ax-btn&lt;/button>
-</pre><h4>Result</h4>
-<button class="ax-btn basic active">ax-btn basic active</button>
-<button class="ax-btn good active">ax-btn good active</button>
-<button class="ax-btn basic disabled">ax-btn basic disabled</button>
-<button class="ax-btn good disabled">ax-btn good disabled</button>
-<button class="ax-btn" disabled="disabled">ax-btn</button>
-
-</article>
-
-
-<!-- split -->
+		<div style="height:1000px;"></div>
 
 		<!-- end div class="nav-content"-->
 	</div>
