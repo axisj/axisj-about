@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<!-- 
+ ax5 - v0.0.1 
+ publish date : 2015-05-29 
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ax5</title>
+	
+    <link rel="stylesheet" type="text/css" href="../plugins/prettify/github.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+	<link rel="stylesheet" type="text/css" href="../plugins/ax5/css/jellyfish/ax5.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css">
+	
+    <script type="text/javascript" src="../plugins/prettify/prettify.js"></script>
+    <script type="text/javascript" src="../plugins/ax5/ax5.min.js"></script>
+
+</head>
+<body>
+
+<div class="app-nav">
+	<div class="box-bg"></div>
+	<div class="box-content">
+		<a href="#" class="logo">AXISJ</a>
+		<ul class="menu">
+			<li class="vline"></li>
+			<li><a href="index.html">소개서</a></li>
+			<li class="vline"></li>
+			<li><a href="https://www.axisj.com" target="_blank">Website</a></li>
+			<li class="vline"></li>
+			<li><a href="https://github.com/axisj-com/axisj" target="_blank">Github</a></li>
+			<li class="vline"></li>
+			<li><a href="https://www.facebook.com/axisj" target="_blank">Facebook</a></li>
+			<li class="vline"></li>
+		</ul>
+	</div>
+</div>
+
+<!-- split -->
+
+<div class="app-visual" id="app-visual">
+	<div class="app-wrap">
+		<div class="visual"></div>
+		<h1>AXISJ 소개서</h1>
+		<h3>Opensource Javascript UI Library -
+			https://github.com/axisj-com/axisj
+		</h3>
+	</div>
+</div>
+
+<div class="app-page">
+	<div class="app-content app-wrap">
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ax5-dom">ax5.dom</h1>
+
+    <p>
+        ax5.dom은 jQuery방식의 dom select와 네이티브 방식의 select를 혼용하여 사용 할 수 있게 설계되었다.
+        예를 들어 <code>ax5.dom("#id")</code>로 엘리먼트 select를 해둔 상태에서 ax5.dom에 준비된 다양한 method들을 사용하다가
+        <code>for</code>구문 안에서 element를 다룰 때에는 <code>ax5.dom.css(element, {width:100});</code>처럼 select를 다시 하시 않고 좀더 가볍고 직접적인 방법으로
+        원하는 기능을 사용하는 것이다.
+    </p>
+
+    <div class="callout good">
+        <h4>ax5.dom() <span class="ax info">vs</span> ax5.dom.get()</h4>
+        <ul>
+            <li>
+                ax5.dom("#id").elements[0] === ax5.dom.get("#id")[0]
+            </li>
+            <li>
+                ax5.dom("#ax5-dom-get").width( ); === ax5.dom.width( ax5.dom.get("#ax5-dom-get") );
+            </li>
+            <li>
+                ax5.dom("#ax5-dom-get").attr("id"); === ax5.dom.attr( ax5.dom.get("#ax5-dom-get"), "id" );
+            </li>
+        </ul>
+    </div>
+
+    <p>
+        얼핏 보면 <code>ax5.dom.</code>을 사용하는 것은 대단히 불편해 보인다. 하지만 프로그램의 성능을 위해서는 element select횟수를 최대한 줄이고 캐시된 element를 이용하여 코딩하려는 노력이 필요하다.
+        그리고 코드의 길이가 문제라면면각자의 개발환경에 맞도록 <code>var util = ax5.util</code>과 같은 방식으로 개인의 기호에 맞게 바꾸어 사용하면 크게 문제될 일도 아니다.
+    </p>
+
+</article>
+
+
+
+<!-- split -->
+
+<label data-menu-item="label"><span>Get</span></label>
+<article class="content">
+	<h2 data-menu-item="ax5-dom-get">ax5.dom.get</h2>
+	<p>
+		CSS셀렉터가 복잡하고 다양한 버전의 <code>Selecting Elements</code>를 지원하는 것을 중요하다.
+		하지만 그 보다 중요한것은 속도이다. 복잡한 형태의 <code>CSS Query</code>문을 처리 하기위해 많은 리소스를 사용하는 것은 바람직하지 않다.
+		ax5의 dom Selecting은 프로그래머가 보다 빠르게 <code>Selecting Elements</code>를 할 수 있는 제한적인 형태의 <code>CSS Query</code>
+		사용을 지향한다.
+	</p>
+	<p>
+		가급적 하나의 조건으로 Query하여 프로그램 하도록 유도하고 불가피하게 하나의 조건으로 쿼리 하지 못한다면 sub_query하여 Selecting 할 수 있도록 한다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="div-ax5-dom-get" class="script-result">
+	&lt;form>
+		&lt;input type="text" class="ax-inp" />
+		&lt;button class="ax-btn">OK&lt;/button>
+	&lt;/form>
+&lt;/div>
+&lt;script>
+(function(){
+	var util = ax5.util, el = ax5.dom("#div-ax5-dom-get");
+	var po = [];
+	el.append( '&lt;br/>' );
+	ax5.dom.get("a").forEach(function(item){
+		po.push( "" + item.tagName + " href=" + ax5.dom.attr(item, "href") );
+	});
+	el.append( po.join(',') );
+	el.append( '&lt;br/>' );
+
+	po = [];
+	ax5.dom.get(".visual").forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '&lt;br/>' );
+
+	po = [];
+	el.find("[type=text]").elements.forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '&lt;br/>' );
+
+	po = [];
+	ax5.dom.get("#div-ax5-dom-get", ".ax-btn").forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '&lt;br/>' );
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="div-ax5-dom-get" class="script-result">
+	<form>
+		<input type="text" class="ax-inp" />
+		<button class="ax-btn">OK</button>
+	</form>
+</div>
+<script>
+(function(){
+	var util = ax5.util, el = ax5.dom("#div-ax5-dom-get");
+	var po = [];
+	el.append( '<br/>' );
+	ax5.dom.get("a").forEach(function(item){
+		po.push( "" + item.tagName + " href=" + ax5.dom.attr(item, "href") );
+	});
+	el.append( po.join(',') );
+	el.append( '<br/>' );
+
+	po = [];
+	ax5.dom.get(".visual").forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '<br/>' );
+
+	po = [];
+	el.find("[type=text]").elements.forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '<br/>' );
+
+	po = [];
+	ax5.dom.get("#div-ax5-dom-get", ".ax-btn").forEach(function(item){
+		po.push( "" + item.tagName  + " class=" + ax5.dom.attr(item, "class") );
+	});
+	el.append( po.join(',') );
+	el.append( '<br/>' );
+})();
+</script>
+
+</article>
+
+
+
+
+<article class="content">
+	<h2 data-menu-item="ax5-dom-get_one">ax5.dom.get_one</h2>
+	<p>
+		get_one은 Selecting 엘리먼트중 첫번째 엘리먼트를 반환한다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="div-ax5-dom-get_one" class="script-result">&lt;/div>
+&lt;script>
+	(function(){
+		var util = ax5.util, el = ax5.dom("#div-ax5-dom-get_one");
+		el.append( 'tagName = ' + ax5.dom.get_one("#div-ax5-dom-get_one").tagName + '&lt;br/>' );
+		el.append( 'nodeType = ' + ax5.dom.get_one("#div-ax5-dom-get_one").nodeType );
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="div-ax5-dom-get_one" class="script-result"></div>
+<script>
+	(function(){
+		var util = ax5.util, el = ax5.dom("#div-ax5-dom-get_one");
+		el.append( 'tagName = ' + ax5.dom.get_one("#div-ax5-dom-get_one").tagName + '<br/>' );
+		el.append( 'nodeType = ' + ax5.dom.get_one("#div-ax5-dom-get_one").nodeType );
+	})();
+</script>
+
+</article>
+
+
+
+
+<article class="content">
+	<h2 data-menu-item="ax5-dom-get_webgl_context">ax5.dom.get_webgl_context</h2>
+	<p>
+		webGL context 개체를 반환합니다. webGL을 지원하지 않는 브라우저에서는 <code>null</code> 을 반환합니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="div-ax5-dom-get_webgl_context" class="script-result">
+	&lt;canvas id="canvas-element-id" width="200" height="80" style="border: 2px dotted blue;">
+		Your browser does not support webGL
+	&lt;/canvas>
+&lt;/div>
+&lt;script>
+	(function(){
+		var util = ax5.util, el = ax5.dom("#canvas-element-id");
+		var context = el.get_webgl_context();
+		ax5.dom("#div-ax5-dom-get_webgl_context").append(context.toString());
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="div-ax5-dom-get_webgl_context" class="script-result">
+	<canvas id="canvas-element-id" width="200" height="80" style="border: 2px dotted blue;">
+		Your browser does not support webGL
+	</canvas>
+</div>
+<script>
+	(function(){
+		var util = ax5.util, el = ax5.dom("#canvas-element-id");
+		var context = el.get_webgl_context();
+		ax5.dom("#div-ax5-dom-get_webgl_context").append(context.toString());
+	})();
+</script>
+
+</article>
+
+<!-- split -->
+
+<article class="cover">
+    <h1 data-menu-item="ax-text">ax</h1>
+	<p class="lead">
+		AX5 CSS 시스템의 기본이 되는 class="ax" 입니다. ax로 시작하는 CSS클래스는 폰트사이즈, 글꼴, 굵기, 줄높이를 결정하여줍니다. 
+		ax에 basic, good등의 상황값을 추가 하면 상황에 맞는 색상으로 글자 색상을 변경 하거나. lg, sm, xs 등의 크기값을 추가하여 크기를 변경할 수 있습니다.
+	</p>
+</article>
+
+
+
+<article class="content">
+	
+	<h3 data-menu-item="ax-text-basic" class="capitalize">basic</h3>
+
+<pre class="prettyprint linenums">
+&lt;a class="ax" href="#">AX5 ax5 에이액스5&lt;/a>
+&lt;div class="ax">AX5 ax5 에이액스5&lt;/div>
+&lt;div class="ax">
+	AX5 ax5 에이액스5
+	&lt;span class="badge">5&lt;/span>
+&lt;/div>
+</pre><h4>Result</h4>
+<a class="ax" href="#">AX5 ax5 에이액스5</a>
+<div class="ax">AX5 ax5 에이액스5</div>
+<div class="ax">
+	AX5 ax5 에이액스5
+	<span class="badge">5</span>
+</div>
+
+	
+	<div class="callout info">
+		<h4>a태그에는 다른태그와 다른게 테마 기본색을 사용합니다.</h4>
+		<p>
+			$theme-basic, $theme-good, $theme-info, $theme-warning, 
+			$theme-danger, $theme-special 등의 변수값에 각각의 색상코드를 사용자가 선택 할 수 있습니다.
+		</p>
+	</div>
+</article>
+
+
+
+<article class="content">
+	<h3 data-menu-item="ax-text-situations" class="capitalize">situations</h3>
+
+<pre class="prettyprint linenums">
+&lt;div class="ax mute">ax ax 에이액스5&lt;/div>
+&lt;div class="ax basic">ax ax 에이액스5&lt;/div>
+&lt;div class="ax good">ax ax 에이액스5&lt;/div>
+&lt;div class="ax info">ax ax 에이액스5&lt;/div>
+&lt;div class="ax warning">ax ax 에이액스5&lt;/div>
+&lt;div class="ax danger">ax ax 에이액스5&lt;/div>
+&lt;div class="ax special">ax ax 에이액스5&lt;/div>
+</pre><h4>Result</h4>
+<div class="ax mute">ax ax 에이액스5</div>
+<div class="ax basic">ax ax 에이액스5</div>
+<div class="ax good">ax ax 에이액스5</div>
+<div class="ax info">ax ax 에이액스5</div>
+<div class="ax warning">ax ax 에이액스5</div>
+<div class="ax danger">ax ax 에이액스5</div>
+<div class="ax special">ax ax 에이액스5</div>
+
+
+</article>
+
+
+
+<article class="content">
+	<h3 data-menu-item="ax-text-misc" class="capitalize">misc.</h3>
+
+<pre class="prettyprint linenums">
+&lt;div class="ax align-left special">ax ax 에이액스5&lt;/div>
+&lt;div class="ax align-right">ax ax 에이액스5&lt;/div>
+&lt;div class="ax align-center good">ax ax 에이액스5&lt;/div>
+&lt;div class="ax align-justify">ax ax 에이액스5&lt;/div>
+&lt;div class="ax nowrap">ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 &lt;/div>
+&lt;div class="ax lowercase">ABCDEFG ax&lt;/div>
+&lt;div class="ax uppercase">abcdefg ax&lt;/div>
+&lt;div class="ax capitalize">abcdefg ax&lt;/div>
+</pre><h4>Result</h4>
+<div class="ax align-left special">ax ax 에이액스5</div>
+<div class="ax align-right">ax ax 에이액스5</div>
+<div class="ax align-center good">ax ax 에이액스5</div>
+<div class="ax align-justify">ax ax 에이액스5</div>
+<div class="ax nowrap">ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 ax ax 에이액스5 </div>
+<div class="ax lowercase">ABCDEFG ax</div>
+<div class="ax uppercase">abcdefg ax</div>
+<div class="ax capitalize">abcdefg ax</div>
+
+
+	<div class="callout info">
+		<h4>정렬, 줄넘김, 대소문자..</h4>
+		<p>
+			웹 애플리케이션 개발중 다양한 상황에 필요한 문자열 확장 클래스를 선언 해 두었습니다.
+		</p>
+	</div>
+	
+</article>
+
+
+<!-- split -->
+
+
+<article class="cover">
+	<h1 data-menu-item="ax-button">ax.button</h1>
+</article>
+
+
+
+<article class="content">
+
+	<h3 data-menu-item="ax-button-basic" class="capitalize">basic</h3>
+
+<pre class="prettyprint linenums">
+&lt;button class="ax-btn">.ax-btn&lt;/button>
+&lt;a class="ax-btn uppercase">uppercase&lt;/a>
+&lt;a class="ax-btn capitalize">capitalize&lt;/a>
+&lt;button class="ax-btn">
+	AX5 ax5 에이액스5
+	&lt;span class="badge">5&lt;/span>
+&lt;/button>
+</pre><h4>Result</h4>
+<button class="ax-btn">.ax-btn</button>
+<a class="ax-btn uppercase">uppercase</a>
+<a class="ax-btn capitalize">capitalize</a>
+<button class="ax-btn">
+	AX5 ax5 에이액스5
+	<span class="badge">5</span>
+</button>
+
+</article>
+
+
+
+<article class="content">
+	<h3 data-menu-item="ax-button-situ" class="capitalize">situations</h3>
+
+<pre class="prettyprint linenums">
+&lt;button class="ax-btn basic">basic &lt;span class="badge">5&lt;/span>&lt;/button>
+&lt;button class="ax-btn basic">기본&lt;/button>
+&lt;button class="ax-btn good">good&lt;/button>
+&lt;button class="ax-btn good">좋음&lt;/button>
+&lt;button class="ax-btn info">info&lt;/button>
+&lt;button class="ax-btn info">정보&lt;/button>
+&lt;button class="ax-btn warning">warning&lt;/button>
+&lt;button class="ax-btn warning">주의&lt;/button>
+&lt;button class="ax-btn danger">danger&lt;/button>
+&lt;button class="ax-btn danger">경고&lt;/button>
+&lt;button class="ax-btn link">link&lt;/button>
+&lt;button class="ax-btn link">링크&lt;/button>
+&lt;button class="ax-btn special">special&lt;/button>
+&lt;button class="ax-btn special">특별한&lt;/button>
+</pre><h4>Result</h4>
+<button class="ax-btn basic">basic <span class="badge">5</span></button>
+<button class="ax-btn basic">기본</button>
+<button class="ax-btn good">good</button>
+<button class="ax-btn good">좋음</button>
+<button class="ax-btn info">info</button>
+<button class="ax-btn info">정보</button>
+<button class="ax-btn warning">warning</button>
+<button class="ax-btn warning">주의</button>
+<button class="ax-btn danger">danger</button>
+<button class="ax-btn danger">경고</button>
+<button class="ax-btn link">link</button>
+<button class="ax-btn link">링크</button>
+<button class="ax-btn special">special</button>
+<button class="ax-btn special">특별한</button>
+
+</article>
+
+
+
+<article class="content">
+	<h3 data-menu-item="ax-button-size" class="capitalize">size</h3>
+<pre class="prettyprint linenums">
+&lt;button class="ax-btn basic lg">ax-btn basic lg&lt;/button>
+&lt;button class="ax-btn good">ax-btn good&lt;/button>
+&lt;button class="ax-btn info sm">ax-btn info sm&lt;/button>
+&lt;button class="ax-btn warning xs">ax-btn warning xs&lt;/button>
+</pre><h4>Result</h4>
+<button class="ax-btn basic lg">ax-btn basic lg</button>
+<button class="ax-btn good">ax-btn good</button>
+<button class="ax-btn info sm">ax-btn info sm</button>
+<button class="ax-btn warning xs">ax-btn warning xs</button>
+
+</article>
+
+
+
+<article class="content">
+	<h3 data-menu-item="ax-button-state" class="capitalize">state</h3>
+<pre class="prettyprint linenums">
+&lt;button class="ax-btn basic active">ax-btn basic active&lt;/button>
+&lt;button class="ax-btn good active">ax-btn good active&lt;/button>
+&lt;button class="ax-btn basic disabled">ax-btn basic disabled&lt;/button>
+&lt;button class="ax-btn good disabled">ax-btn good disabled&lt;/button>
+&lt;button class="ax-btn" disabled="disabled">ax-btn&lt;/button>
+</pre><h4>Result</h4>
+<button class="ax-btn basic active">ax-btn basic active</button>
+<button class="ax-btn good active">ax-btn good active</button>
+<button class="ax-btn basic disabled">ax-btn basic disabled</button>
+<button class="ax-btn good disabled">ax-btn good disabled</button>
+<button class="ax-btn" disabled="disabled">ax-btn</button>
+
+</article>
+
+
+<!-- split -->
+
+		<!-- end div class="nav-content"-->
+	</div>
+	<div class="app-nav-left" id="app-nav-left"></div>
+</div>
+<!-- end div class="app-page"-->
+<script type="text/javascript" src="app.js"></script>
+</body>
+</hml>
