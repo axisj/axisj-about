@@ -3,10 +3,10 @@ html, body {
   margin: 0px;
   padding: 0px;
   font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   color: #555555;
   height: 100%;
-  line-height: 1.6em; }
+  line-height: 1.7em; }
   html input, html button, html select, html textarea, body input, body button, body select, body textarea {
     box-sizing: border-box;
     font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -190,6 +190,8 @@ pre.prettyprint {
       background: #F2F2F2;
       border-radius: 8px;
       padding: 10px 15px; }
+      .app-page .app-content .script-result label, .app-page .app-content .tag-result label {
+        margin: 0px 3px; }
     .app-page .app-content .ax-section {
       position: relative;
       border: 1px solid #ccc;

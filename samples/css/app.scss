@@ -21,8 +21,8 @@ $theme-special: #bc4cd0;
 html, body{
   margin:0px;padding:0px;
   font-family: $font-family-base;
-  font-size: 14px;color:#555555;
-  height:100%;line-height: 1.6em;
+  font-size: 13px;color:#555555;
+  height:100%;line-height: 1.7em;
   input, button, select, textarea{
     box-sizing: border-box;
     font-family: $font-family-base;
@@ -246,6 +246,9 @@ $app-visual-height: 280px;
       //font-family: "consolas", "courier new";
       padding: 10px 15px;
       //font-size: 1em;
+      label{
+        margin: 0px 3px;
+      }
     }
     .ax-section{
       position: relative;
