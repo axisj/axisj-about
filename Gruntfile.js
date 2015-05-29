@@ -6,74 +6,31 @@
 		concat: {
 			options: {
 				stripBanners: true,
-				separator: ';',
-				banner: '/*\n'+
-				' * <%= pkg.name %> - v<%= pkg.version %> \n' +
-				' * <%= grunt.template.today("yyyy-mm-dd") %> \n' +
-				' * www.axisj.com Javascript UI Library\n' +
-				' * \n' +
-				' * Copyright 2013, 2015 AXISJ.com and other contributors \n' +
-				' * Released under the MIT license \n' +
-				' * www.axisj.com/ax5/license \n' +
-				' */\n\n',
-				separator: '\n\n'
-			},
-			basic: {
-				src: [
-					'src/ax5-polyfill.js',
-					'src/ax5-core.js',
-					'src/ax5-xhr.js',
-					'src/ax5-ui.js'
-				],
-				dest: 'src/ax5.js'
-			}
-		},
-
-		uglify: {
-			options: {
-				mangle: false,
-				preserveComments: false
+				separator: '\n\n',
+				banner: '<!DOCTYPE html>\n<!-- \n' +
+				' <%= pkg.name %> - v<%= pkg.version %> \n' +
+				' publish date : <%= grunt.template.today("yyyy-mm-dd") %> \n' +
+				'-->\n',
+				separator: '\n\n<!-- split -->\n\n'
 			},
 			core: {
-				files: {
-					'pub/<%= pkg.name %>.min.js': ['src/ax5.js']
-				}
-			},
-			ui: {
-				files: [{
-					expand: true,
-					cwd: 'pub/ui',
-					src: ['*.js','!*.min.js'],
-					dest: 'pub/ui',
-					ext: '.min.js'
-				}]
-			}
-		},
-		copy: {
-			js: {
-				files: [
-					{expand: true, cwd: 'src/ui-classes/', src: ['**/*.js'], dest: 'pub/ui/'},
-					{expand: true, cwd: 'src/', src: ['ax5.js'], dest: 'pub/'}
-				]
-			},
-			css: {
-				files: [
-					{expand: true, cwd: 'src/css/', src: ['**/*.min.css'], dest: 'pub/css/'}
-				]
+				src: [
+					'samples/layout/head.html',
+					'samples/layout/visual-dom.html',
+					'samples/axisj/core/*.html',
+					'samples/layout/bottom.html'
+				],
+				dest: 'samples/index.html'
 			}
 		},
 		watch: {
-			theme: {
-				files: ['src/scss/*.scss','src/scss/**/*.scss'],
-				tasks: ['sass:theme']
+			core: {
+				files: ['samples/axisj/core/*.html'],
+				tasks: ['concat:core', 'replace:core']
 			},
 			sample_doc: {
 				files: ['samples/css/*.scss'],
 				tasks: ['sass:sample_doc']
-			},
-			lib: {
-				files: ['src/**/*.js','!src/**/*.min.js'],
-				tasks: ['pub-js']
 			}
 		},
 		sass: {
@@ -84,40 +41,38 @@
 				outputStyle:'nested',
 				spawn: false
 			},
-			theme: {
-				files: {
-					'src/css/jellyfish/ax5.css': 'src/scss/jellyfish/ax5.scss'
-				}
-			},
 			sample_doc: {
 				files: {
 					'samples/css/app.css': 'samples/css/app.scss'
 				}
 			}
 		},
-		cssmin: {
-			options: {
-				banner: '/*! \n<%= pkg.name %> - v<%= pkg.version %> - ' +
-				'<%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
-			},
-			target: {
-				files: [{
-					expand: true, cwd: 'src/css/jellyfish', src: ['*.css', '!*.min.css'], dest: 'src/css/jellyfish', ext: '.min.css'
+		replace: {
+			core: {
+				src: ['samples/index.html'],
+				overwrite: true,                 // overwrite matched source files
+				options: {
+					processTemplates: false
+				},
+				replacements: [{
+					from: /<pre[^>]*>([^<]*(?:(?!<\/?pre)<[^<]*)*)<\/pre\s*>/gi,
+					to: function (matchedWord, index, fullText, regexMatches) {
+						if(regexMatches.join('').substr(0, 9) == "$noscript"){
+							return '<pre class="prettyprint linenums">'+ regexMatches.join('').replace(/\$noscript\$/g, "").replace(/</g, "&lt;") +'</pre>';
+						}else{
+							return '<pre class="prettyprint linenums">'+ regexMatches.join('').replace(/</g, "&lt;") +'</pre>' + '<h4>Result</h4>' + regexMatches.join('');
+						}
+					}
 				}]
 			}
 		}
 	});
 	//grunt.loadTasks('tasks');
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-text-replace');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-sass');
 
-	grunt.registerTask('pub-js', ['concat','uglify:core','copy:js','uglify:ui','watch:lib']);
-	grunt.registerTask('pub-css', ['cssmin','copy:css']);
-	
-	grunt.registerTask('sass-make-theme', ['sass:theme','watch:theme']);
+	grunt.registerTask('axisj-core', ['concat:core','replace:core','watch:core']);
 	grunt.registerTask('sass-make-doc', ['sass:sample_doc','watch:sample_doc']);
 };
