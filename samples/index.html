@@ -380,6 +380,105 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 
 
 
+
+<article class="cover">
+	<h1 data-menu-item="css-component">Component</h1>
+</article>
+
+<article class="content">
+	<h2 data-menu-item="css-axinput">AXInput</h2>
+	<p>input 태그에 아이디를 부여하고 bind 구문을 이용하여 다양한 UI컴포넌트를 사용할 수 있습니다. (주의 할점은 아이디가 부여되지 않는 엘리먼트에는 스크립트 바인딩이 제대로 되지 않을 수 있습니다. 또 하나 아이디는 반드시 페이지에서 유일한 값이 어야 겠지요)</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W60" id="ax-input-number" />
+	&lt;input type="text" name="x" class="AXInput W60" id="ax-input-number-1" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-number").bindNumber().val(100); // 마지막에 val은 제이쿼리 메소드 입니다. 이렇게 체이닝이 되어서 보다 심플하지요
+		$("#ax-input-number-1").bindNumber({min:0, max:110});
+		// 최소, 최대 범위 설정
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W60" id="ax-input-number" />
+	<input type="text" name="x" class="AXInput W60" id="ax-input-number-1" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-number").bindNumber().val(100); // 마지막에 val은 제이쿼리 메소드 입니다. 이렇게 체이닝이 되어서 보다 심플하지요
+		$("#ax-input-number-1").bindNumber({min:0, max:110});
+		// 최소, 최대 범위 설정
+	})();
+</script>
+
+</article>
+
+
+
+
+
+<article class="content">
+	<h2 data-menu-item="css-axinput-checkbox">AXInput.checkbox</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result" id="ax-input-checkbox">
+	&lt;label>
+		&lt;input type="checkbox" name="mycheck2" value="3" />
+		Javascript
+	&lt;/label>
+	&lt;label>
+		&lt;input type="checkbox" name="mycheck2" value="2" />
+		Javascript
+	&lt;/label>
+
+	&lt;label>
+		&lt;input type="radio" name="mycheck3" value="3" />
+		Javascript
+	&lt;/label>
+	&lt;label>
+		&lt;input type="radio" name="mycheck3" value="2" />
+		Javascript
+	&lt;/label>
+&lt;/div>
+&lt;script>
+	(function(){
+		$('#ax-input-checkbox').find('input[type=checkbox]').bindChecked();
+		$('#ax-input-checkbox').find('input[type=radio]').bindChecked();
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result" id="ax-input-checkbox">
+	<label>
+		<input type="checkbox" name="mycheck2" value="3" />
+		Javascript
+	</label>
+	<label>
+		<input type="checkbox" name="mycheck2" value="2" />
+		Javascript
+	</label>
+
+	<label>
+		<input type="radio" name="mycheck3" value="3" />
+		Javascript
+	</label>
+	<label>
+		<input type="radio" name="mycheck3" value="2" />
+		Javascript
+	</label>
+</div>
+<script>
+	(function(){
+		$('#ax-input-checkbox').find('input[type=checkbox]').bindChecked();
+		$('#ax-input-checkbox').find('input[type=radio]').bindChecked();
+	})();
+</script>
+
+	<p>체크박스와 라디오박스는 각각의 브라우저마다 저마다 다른 랜더링으로 웹 개발자들을 괴롭히고 있습니다. 여러가지 방법으로 개선시킬 수 있겠지만 모든 브라우저를 커버 하기엔 역부족입니다. 역시나 자바스크립트의 도움을 받아서 해결 하는 것이 최선 입니다.</p>
+</article>
+
+
+
 <!-- split -->
 
 		<div style="height:1000px;"></div>

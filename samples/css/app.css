@@ -166,6 +166,7 @@ pre.prettyprint {
   .app-page .app-content {
     position: relative;
     min-width: 750px;
+    max-width: 1200px;
     margin: 0px;
     padding-left: 240px;
     padding-right: 40px; }
@@ -188,9 +189,7 @@ pre.prettyprint {
       /* Rectangle 14: */
       background: #F2F2F2;
       border-radius: 8px;
-      font-family: "consolas", "courier new";
-      padding: 10px 15px;
-      font-size: 1em; }
+      padding: 10px 15px; }
     .app-page .app-content .ax-section {
       position: relative;
       border: 1px solid #ccc;

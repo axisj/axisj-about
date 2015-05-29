@@ -211,6 +211,7 @@ $app-visual-height: 280px;
   .app-content{
 	position: relative;
 	min-width: ($app-page-width - $app-nav-left - 20);
+    max-width: 1200px;
 	margin:0px;
     padding-left: ($app-nav-left + 40);
     padding-right: 40px;
@@ -242,9 +243,9 @@ $app-visual-height: 280px;
       /* Rectangle 14: */
       background: #F2F2F2;
       border-radius: 8px;
-      font-family: "consolas", "courier new";
+      //font-family: "consolas", "courier new";
       padding: 10px 15px;
-      font-size: 1em;
+      //font-size: 1em;
     }
     .ax-section{
       position: relative;
