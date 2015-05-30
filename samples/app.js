@@ -69,11 +69,23 @@ ax5.dom.ready(function(){
 			},
 			menu_taping: function(opt){
 				if(typeof opt === "undefined" && nav_left_on) return false;
-				var s_top = ax5.dom.scroll().top;
+				var s_top = ax5.dom.scroll().top, _i = null, i = menu_list.length;
+				while(i--){
+					if( menu_list[i].top > s_top){
+						_i = i;
+						if(i > 0) {
+							if(Math.abs(menu_list[i - 1].top - s_top) < Math.abs(menu_list[i].top - s_top - 60)){ // 메뉴 높이 제거
+								_i = i-1;
+							}
+						}
+					}
+					else break;
+				}
+				/*
 				//app_nav_left
 				for(var i= 0,l=menu_list.length;i<l;i++){
 					if( menu_list[i].top > s_top){
-						var _i = i;
+						_i = i;
 						if(i > 0) {
 							if(Math.abs(menu_list[i - 1].top - s_top) < Math.abs(menu_list[i].top - s_top - 60)){ // 메뉴 높이 제거
 								_i = i-1;
@@ -81,28 +93,30 @@ ax5.dom.ready(function(){
 								_i = i;
 							}
 						}
-
-						if(selected_menu_list_index > -1) {
-							menu_list[selected_menu_list_index].el.class_name("remove", "open");
-							menu_list[selected_menu_list_index].el.parent({tagname:"ul", clazz:"H1"}).class_name("remove", "open");
-						}
-						menu_list[_i].el.class_name("add", "open");
-						menu_list[_i].el.parent({tagname:"ul", clazz:"H1"}).class_name("add", "open");
-
-						var nav_height = ax5.dom.height(app_nav_left[0]),
-							nav_sc_top = app_nav_left[0].scrollTop,
-							el_top = menu_list[_i].el.position().top + 40;
-						if(nav_height + nav_sc_top < el_top){
-							app_nav_left[0].scrollTop = el_top - nav_height;
-						}
-						else if(nav_sc_top > el_top - 40){
-							app_nav_left[0].scrollTop = el_top - 40;
-						}
-
-						selected_menu_list_index = _i;
 						break;
 					}
 				}
+				*/
+				if(_i == null) _i = menu_list.length-1;
+
+				if(selected_menu_list_index > -1) {
+					menu_list[selected_menu_list_index].el.class_name("remove", "open");
+					menu_list[selected_menu_list_index].el.parent({tagname:"ul", clazz:"H1"}).class_name("remove", "open");
+				}
+				menu_list[_i].el.class_name("add", "open");
+				menu_list[_i].el.parent({tagname:"ul", clazz:"H1"}).class_name("add", "open");
+
+				var nav_height = ax5.dom.height(app_nav_left[0]),
+					nav_sc_top = app_nav_left[0].scrollTop,
+					el_top = menu_list[_i].el.position().top + 40;
+				if(nav_height + nav_sc_top < el_top){
+					app_nav_left[0].scrollTop = el_top - nav_height;
+				}
+				else if(nav_sc_top > el_top - 40){
+					app_nav_left[0].scrollTop = el_top - 40;
+				}
+
+				selected_menu_list_index = _i;
 			},
 			onscroll: function(){
 				var s_top = ax5.dom.scroll().top;

@@ -193,3 +193,183 @@
 </script>
 </pre>
 </article>
+
+
+
+
+
+<!-- selector -->
+<article class="content">
+	<h2 data-menu-item="ui-axinput-selector">AXInput.selector</h2>
+	<p>
+		셀렉터 UI는 Input박스에 사용자가 타이핑한 검색어를 미리 정의된 또는 서버의 검색결과에 따라 정의된 Options 의 아이템을 선택하게 하거나 옵션없는 사용자 값을 입력받는데 사용합니다.
+		웹 애플리케이션입장에서는 사용자의 입력을 정해진 옵션안에서 제한 하거나 경우에 따라 자유로운 입력이 가능하게 하므로 많은 애플리케이션에서 사용되고 있다.
+		예제에서는 미리정의된 Options로 셀렉터를 설정하는 방법과 AJAX통신결과에 따른 Options 설정 방법을 소개합니다.
+	</p>
+
+	<h3>Script 지정방식</h3>
+<pre>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W200" id="ax-input-selector" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-selector").bindSelector({
+			appendable:true, // options 에 없는 값 입력 허용 여부
+			options:[
+				{optionValue:1, optionText:"Seoul"},
+				{optionValue:2, optionText:"대구"},
+				{optionValue:3, optionText:"대전"},
+				{optionValue:4, optionText:"(창원"},
+				{optionValue:5, optionText:"[마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:4, optionText:"창원"},
+				{optionValue:5, optionText:"마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:9, optionText:"Gwangju"}
+			],
+			onchange: function(){
+				console.log(this);
+			}
+		});
+	})();
+</script>
+</pre>
+
+	<div class="DH20"></div>
+	<h3>AJAX 지정방식</h3>
+<pre>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W200" id="ax-input-selector-ajax" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-selector-ajax").bindSelector({
+			direction: "bottom", // selector 박스가 열리는 방향
+			appendable: false,
+			ajaxUrl: "data/selectorData.txt",
+			ajaxPars: "",
+			optionPrintLength: "all", // options 아이템 출력갯수 제한 "all"이면 전체 출력
+			onchange: function(){
+				console.log(this);
+			}
+		});
+	})();
+</script>
+</pre>
+
+	<div class="DH10"></div>
+	<h4>data/selectorData.txt</h4>
+<pre>$noscript$
+{
+	result:"ok",
+	options:[
+		{optionValue:1, optionText:" Seoul", desc:"부가설명글"},
+		{optionValue:2, optionText:"대구"},
+		{optionValue:3, optionText:"대전", optionDesc:"부가설명글"},
+		{optionValue:4, optionText:"창원"},
+		{optionValue:5, optionText:"마산"},
+		{optionValue:6, optionText:"구례"},
+		{optionValue:7, optionText:"제주도"},
+		{optionValue:8, optionText:"전주"},
+		{optionValue:4, optionText:"창원"},
+		{optionValue:5, optionText:"마산"},
+		{optionValue:6, optionText:"구례"},
+		{optionValue:7, optionText:"제주도"},
+		{optionValue:8, optionText:"전주"},
+		{optionValue:9, optionText:"Gwangju"}
+	],
+	etcs:""
+}
+</pre>
+
+	<p>
+		<code>data/selectorData.txt</code> 에서 리턴하는 JSON을 셀렉터 UI가 받아서 셀렉터의 Options로 처리 하게 됩니다. 여기서 하나더 들어가면 셀렉터 Input태그에 타이핑을 하는 순간
+		<code>콘솔 > 네트워크</code>를 확인화면 사용자가 타이핑을 하다 잠심 대기하는 순간 서버로 결과를 요청하게 됩니다. 이때 <code>data/selectorData.txt</code>의 파라미터로 Input의 Name을
+		파라미터의 키이름으로 하고 입력된 문자열을 파라미터 키 값으로 하여 전송 되게 됩니다.
+	</p>
+
+	<p>
+		필자는 이런 방식으로 해두면 셀렉터 UI가 모두 완성이 될거라 생각했었다. 하지만 오산 이었다.
+		그 잘못의 첫번째는 서버의 응답조건을 모두 획일화 할 수 없다는 점 이었고.
+		두번째는 AJAX통신의 요청 방식이 단순하지 않다는 점 이었다. 그런 이유로 두가지 상황에 대한 대안을 마련하게 되었다.
+	</p>
+
+
+
+	<div class="DH20"></div>
+	<h3>Options 키 값 정의</h3>
+<pre>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W200" id="ax-input-selector-02" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-selector-02").bindSelector({
+			// reserveKeys의 등장 UI 내부에서 사용될 키를 변경 할 수 있게 되었다.
+			reserveKeys: {
+				options: "list",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			direction: "bottom", // selector 박스가 열리는 방향
+			ajaxUrl: "data/selectorData-02.txt",
+			ajaxPars: "",
+			onchange: function(){
+				console.log(this);
+			}
+		});
+	})();
+</script>
+</pre>
+
+
+
+	<div class="DH20"></div>
+	<h3>Custom search result</h3>
+<pre>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W200" id="ax-input-selector-03" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-selector-03").bindSelector({
+			reserveKeys: {
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			onsearch : function(objID, objVal, callBack) { // {Function} - 값 변경 이벤트 콜백함수 (optional)
+				// return options; 로 결과를 즉시응답처리 할 수도 있겠다.
+				setTimeout(function(){
+					callBack({
+						options:[
+							{CD:1, NM:"Seoul", desc:"ABCD"},
+							{CD:2, NM:"대구"},
+							{CD:3, NM:"대전"},
+							{CD:4, NM:"(창원"},
+							{CD:5, NM:"[마산"},
+							{CD:6, NM:"구례"},
+							{CD:7, NM:"제주도"},
+							{CD:8, NM:"전주"},
+							{CD:4, NM:"창원"},
+							{CD:5, NM:"마산"},
+							{CD:6, NM:"구례"},
+							{CD:7, NM:"제주도"},
+							{CD:8, NM:"전주"},
+							{CD:9, NM:"Gwangju"}
+						]
+					});
+				}, 500);
+			}
+		});
+	})();
+</script>
+</pre>
+
+
+
+</article>
