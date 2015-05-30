@@ -2416,64 +2416,209 @@ $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
 <!-- split -->
 
 <article class="cover">
-
     <h1 data-menu-item="ui-tab">AXTab</h1>
-
     <p>
-
+		AXTab 사전처럼 두꺼운 책에 책갈피를 꽂아두는 형태의 UI를 디지털화 한 것으로 하나로 연결된 버튼 목록중에 하나의 탭이 선택되는 형태입니다.
+	    AXTab은 CSS만 적용하는 경우와 스크립트로 바인딩하는 두가지 경우를 예제로 소개합니다.
     </p>
+</article>
 
+
+
+
+<!-- 탭 CSS -->
+<article class="content">
+	<h2 data-menu-item="ui-tab-css">AXTab.css</h2>
 <pre class="prettyprint linenums">
-&lt;div class="tag-result">
-
+&lt;div class="AXTabs">
+	&lt;div class="AXTabsTray">
+		&lt;a href="#ax" class="AXTab">Tab1&lt;/a>
+		&lt;a href="#ax" class="AXTab on">Tab2&lt;/a>
+		&lt;a href="#ax" class="AXTab Classic">Tab3&lt;/a>
+		&lt;a href="#ax" class="AXTab Red">Tab4&lt;/a>
+		&lt;a href="#ax" class="AXTab Green">Tab5&lt;/a>
+		&lt;a href="#ax" class="AXTab Blue">Tab6&lt;/a>
+		&lt;a href="#ax" class="AXTab">Tab7&lt;/a>
+		&lt;div class="clear">&lt;/div>
+	&lt;/div>
 &lt;/div>
+</pre><h4>Result</h4>
+<div class="AXTabs">
+	<div class="AXTabsTray">
+		<a href="#ax" class="AXTab">Tab1</a>
+		<a href="#ax" class="AXTab on">Tab2</a>
+		<a href="#ax" class="AXTab Classic">Tab3</a>
+		<a href="#ax" class="AXTab Red">Tab4</a>
+		<a href="#ax" class="AXTab Green">Tab5</a>
+		<a href="#ax" class="AXTab Blue">Tab6</a>
+		<a href="#ax" class="AXTab">Tab7</a>
+		<div class="clear"></div>
+	</div>
+</div>
+
+	<p>
+		AXTabsTray안에 A 태그중에 <code>.on</code>이 있는 아이템이 현재 선택된 탭이 됩니다.
+	</p>
+</article>
+
+
+
+
+<!-- 탭 script -->
+<article class="content">
+	<h2 data-menu-item="ui-tab-script">AXTab.script</h2>
+<pre class="prettyprint linenums">
+&lt;div id="ax-tag-script-target">&lt;/div>
+&lt;script>
+(function(){
+	$("#ax-tag-script-target").bindTab({
+		theme : "AXTabs",
+		value:"",
+		overflow:"scroll", /* "visible" */
+		options:[
+			{optionValue:"M", optionText:"남성", closable:true},
+			{optionValue:"F", optionText:"여성", closable:true},
+			{optionValue:"N", optionText:"선택안함"},
+			{optionValue:"", optionText:"모두"}
+		],
+		onchange: function(selectedObject, value){
+			toast.push("onchange: "+Object.toJSON(value));
+		},
+		onclose: function(selectedObject, value){
+			toast.push("onclose: "+Object.toJSON(value));
+		}
+	});
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ax-tag-script-target"></div>
+<script>
+(function(){
+	$("#ax-tag-script-target").bindTab({
+		theme : "AXTabs",
+		value:"",
+		overflow:"scroll", /* "visible" */
+		options:[
+			{optionValue:"M", optionText:"남성", closable:true},
+			{optionValue:"F", optionText:"여성", closable:true},
+			{optionValue:"N", optionText:"선택안함"},
+			{optionValue:"", optionText:"모두"}
+		],
+		onchange: function(selectedObject, value){
+			toast.push("onchange: "+Object.toJSON(value));
+		},
+		onclose: function(selectedObject, value){
+			toast.push("onclose: "+Object.toJSON(value));
+		}
+	});
+})();
+</script>
+
+	<p>
+		<code>addTabs, closeTab, updateTabs</code>등의 메소드를 이용하면 탭 아이템을 조작할 수 있습니다. 보다 자세한 정보는
+		http://dev.axisj.com/samples/AXTabs/scriptTab.html이나 http://jdoc.axisj.com/AXTabClass.html#addTabs에서 확인하세요.
+	</p>
+</article>
+
+
+
+
+<!-- 탭 응용 -->
+<article class="content">
+	<h2 data-menu-item="ui-tab-script-div">AXTab.withDiv</h2>
+<pre class="prettyprint linenums">
+&lt;style>
+	.tab-content{
+		display: none;
+		padding: 20px;
+		border:1px solid #ccc;
+		border-top: 0px none;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+&lt;/style>
+&lt;div id="ax-tag-script-div-target">&lt;/div>
+&lt;div id="tab-content-01" class="tab-content">tab-content-01&lt;/div>
+&lt;div id="tab-content-02" class="tab-content">tab-content-02&lt;/div>
+&lt;div id="tab-content-03" class="tab-content">tab-content-03&lt;/div>
+&lt;div id="tab-content-04" class="tab-content">tab-content-04&lt;/div>
+&lt;div id="tab-content-05" class="tab-content">tab-content-05&lt;/div>
 &lt;script>
 	(function(){
+		var select_id = "tab-content-01", tab_target = $("#ax-tag-script-div-target");
+		tab_target.bindTab({
+			theme : "AXTabs",
+			value:"",
+			options:[
+				{optionValue:"tab-content-01", optionText:"탭 01"},
+				{optionValue:"tab-content-02", optionText:"탭 02"},
+				{optionValue:"tab-content-03", optionText:"탭 03"},
+				{optionValue:"tab-content-04", optionText:"탭 04"},
+				{optionValue:"tab-content-05", optionText:"탭 05"}
+			],
+			onchange: function(selectedObject, value) {
+				$("#" + select_id).hide();
+				select_id = value;
+				$("#" + select_id).show();
+			}
+		});
+		tab_target.setValueTab(select_id);
 
 	})();
 &lt;/script>
 </pre><h4>Result</h4>
-<div class="tag-result">
-
-</div>
+<style>
+	.tab-content{
+		display: none;
+		padding: 20px;
+		border:1px solid #ccc;
+		border-top: 0px none;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+</style>
+<div id="ax-tag-script-div-target"></div>
+<div id="tab-content-01" class="tab-content">tab-content-01</div>
+<div id="tab-content-02" class="tab-content">tab-content-02</div>
+<div id="tab-content-03" class="tab-content">tab-content-03</div>
+<div id="tab-content-04" class="tab-content">tab-content-04</div>
+<div id="tab-content-05" class="tab-content">tab-content-05</div>
 <script>
 	(function(){
+		var select_id = "tab-content-01", tab_target = $("#ax-tag-script-div-target");
+		tab_target.bindTab({
+			theme : "AXTabs",
+			value:"",
+			options:[
+				{optionValue:"tab-content-01", optionText:"탭 01"},
+				{optionValue:"tab-content-02", optionText:"탭 02"},
+				{optionValue:"tab-content-03", optionText:"탭 03"},
+				{optionValue:"tab-content-04", optionText:"탭 04"},
+				{optionValue:"tab-content-05", optionText:"탭 05"}
+			],
+			onchange: function(selectedObject, value) {
+				$("#" + select_id).hide();
+				select_id = value;
+				$("#" + select_id).show();
+			}
+		});
+		tab_target.setValueTab(select_id);
 
 	})();
 </script>
 
+	<p>
+		탭과 탭에 딸린 패널을 정의하는 UI들도 있지만 필자의 경우엔 좀더 날 것의 컨트롤을 하는 것이 애플리케이션 건강에 좋다고 생각합니다. (물론 지극히 개인적인 생각)
+	</p>
 </article>
-
 
 <!-- split -->
 
 <article class="cover">
-
     <h1 data-menu-item="com-context">AXContext</h1>
-
     <p>
-
+		
     </p>
-
-<pre class="prettyprint linenums">
-&lt;div class="tag-result">
-
-&lt;/div>
-&lt;script>
-	(function(){
-
-	})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div class="tag-result">
-
-</div>
-<script>
-	(function(){
-
-	})();
-</script>
-
 </article>
 
 
