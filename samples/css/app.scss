@@ -23,7 +23,7 @@ html, body{
   font-family: $font-family-base;
   font-size: 13px;color:#555555;
   height:100%;line-height: 1.7em;
-  input, button, select, textarea{
+  button, select, textarea{
     box-sizing: border-box;
     font-family: $font-family-base;
     line-height: 28px;
@@ -47,10 +47,10 @@ html, body{
     }
   }
   .AXInput {
+    box-sizing: content-box;
     font-family: $font-family-base;
-    line-height: 28px;
-    height: 28px;
     &:hover{
+      box-sizing: content-box;
       font-family: $font-family-base;
     }
   }

@@ -14,7 +14,6 @@
 	<link rel="apple-touch-icon-precomposed" href="http://dev.axisj.com/ui/AXJ.png" />
 
     <link rel="stylesheet" type="text/css" href="../plugins/prettify/github.css">
-    <link rel="stylesheet" type="text/css" href="css/app.css">
 	<link rel="stylesheet" type="text/css" href="../plugins/ax5/css/jellyfish/ax5.min.css">
 	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css">
 	
@@ -25,6 +24,7 @@
 	<script type="text/javascript" src="http://cdn.axisj.com/axisj/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdn.axisj.com/axisj/dist/AXJ.min.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="css/app.css">
 </head>
 <body>
 
@@ -386,6 +386,9 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 	<h1 data-menu-item="ui-input">AXInput</h1>
 </article>
 
+
+
+<!-- number -->
 <article class="content">
 	<h2 data-menu-item="ui-axinput-number">AXInput.number</h2>
 	<p>input 태그에 아이디를 부여하고 bind 구문을 이용하여 다양한 UI컴포넌트를 사용할 수 있습니다. (주의 할점은 아이디가 부여되지 않는 엘리먼트에는 스크립트 바인딩이 제대로 되지 않을 수 있습니다. 또 하나 아이디는 반드시 페이지에서 유일한 값이 어야 겠지요)</p>
@@ -417,6 +420,8 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 </article>
 
 
+
+<!-- checkbox -->
 <article class="content">
 	<h2 data-menu-item="ui-axinput-checkbox">AXInput.checkbox</h2>
 <pre class="prettyprint linenums">
@@ -555,8 +560,6 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 
 
 
-
-
 <!-- segment -->
 <article class="content">
 	<h2 data-menu-item="ui-axinput-segment">AXInput.segment</h2>
@@ -617,8 +620,6 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 </script>
 
 </article>
-
-
 
 
 
@@ -700,8 +701,6 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 </script>
 
 </article>
-
-
 
 
 
@@ -986,6 +985,520 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 
 
 
+</article>
+
+
+
+<!-- date -->
+<article class="content">
+	<h2 data-menu-item="ui-axinput-date">AXInput.date</h2>
+	<p>
+		데이트 UI는 Input에 날짜형식의 문자열 입력을 도와주는 UI입니다. 달력패널을 이용하여 날짜를 선택하는 기능과
+		Input 박스 안에서 사용자 타이핑을 감지하여 날짜형식으로 문자열 변경처리 하는 기능이 있습니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W100" id="ax-input-date" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date").bindDate({
+			onchange: function(){
+				console.log(Object.toJSON(this));
+			}
+		}).val( (new Date()).print() ); // date prototype 확장은 AXISJ core에서 http://jdoc.axisj.com/Date.html#print
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W100" id="ax-input-date" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date").bindDate({
+			onchange: function(){
+				console.log(Object.toJSON(this));
+			}
+		}).val( (new Date()).print() ); // date prototype 확장은 AXISJ core에서 http://jdoc.axisj.com/Date.html#print
+	})();
+</script>
+
+
+	<p>
+		달력의 출력위치 옵션, 년도만 입력, 월만 입력, 시간과 함께 입력 등의 처리가 가능하고 기간형 날짜입력에도 대응 하기 위해 <code>TwinDate</code>도 사용할 수 있고 또는
+		시작날짜 개체와 끝날짜 개체간에 before, after 설정으로 입력을 제한시킬 수 있습니다.
+	</p>
+
+	<div class="DH20"></div>
+	<h3>달력 출력위치 설정</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W100" id="ax-input-date-01" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date-01").bindDate({
+			align:"right", // left|center|right
+			valign:"bottom", // top|middle|bottom
+			separator:"/", // 년도,월,일 사이에 구분자
+			onchange: function(){
+				console.log(Object.toJSON(this));
+			}
+		}).val( (new Date()).print("yyyy/mm/dd") );
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W100" id="ax-input-date-01" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date-01").bindDate({
+			align:"right", // left|center|right
+			valign:"bottom", // top|middle|bottom
+			separator:"/", // 년도,월,일 사이에 구분자
+			onchange: function(){
+				console.log(Object.toJSON(this));
+			}
+		}).val( (new Date()).print("yyyy/mm/dd") );
+	})();
+</script>
+
+
+
+	<div class="DH20"></div>
+	<h3>년도, 월 입력모드</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W60" id="ax-input-date-02" value="" />
+	&lt;input type="text" name="x" class="AXInput W80" id="ax-input-date-03" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date-02").bindDate({selectType:"y"});
+		$("#ax-input-date-03").bindDate({selectType:"m"});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W60" id="ax-input-date-02" value="" />
+	<input type="text" name="x" class="AXInput W80" id="ax-input-date-03" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date-02").bindDate({selectType:"y"});
+		$("#ax-input-date-03").bindDate({selectType:"m"});
+	})();
+</script>
+
+
+
+
+	<div class="DH20"></div>
+	<h3>날짜와 시간</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W150" id="ax-input-date-04" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date-04").bindDateTime();
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W150" id="ax-input-date-04" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date-04").bindDateTime();
+	})();
+</script>
+
+
+
+
+	<div class="DH20"></div>
+	<h3>기간 선택</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W90" id="ax-input-date-05" value="" />
+	~
+	&lt;input type="text" name="x" class="AXInput W100" id="ax-input-date-06" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date-06").bindTwinDate({
+			valign:"bottom",
+			startTargetID:"ax-input-date-05"
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W90" id="ax-input-date-05" value="" />
+	~
+	<input type="text" name="x" class="AXInput W100" id="ax-input-date-06" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date-06").bindTwinDate({
+			valign:"bottom",
+			startTargetID:"ax-input-date-05"
+		});
+	})();
+</script>
+
+
+
+
+	<div class="DH20"></div>
+	<h3>기간 선택의 다른 방식</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W100" id="ax-input-date-07" value="" />
+	~
+	&lt;input type="text" name="x" class="AXInput W100" id="ax-input-date-08" value="" />
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-date-07").bindDate({
+			onchange:{
+				earlierThan:"ax-input-date-08", err:"종료일보다 빠른 날짜를 선택하세요"
+			}
+		});
+
+		$("#ax-input-date-08").bindDate({
+			onchange:{
+				laterThan:"ax-input-date-07", err:"시작일보다 느린 날짜를 선택하세요"
+			}
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W100" id="ax-input-date-07" value="" />
+	~
+	<input type="text" name="x" class="AXInput W100" id="ax-input-date-08" value="" />
+</div>
+<script>
+	(function(){
+		$("#ax-input-date-07").bindDate({
+			onchange:{
+				earlierThan:"ax-input-date-08", err:"종료일보다 빠른 날짜를 선택하세요"
+			}
+		});
+
+		$("#ax-input-date-08").bindDate({
+			onchange:{
+				laterThan:"ax-input-date-07", err:"시작일보다 느린 날짜를 선택하세요"
+			}
+		});
+	})();
+</script>
+
+	<p>
+		earlierThan, laterThan에 체크하려는 Input ID를 설정하여 Input간의 입력을 제한 할 수 있습니다.
+	</p>
+</article>
+
+
+
+<!-- tagselector -->
+<article class="content">
+	<h2 data-menu-item="ui-axinput-tagselector">AXInput.tagSelector</h2>
+	<p>
+		미리 정의된 옵션아이템 중에서 한개이상의 아이템을 Input의 값으로 담아서 선택하는 UI입니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;input type="text" name="x" class="AXInput W300" id="ax-input-tagselector" value="" />
+	&lt;div class="DH10">&lt;/div>
+	&lt;div>
+		&lt;button class="AXButton" type="button" onclick="$('#ax-input-tagselector').bindTagSelector_setItem([
+			{optionValue:8, optionText:'전주'}, {optionValue:4, optionText:'창원'}
+		]);">필드에 값 채우기&lt;/button>
+	&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-input-tagselector").bindTagSelector({
+			selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+			optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+			optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+			/*
+			reserveKeys: {
+				options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+				optionValue: "optionValue",
+				optionText: "optionText"
+			},
+			*/
+			options: [
+				{optionValue:1, optionText:"Seoul"},
+				{optionValue:2, optionText:"대구"},
+				{optionValue:3, optionText:"대전"},
+				{optionValue:4, optionText:"(창원"},
+				{optionValue:5, optionText:"[마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:4, optionText:"창원"},
+				{optionValue:5, optionText:"마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:9, optionText:"Gwangju"}
+			]
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<input type="text" name="x" class="AXInput W300" id="ax-input-tagselector" value="" />
+	<div class="DH10"></div>
+	<div>
+		<button class="AXButton" type="button" onclick="$('#ax-input-tagselector').bindTagSelector_setItem([
+			{optionValue:8, optionText:'전주'}, {optionValue:4, optionText:'창원'}
+		]);">필드에 값 채우기</button>
+	</div>
+</div>
+<script>
+	(function(){
+		$("#ax-input-tagselector").bindTagSelector({
+			selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+			optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+			optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+			/*
+			reserveKeys: {
+				options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+				optionValue: "optionValue",
+				optionText: "optionText"
+			},
+			*/
+			options: [
+				{optionValue:1, optionText:"Seoul"},
+				{optionValue:2, optionText:"대구"},
+				{optionValue:3, optionText:"대전"},
+				{optionValue:4, optionText:"(창원"},
+				{optionValue:5, optionText:"[마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:4, optionText:"창원"},
+				{optionValue:5, optionText:"마산"},
+				{optionValue:6, optionText:"구례"},
+				{optionValue:7, optionText:"제주도"},
+				{optionValue:8, optionText:"전주"},
+				{optionValue:9, optionText:"Gwangju"}
+			]
+		});
+	})();
+</script>
+
+	<p>
+		이렇게 bindTagSelector를 이용해 UI를 연결하면 입력된 값을 가져가는 방법이 궁금해 집니다. 여러가지 방법을 고민했지만 결론은 <code>input type="hidden"</code>
+		아이템을 문서안에 추가하여 <code>form</code>에서 serialize할 때 또는 submit할 때 그대로 사용할 수 있게 고려 하였습니다. 이 때 input.hidden의 name 은 <code>optionValue_inputName</code>에서 정의한 값이 됩니다.
+		이해가 되지 않는 다면 form을 serialize 또는 submit해보면 확인이 가능하고 요소검사로도 input.hidden의 존재를 확인 할 수 있습니다.
+	</p>
+</article>
+
+
+
+<!-- pattern -->
+<article class="content">
+	<h2 data-menu-item="ui-axinput-pattern">AXInput.pattern</h2>
+	<p>
+		이미 다양한 형태의 입력을 제한하고 편리하게 만들어주는 UI가 있지만 그 외에도 다양한 형태로 입력 문자열을 제한해야하는 요구가 있습니다. 지금 이 글을 보고 있는 여러분 께서도 그런 요구가 있을 것으로 생각됩니다.
+		이런 다양한 요구를 처리 하기 위해 패턴 UI가 만들어 졌습니다. 패턴 UI는 미리정의된 패턴이나 사용자 정의 패턴으로 Input 입력값을 제한 할 수 있습니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+	&lt;div>통화(소수점 포함, allow_minus:true, max_round:3, max_length:10)&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-money-target" value="-abc123,.45-67891234" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>통화(소수점 포함 안함, maxLength: 7)&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>숫자(소수점 포함, allow_minus: true,
+		max_length: 10,
+		max_round: 5)&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-number-target" value="123.123456789" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>숫자(소수점 포함 안함, maxLength: 7)&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-numberint-target" value="123.4234234324" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>날짜&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-date-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>날짜+시간&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-datetime-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>시간&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-time-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>날짜 (/)&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-date01-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>날짜+시간 (년월일)&lt;/div>
+	&lt;input type="text" class="AXInput W200" id="ax-bind-pattern-date02-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>부분패스워드 및 기타&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-etc-target" value="" size="20" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>사업자번호&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-bizno-target" value="" />
+	&lt;div class="DH10">&lt;/div>
+
+	&lt;div>전화번호&lt;/div>
+	&lt;input type="text" class="AXInput" id="ax-bind-pattern-phone-target" value="" />
+
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ax-bind-pattern-money-target").bindPattern({
+			pattern: "money",
+			allow_minus: true,
+			max_length: 10,
+			max_round: 3
+		});
+		$("#ax-bind-pattern-moneyint-target").bindPattern({
+			pattern: "moneyint",
+			max_length: 7
+		});
+		$("#ax-bind-pattern-number-target").bindPattern({
+			pattern: "number",
+			allow_minus: true,
+			max_length: 10,
+			max_round: 5
+		});
+		$("#ax-bind-pattern-numberint-target").bindPattern({
+			pattern: "numberint",
+			max_length: 7
+		});
+		$("#ax-bind-pattern-date-target").bindPattern({pattern: "date"});
+		$("#ax-bind-pattern-datetime-target").bindPattern({pattern: "datetime"});
+		$("#ax-bind-pattern-time-target").bindPattern({pattern: "time"});
+		$("#ax-bind-pattern-date01-target").bindPattern({pattern: "date(/)"});
+		$("#ax-bind-pattern-date02-target").bindPattern({pattern: "datetime(년월일)"});
+		$("#ax-bind-pattern-bizno-target").bindPattern({
+			pattern: "bizno"
+		});
+		$("#ax-bind-pattern-phone-target").bindPattern({
+			pattern: "phone"
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+	<div>통화(소수점 포함, allow_minus:true, max_round:3, max_length:10)</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-money-target" value="-abc123,.45-67891234" />
+	<div class="DH10"></div>
+
+	<div>통화(소수점 포함 안함, maxLength: 7)</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" />
+	<div class="DH10"></div>
+
+	<div>숫자(소수점 포함, allow_minus: true,
+		max_length: 10,
+		max_round: 5)</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-number-target" value="123.123456789" />
+	<div class="DH10"></div>
+
+	<div>숫자(소수점 포함 안함, maxLength: 7)</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-numberint-target" value="123.4234234324" />
+	<div class="DH10"></div>
+
+	<div>날짜</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-date-target" value="" />
+	<div class="DH10"></div>
+
+	<div>날짜+시간</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-datetime-target" value="" />
+	<div class="DH10"></div>
+
+	<div>시간</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-time-target" value="" />
+	<div class="DH10"></div>
+
+	<div>날짜 (/)</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-date01-target" value="" />
+	<div class="DH10"></div>
+
+	<div>날짜+시간 (년월일)</div>
+	<input type="text" class="AXInput W200" id="ax-bind-pattern-date02-target" value="" />
+	<div class="DH10"></div>
+
+	<div>부분패스워드 및 기타</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-etc-target" value="" size="20" />
+	<div class="DH10"></div>
+
+	<div>사업자번호</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-bizno-target" value="" />
+	<div class="DH10"></div>
+
+	<div>전화번호</div>
+	<input type="text" class="AXInput" id="ax-bind-pattern-phone-target" value="" />
+
+</div>
+<script>
+	(function(){
+		$("#ax-bind-pattern-money-target").bindPattern({
+			pattern: "money",
+			allow_minus: true,
+			max_length: 10,
+			max_round: 3
+		});
+		$("#ax-bind-pattern-moneyint-target").bindPattern({
+			pattern: "moneyint",
+			max_length: 7
+		});
+		$("#ax-bind-pattern-number-target").bindPattern({
+			pattern: "number",
+			allow_minus: true,
+			max_length: 10,
+			max_round: 5
+		});
+		$("#ax-bind-pattern-numberint-target").bindPattern({
+			pattern: "numberint",
+			max_length: 7
+		});
+		$("#ax-bind-pattern-date-target").bindPattern({pattern: "date"});
+		$("#ax-bind-pattern-datetime-target").bindPattern({pattern: "datetime"});
+		$("#ax-bind-pattern-time-target").bindPattern({pattern: "time"});
+		$("#ax-bind-pattern-date01-target").bindPattern({pattern: "date(/)"});
+		$("#ax-bind-pattern-date02-target").bindPattern({pattern: "datetime(년월일)"});
+		$("#ax-bind-pattern-bizno-target").bindPattern({
+			pattern: "bizno"
+		});
+		$("#ax-bind-pattern-phone-target").bindPattern({
+			pattern: "phone"
+		});
+	})();
+</script>
+
+
+	<div class="DH20"></div>
+	<p>
+		<code>bindPattern</code>으로 바인드 된 Input에 값을 부여하거나 가져오기 위해서는 다음의 메소드를 이용해야 합니다. 애플리케이션이 시작될 때에는 Input의 Value를 가져와서 패턴처리 하지만
+		사용자 입력이 실제로 발생하여 이벤트가 있는 경우에는 자동으로 패턴처리 되지만 스크립트로 값을 부여하는 경우에는 다음의 메소드를 이용하여야 합니다.
+	</p>
+<pre class="prettyprint linenums">
+$('#ax-bind-pattern-bizno-target').bindPatternGetText();
+$('#ax-bind-pattern-bizno-target').bindPatternGetDisplayText();
+$('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
+</pre>
 </article>
 
 

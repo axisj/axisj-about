@@ -7,11 +7,11 @@ html, body {
   color: #555555;
   height: 100%;
   line-height: 1.7em; }
-  html input, html button, html select, html textarea, body input, body button, body select, body textarea {
+  html button, html select, html textarea, body button, body select, body textarea {
     box-sizing: border-box;
     font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 28px; }
-    html input:hover, html button:hover, html select:hover, html textarea:hover, body input:hover, body button:hover, body select:hover, body textarea:hover {
+    html button:hover, html select:hover, html textarea:hover, body button:hover, body select:hover, body textarea:hover {
       font-family: Inherit; }
   html .AXButton, body .AXButton {
     line-height: 28px;
@@ -26,10 +26,10 @@ html, body {
     html .AXButton:hover, body .AXButton:hover {
       font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   html .AXInput, body .AXInput {
-    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 28px;
-    height: 28px; }
+    box-sizing: content-box;
+    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
     html .AXInput:hover, body .AXInput:hover {
+      box-sizing: content-box;
       font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
