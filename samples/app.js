@@ -89,7 +89,6 @@ ax5.dom.ready(function(){
 					else break;
 				}
 				*/
-
 				//app_nav_left
 				for(var i= 0,l=menu_list.length;i<l;i++){
 					if( menu_list[i].top > s_top){
