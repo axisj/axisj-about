@@ -3,17 +3,135 @@
     <h1 data-menu-item="ui-select">AXSelect</h1>
 
     <p>
-
+        Select 태그도 checkbox나 radiobox처럼 특별한 오브젝트로 랜더링되어서(IE가 유별나긴 하지만) 웹 애프리케이션의 완성도를 떨어뜨리는 요소중에 하나입니다.
+        <code>bindSelect</code>를 이용하여 UI를 바인딩 하게되면 모든 브라우저에서 일관된 UI를 구현할 수 있습니다.
+	    다소 까다로운 Select Options의 동적처리 또한 <code>bindSelect</code>로 손쉽게 구현할 수 있습니다.
     </p>
 
 <pre>
 <div class="tag-result">
-
+	<select name="" class="AXSelect" id="ui-select-00">
+		<option value="">-- 선택하세요 --</option>
+		<option value="1">%가나다라마바사</option>
+		<option value="2" selected="selected">abcdefg</option>
+		<option value="3">abcdefg 가나다라마바사</option>
+		<option value="4">abcdefg 가나다라마바사</option>
+		<option value="5">abcdefg 가나다라마바사</option>
+		<option value="6">abcdefg 가나다라마바사</option>
+	</select>
+	<input type="button" value="아이템추가" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectAddOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+	<input type="button" value="아이템제거" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectRemoveOptions([{optionValue:234, optionText:'액시스제이'}]);" />
 </div>
 <script>
 	(function(){
-
+		$("#ui-select-00").bindSelect({
+			//maxHeight: 100, // 옵션박스의 크기를 제한합니다.
+			onchange: function(){
+				console.log(this);
+			}
+		});
 	})();
 </script>
 </pre>
+	<p>
+		bindSelect의 기본형입니다. Select의 options를 이용하여 AXSelect를 만들어냅니다.
+		<code>bindSelectAddOptions</code> <code>bindSelectRemoveOptions</code>를 이용하여 Select options를 추가 삭제 할 수 있습니다.
+	</p>
+</article>
+
+
+
+<article class="content">
+	<h2 data-menu-item="ui-axselect-script">AXSelect.script</h2>
+	<p>Script로 Select options을 정의하는 방식</p>
+<pre>
+<div class="tag-result">
+	<select name="" class="AXSelect" id="ui-select-01"></select>
+</div>
+<script>
+	(function(){
+		$("#ui-select-01").bindSelect({
+			options:[
+				{optionValue:1, optionText:"1 : ABCDEFG"},
+				{optionValue:2, optionText:"2 : 09123123"},
+				{optionValue:3, optionText:"2 : 1222"},
+				{optionValue:4, optionText:"2 : AXISJ"},
+				{optionValue:5, optionText:"2 : 액시스 제이"}
+			]
+		});
+	})();
+</script>
+</pre>
+</article>
+
+
+
+<article class="content">
+	<h2 data-menu-item="ui-axselect-ajax">AXSelect.AJAX</h2>
+	<p>AJAX를 이용하여 Select options을 정의하는 방식</p>
+<pre>
+<div class="tag-result">
+	<select name="" class="AXSelect" id="ui-select-02"></select>
+	<div id="ui-select-02-display"></div>
+</div>
+<script>
+	(function(){
+		var display = $("#ui-select-02-display");
+		$("#ui-select-02").bindSelect({
+			// options의 키를 사용자 정의 할 수 있습니다.
+			reserveKeys: {
+				options: "list",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			ajaxUrl: "data/selectorData-02.txt",
+			ajaxPars: "",
+			ajaxAsync: false,
+			isspace: true, isspaceTitle: "선택하세요", // 첫번째 옵션을 빈값으로 추가하고 그 라벨값을 '선택하세요'로 정의
+			setValue: "", // 옵션이 정의되면 selected 옵션값을 정의
+			alwaysOnChange: true, // load나 change이벤트가 발생되면 onchange함수를 호출하는 옵션 [기본값은 false] true이면 AXSelect가 바인드 되고 options가 정의될 때도 onchange이벤트가 발생됩니다.
+			onchange: function() {
+				display.html( Object.toJSON(this) );
+			},
+			onload: function(){
+				//display.html( Object.toJSON(this.selectedObject) );
+			}
+		});
+	})();
+</script>
+</pre>
+	<p>
+		onchange에서 사용하는 optionText와 text는 동일한 값이고 URLEncode 되어 있습니다. 숨은 기능으로 Select가 활성화 된 상태이면 키보드 입력이벤트를 감지하여 Options아이템을 찾는 기능을 내장하고 있습니다.
+		하지만 아쉽게도 숫자와 영문자만 검색이 됩니다.
+		AXSelect의 보다 자세한 정보는
+		<a href="http://dev.axisj.com/samples/AXSelect/index.html" target="_blank">http://dev.axisj.com/samples/AXSelect/index.html</a>과
+		<a href="http://jdoc.axisj.com/AXSelectConverter.html" target="_blank">http://jdoc.axisj.com/AXSelectConverter.html</a>에서 얻으실 수 있습니다.
+	</p>
+
+
+	<div class="DH10"></div>
+	<h4>data/selectorData-02.txt</h4>
+<pre>$noscript$
+{
+	list:[
+		{CD:1, NM:"Seoul"},
+		{CD:2, NM:"대구"},
+		{CD:3, NM:"대전"},
+		{CD:4, NM:"창원"},
+		{CD:5, NM:"마산"},
+		{CD:6, NM:"구례"},
+		{CD:7, NM:"제주도"},
+		{CD:8, NM:"전주"},
+		{CD:4, NM:"창원"},
+		{CD:5, NM:"마산"},
+		{CD:6, NM:"구례"},
+		{CD:7, NM:"제주도"},
+		{CD:8, NM:"전주"},
+		{CD:9, NM:"Gwangju"}
+	]
+}
+</pre>
+
 </article>

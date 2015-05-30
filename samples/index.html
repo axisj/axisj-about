@@ -436,7 +436,7 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 
 
 	<p>
-		토스트에 문자열을 전달하는 경우 기본상태로 토스트를 열게 되지만 type지정하면 토스트의 상태를 다르게 열수 있습니다. 다음은 토스트의 type선택 예제 입니다.
+		토스트에 문자열을 전달하는 경우 기본상태로 토스트를 열게 되지만 type정의하면 토스트의 상태를 다르게 열수 있습니다. 다음은 토스트의 type선택 예제 입니다.
 	</p>
 
 	<div class="DH10"></div>
@@ -973,7 +973,7 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 		예제에서는 미리정의된 Options로 셀렉터를 설정하는 방법과 AJAX통신결과에 따른 Options 설정 방법을 소개합니다.
 	</p>
 
-	<h3>Script 지정방식</h3>
+	<h3>Script 정의방식</h3>
 <pre class="prettyprint linenums">
 &lt;div class="tag-result">
 	&lt;input type="text" name="x" class="AXInput W200" id="ax-input-selector" value="" />
@@ -1037,7 +1037,7 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 
 
 	<div class="DH20"></div>
-	<h3>AJAX 지정방식</h3>
+	<h3>AJAX 정의방식</h3>
 <pre class="prettyprint linenums">
 &lt;div class="tag-result">
 	&lt;input type="text" name="x" class="AXInput W200" id="ax-input-selector-ajax" value="" />
@@ -1769,30 +1769,211 @@ $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
     <h1 data-menu-item="ui-select">AXSelect</h1>
 
     <p>
-
+        Select 태그도 checkbox나 radiobox처럼 특별한 오브젝트로 랜더링되어서(IE가 유별나긴 하지만) 웹 애프리케이션의 완성도를 떨어뜨리는 요소중에 하나입니다.
+        <code>bindSelect</code>를 이용하여 UI를 바인딩 하게되면 모든 브라우저에서 일관된 UI를 구현할 수 있습니다.
+	    다소 까다로운 Select Options의 동적처리 또한 <code>bindSelect</code>로 손쉽게 구현할 수 있습니다.
     </p>
 
 <pre class="prettyprint linenums">
 &lt;div class="tag-result">
-
+	&lt;select name="" class="AXSelect" id="ui-select-00">
+		&lt;option value="">-- 선택하세요 --&lt;/option>
+		&lt;option value="1">%가나다라마바사&lt;/option>
+		&lt;option value="2" selected="selected">abcdefg&lt;/option>
+		&lt;option value="3">abcdefg 가나다라마바사&lt;/option>
+		&lt;option value="4">abcdefg 가나다라마바사&lt;/option>
+		&lt;option value="5">abcdefg 가나다라마바사&lt;/option>
+		&lt;option value="6">abcdefg 가나다라마바사&lt;/option>
+	&lt;/select>
+	&lt;input type="button" value="아이템추가" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectAddOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+	&lt;input type="button" value="아이템제거" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectRemoveOptions([{optionValue:234, optionText:'액시스제이'}]);" />
 &lt;/div>
 &lt;script>
 	(function(){
-
+		$("#ui-select-00").bindSelect({
+			//maxHeight: 100, // 옵션박스의 크기를 제한합니다.
+			onchange: function(){
+				console.log(this);
+			}
+		});
 	})();
 &lt;/script>
 </pre><h4>Result</h4>
 <div class="tag-result">
-
+	<select name="" class="AXSelect" id="ui-select-00">
+		<option value="">-- 선택하세요 --</option>
+		<option value="1">%가나다라마바사</option>
+		<option value="2" selected="selected">abcdefg</option>
+		<option value="3">abcdefg 가나다라마바사</option>
+		<option value="4">abcdefg 가나다라마바사</option>
+		<option value="5">abcdefg 가나다라마바사</option>
+		<option value="6">abcdefg 가나다라마바사</option>
+	</select>
+	<input type="button" value="아이템추가" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectAddOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+	<input type="button" value="아이템제거" class="AXButton"
+	       onclick="$('#ui-select-00').bindSelectRemoveOptions([{optionValue:234, optionText:'액시스제이'}]);" />
 </div>
 <script>
 	(function(){
+		$("#ui-select-00").bindSelect({
+			//maxHeight: 100, // 옵션박스의 크기를 제한합니다.
+			onchange: function(){
+				console.log(this);
+			}
+		});
+	})();
+</script>
 
+	<p>
+		bindSelect의 기본형입니다. Select의 options를 이용하여 AXSelect를 만들어냅니다.
+		<code>bindSelectAddOptions</code> <code>bindSelectRemoveOptions</code>를 이용하여 Select options를 추가 삭제 할 수 있습니다.
+	</p>
+</article>
+
+
+
+<article class="content">
+	<h2 data-menu-item="ui-axselect-script">AXSelect.script</h2>
+	<p>Script로 Select options을 정의하는 방식</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;select name="" class="AXSelect" id="ui-select-01">&lt;/select>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#ui-select-01").bindSelect({
+			options:[
+				{optionValue:1, optionText:"1 : ABCDEFG"},
+				{optionValue:2, optionText:"2 : 09123123"},
+				{optionValue:3, optionText:"2 : 1222"},
+				{optionValue:4, optionText:"2 : AXISJ"},
+				{optionValue:5, optionText:"2 : 액시스 제이"}
+			]
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<select name="" class="AXSelect" id="ui-select-01"></select>
+</div>
+<script>
+	(function(){
+		$("#ui-select-01").bindSelect({
+			options:[
+				{optionValue:1, optionText:"1 : ABCDEFG"},
+				{optionValue:2, optionText:"2 : 09123123"},
+				{optionValue:3, optionText:"2 : 1222"},
+				{optionValue:4, optionText:"2 : AXISJ"},
+				{optionValue:5, optionText:"2 : 액시스 제이"}
+			]
+		});
 	})();
 </script>
 
 </article>
 
+
+
+<article class="content">
+	<h2 data-menu-item="ui-axselect-ajax">AXSelect.AJAX</h2>
+	<p>AJAX를 이용하여 Select options을 정의하는 방식</p>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;select name="" class="AXSelect" id="ui-select-02">&lt;/select>
+	&lt;div id="ui-select-02-display">&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		var display = $("#ui-select-02-display");
+		$("#ui-select-02").bindSelect({
+			// options의 키를 사용자 정의 할 수 있습니다.
+			reserveKeys: {
+				options: "list",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			ajaxUrl: "data/selectorData-02.txt",
+			ajaxPars: "",
+			ajaxAsync: false,
+			isspace: true, isspaceTitle: "선택하세요", // 첫번째 옵션을 빈값으로 추가하고 그 라벨값을 '선택하세요'로 정의
+			setValue: "", // 옵션이 정의되면 selected 옵션값을 정의
+			alwaysOnChange: true, // load나 change이벤트가 발생되면 onchange함수를 호출하는 옵션 [기본값은 false] true이면 AXSelect가 바인드 되고 options가 정의될 때도 onchange이벤트가 발생됩니다.
+			onchange: function() {
+				display.html( Object.toJSON(this) );
+			},
+			onload: function(){
+				//display.html( Object.toJSON(this.selectedObject) );
+			}
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<select name="" class="AXSelect" id="ui-select-02"></select>
+	<div id="ui-select-02-display"></div>
+</div>
+<script>
+	(function(){
+		var display = $("#ui-select-02-display");
+		$("#ui-select-02").bindSelect({
+			// options의 키를 사용자 정의 할 수 있습니다.
+			reserveKeys: {
+				options: "list",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			ajaxUrl: "data/selectorData-02.txt",
+			ajaxPars: "",
+			ajaxAsync: false,
+			isspace: true, isspaceTitle: "선택하세요", // 첫번째 옵션을 빈값으로 추가하고 그 라벨값을 '선택하세요'로 정의
+			setValue: "", // 옵션이 정의되면 selected 옵션값을 정의
+			alwaysOnChange: true, // load나 change이벤트가 발생되면 onchange함수를 호출하는 옵션 [기본값은 false] true이면 AXSelect가 바인드 되고 options가 정의될 때도 onchange이벤트가 발생됩니다.
+			onchange: function() {
+				display.html( Object.toJSON(this) );
+			},
+			onload: function(){
+				//display.html( Object.toJSON(this.selectedObject) );
+			}
+		});
+	})();
+</script>
+
+	<p>
+		onchange에서 사용하는 optionText와 text는 동일한 값이고 URLEncode 되어 있습니다. 숨은 기능으로 Select가 활성화 된 상태이면 키보드 입력이벤트를 감지하여 Options아이템을 찾는 기능을 내장하고 있습니다.
+		하지만 아쉽게도 숫자와 영문자만 검색이 됩니다.
+		AXSelect의 보다 자세한 정보는
+		<a href="http://dev.axisj.com/samples/AXSelect/index.html" target="_blank">http://dev.axisj.com/samples/AXSelect/index.html</a>과
+		<a href="http://jdoc.axisj.com/AXSelectConverter.html" target="_blank">http://jdoc.axisj.com/AXSelectConverter.html</a>에서 얻으실 수 있습니다.
+	</p>
+
+
+	<div class="DH10"></div>
+	<h4>data/selectorData-02.txt</h4>
+<pre class="prettyprint linenums">
+{
+	list:[
+		{CD:1, NM:"Seoul"},
+		{CD:2, NM:"대구"},
+		{CD:3, NM:"대전"},
+		{CD:4, NM:"창원"},
+		{CD:5, NM:"마산"},
+		{CD:6, NM:"구례"},
+		{CD:7, NM:"제주도"},
+		{CD:8, NM:"전주"},
+		{CD:4, NM:"창원"},
+		{CD:5, NM:"마산"},
+		{CD:6, NM:"구례"},
+		{CD:7, NM:"제주도"},
+		{CD:8, NM:"전주"},
+		{CD:9, NM:"Gwangju"}
+	]
+}
+</pre>
+
+</article>
 
 <!-- split -->
 
@@ -1801,24 +1982,205 @@ $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
     <h1 data-menu-item="com-progress">AXProgress</h1>
 
     <p>
-
+        웹 애플리케이션을 제작하다보면 여러개의 아이템을 순차적으로 처리 해야하는 상황이 발생합니다. 특히나 요즈음 AJAX통신기술의 발달로 인해 비동기 작업이 강조되면서
+        프로그래스형태의 작업이 웹 애플리케이션에서도 가능해졌습니다. AXProgress는 이러한 작업을 보다 쉽게 처리할 수 있도록 도움을 줍니다.
     </p>
 
 <pre class="prettyprint linenums">
 &lt;div class="tag-result">
-
+    &lt;button class="AXButton" id="com-progress-start">프로그레스 처리&lt;/button>
 &lt;/div>
 &lt;script>
 	(function(){
+		$("#com-progress-start").click(function(){
+
+			var list = [0,1,2,3,4,5,6,7,8,9];
+			var myProgress = new AXProgress();
+			myProgress.setConfig({
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				width: 400,
+				top: 100,
+				title: "AXProgress BAR",
+				duration: 299 // 프로세스바의 애니메이션 속도 값 입니다.
+			});
+
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			});
+		});
 
 	})();
 &lt;/script>
 </pre><h4>Result</h4>
 <div class="tag-result">
-
+    <button class="AXButton" id="com-progress-start">프로그레스 처리</button>
 </div>
 <script>
 	(function(){
+		$("#com-progress-start").click(function(){
+
+			var list = [0,1,2,3,4,5,6,7,8,9];
+			var myProgress = new AXProgress();
+			myProgress.setConfig({
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				width: 400,
+				top: 100,
+				title: "AXProgress BAR",
+				duration: 299 // 프로세스바의 애니메이션 속도 값 입니다.
+			});
+
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			});
+		});
+
+	})();
+</script>
+
+
+	<p>
+		프로그래스바는 line형과 circle형이 준비되어 있고 필요한 경우 프로그래스 진행중에 취소처리를 할수있는 취소버튼을 정의 할수 있습니다. 다음의 예제에서 소개 하겠습니다.
+	</p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-progress-01-start">프로그레스 처리(취소버튼 정의)&lt;/button>
+	&lt;button class="AXButton" id="com-progress-02-start">프로그레스 처리(circle형)&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+
+		var list = [0,1,2,3,4,5,6,7,8,9];
+		var myProgress = new AXProgress();
+		myProgress.setConfig({
+			width: 400, top: 100,
+			title: "AXProgress BAR",
+			duration: 299
+		});
+
+		$("#com-progress-01-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				cancel: {
+					confirmMsg:"정말 취소하시겠습니까?",
+					oncancel:function(){
+						//myProgress.restart(); //다시 시작하기
+						myProgress.close();
+						mask.close();
+						toast.push("progress stop");
+					}
+				}
+			});
+		});
+
+		$("#com-progress-02-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXCircleProgress",
+				totalCount: list.length
+			});
+		});
+
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-progress-01-start">프로그레스 처리(취소버튼 정의)</button>
+	<button class="AXButton" id="com-progress-02-start">프로그레스 처리(circle형)</button>
+</div>
+<script>
+	(function(){
+
+		var list = [0,1,2,3,4,5,6,7,8,9];
+		var myProgress = new AXProgress();
+		myProgress.setConfig({
+			width: 400, top: 100,
+			title: "AXProgress BAR",
+			duration: 299
+		});
+
+		$("#com-progress-01-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				cancel: {
+					confirmMsg:"정말 취소하시겠습니까?",
+					oncancel:function(){
+						//myProgress.restart(); //다시 시작하기
+						myProgress.close();
+						mask.close();
+						toast.push("progress stop");
+					}
+				}
+			});
+		});
+
+		$("#com-progress-02-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXCircleProgress",
+				totalCount: list.length
+			});
+		});
+
 
 	})();
 </script>

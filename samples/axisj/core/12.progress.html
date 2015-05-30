@@ -3,15 +3,109 @@
     <h1 data-menu-item="com-progress">AXProgress</h1>
 
     <p>
-
+        웹 애플리케이션을 제작하다보면 여러개의 아이템을 순차적으로 처리 해야하는 상황이 발생합니다. 특히나 요즈음 AJAX통신기술의 발달로 인해 비동기 작업이 강조되면서
+        프로그래스형태의 작업이 웹 애플리케이션에서도 가능해졌습니다. AXProgress는 이러한 작업을 보다 쉽게 처리할 수 있도록 도움을 줍니다.
     </p>
 
 <pre>
 <div class="tag-result">
-
+    <button class="AXButton" id="com-progress-start">프로그레스 처리</button>
 </div>
 <script>
 	(function(){
+		$("#com-progress-start").click(function(){
+
+			var list = [0,1,2,3,4,5,6,7,8,9];
+			var myProgress = new AXProgress();
+			myProgress.setConfig({
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				width: 400,
+				top: 100,
+				title: "AXProgress BAR",
+				duration: 299 // 프로세스바의 애니메이션 속도 값 입니다.
+			});
+
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			});
+		});
+
+	})();
+</script>
+</pre>
+
+	<p>
+		프로그래스바는 line형과 circle형이 준비되어 있고 필요한 경우 프로그래스 진행중에 취소처리를 할수있는 취소버튼을 정의 할수 있습니다. 다음의 예제에서 소개 하겠습니다.
+	</p>
+
+<pre>
+<div class="tag-result">
+	<button class="AXButton" id="com-progress-01-start">프로그레스 처리(취소버튼 정의)</button>
+	<button class="AXButton" id="com-progress-02-start">프로그레스 처리(circle형)</button>
+</div>
+<script>
+	(function(){
+
+		var list = [0,1,2,3,4,5,6,7,8,9];
+		var myProgress = new AXProgress();
+		myProgress.setConfig({
+			width: 400, top: 100,
+			title: "AXProgress BAR",
+			duration: 299
+		});
+
+		$("#com-progress-01-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXlineProgress",
+				totalCount: list.length,
+				cancel: {
+					confirmMsg:"정말 취소하시겠습니까?",
+					oncancel:function(){
+						//myProgress.restart(); //다시 시작하기
+						myProgress.close();
+						mask.close();
+						toast.push("progress stop");
+					}
+				}
+			});
+		});
+
+		$("#com-progress-02-start").click(function(){
+			mask.open();
+			myProgress.start(function(){
+				if(this.isEnd){
+					myProgress.close();
+					mask.close();
+					toast.push("progress end");
+				}else{
+					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+				}
+			}, {
+				theme: "AXCircleProgress",
+				totalCount: list.length
+			});
+		});
+
 
 	})();
 </script>
