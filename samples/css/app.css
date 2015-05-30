@@ -1,21 +1,21 @@
-@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumgothic/nanumgothic.css);
 html, body {
   margin: 0px;
   padding: 0px;
-  font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #555555;
   height: 100%;
   line-height: 1.7em; }
   html button, html select, html textarea, body button, body select, body textarea {
     box-sizing: border-box;
-    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 28px; }
     html button:hover, html select:hover, html textarea:hover, body button:hover, body select:hover, body textarea:hover {
       font-family: Inherit; }
   html .AXButton, body .AXButton {
     line-height: 28px;
-    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
     html .AXButton .axi, body .AXButton .axi {
       font-size: 15px;
       line-height: 28px;
@@ -24,13 +24,13 @@ html, body {
       float: left;
       margin-right: 3px; }
     html .AXButton:hover, body .AXButton:hover {
-      font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   html .AXInput, body .AXInput {
     box-sizing: content-box;
-    font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
     html .AXInput:hover, body .AXInput:hover {
       box-sizing: content-box;
-      font-family: "Nanum Barun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0.5em auto;
