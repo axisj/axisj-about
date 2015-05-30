@@ -6,13 +6,22 @@
 		<a href="http://jdoc.axisj.com/AXConfig.html" target="_blank">http://jdoc.axisj.com/AXConfig.html</a>
 		에서 얻으 실 수 있습니다. UI를 구성하는 각종 설정변수를 사용자에 요구에 맞게 재 정의 하는데 사용합니다.
 	</p>
-<pre>
-<div id="div-axisj-axconfig" class="script-result"></div>
-<script>
-(function(){
-	$("#div-axisj-axconfig").html( Object.toJSON(AXConfig) );
-})();
-</script>
+<pre>$noscript$
+AXConfig = {
+	AXContextMenu: {}
+	AXEditor: {}
+	AXGrid: {}
+	AXInput: {}
+	AXModal: {}
+	AXProgress: {}
+	AXReq: {}
+	AXSelect: {}
+	AXTab: {}
+	AXTree: {}
+	AXUpload5: {}
+	mobile: {}
+	weekDays: {}
+}
 </pre>
 	<p>예를 들어 AXGrid의 <code>empty of list</code>를 변경하려면, 아래와 같이 페이지 상단에 정의 할 수 있습니다. (스크립트는 선언 순서대로 실행되므로 위치가 잘못 되면 원하는 결과를 얻지 못할 수 있습니다.)</p>
 <pre>$noscript$

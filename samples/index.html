@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
  ax5 - v0.0.1 
- publish date : 2015-05-30 
+ publish date : 2015-05-31 
 -->
 <html lang="en">
 <head>
@@ -115,20 +115,22 @@
 		에서 얻으 실 수 있습니다. UI를 구성하는 각종 설정변수를 사용자에 요구에 맞게 재 정의 하는데 사용합니다.
 	</p>
 <pre class="prettyprint linenums">
-&lt;div id="div-axisj-axconfig" class="script-result">&lt;/div>
-&lt;script>
-(function(){
-	$("#div-axisj-axconfig").html( Object.toJSON(AXConfig) );
-})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div id="div-axisj-axconfig" class="script-result"></div>
-<script>
-(function(){
-	$("#div-axisj-axconfig").html( Object.toJSON(AXConfig) );
-})();
-</script>
-
+AXConfig = {
+	AXContextMenu: {}
+	AXEditor: {}
+	AXGrid: {}
+	AXInput: {}
+	AXModal: {}
+	AXProgress: {}
+	AXReq: {}
+	AXSelect: {}
+	AXTab: {}
+	AXTree: {}
+	AXUpload5: {}
+	mobile: {}
+	weekDays: {}
+}
+</pre>
 	<p>예를 들어 AXGrid의 <code>empty of list</code>를 변경하려면, 아래와 같이 페이지 상단에 정의 할 수 있습니다. (스크립트는 선언 순서대로 실행되므로 위치가 잘못 되면 원하는 결과를 얻지 못할 수 있습니다.)</p>
 <pre class="prettyprint linenums">
 AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
@@ -2204,27 +2206,209 @@ $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
     <h1 data-menu-item="com-scroll">AXScroll</h1>
 
     <p>
-
+		AXScroll UI는 <code>style="overflow:auto"</code>를 이용할 수 없는 환경이나
+	    스크롤바의 스타일이 취향에 맞지않는 특별한 사람들을 위해 탄생 되었습니다.
+	    잘 나가는 웹서비스에는 많이들 쓰이는 UI이죠 그래서 액시스제이도 한번 만들어 봤습니다.
     </p>
+	<p>
+		세로스크롤만 사용되는 경우, 가로 스크롤만 사용되는 경우, 세로,가로 스크롤이 함께 사용되는 경우, 모바일환경에서 bounce 되는 스크롤을 사용할 수 있습니다.
+	</p>
+</article>
 
+
+
+
+<!-- 세로스크롤 -->
+<article class="content">
+	<h2 data-menu-item="com-scroll-default">AXScroll.default</h2>
 <pre class="prettyprint linenums">
 &lt;div class="tag-result">
-
+	&lt;div class="containerBox" id="ax-scroll-01-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		&lt;div class="inBox" id="ax-scroll-01-content">
+			&lt;div style="height:500px;width:800px;">&lt;/div>
+		&lt;/div>
+	&lt;/div>
 &lt;/div>
 &lt;script>
 	(function(){
-
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-01-target",
+			scrollID:"ax-scroll-01-content"
+		});
 	})();
 &lt;/script>
 </pre><h4>Result</h4>
 <div class="tag-result">
-
+	<div class="containerBox" id="ax-scroll-01-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		<div class="inBox" id="ax-scroll-01-content">
+			<div style="height:500px;width:800px;"></div>
+		</div>
+	</div>
 </div>
 <script>
 	(function(){
-
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-01-target",
+			scrollID:"ax-scroll-01-content"
+		});
 	})();
 </script>
+
+</article>
+
+
+
+
+<!-- 가로스크롤 -->
+<article class="content">
+	<h2 data-menu-item="com-scroll-xscroll">AXScroll.xscroll</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;div class="containerBox" id="ax-scroll-02-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		&lt;div class="inBox" id="ax-scroll-02-content">
+			&lt;div style="height:200px;width:800px;">&lt;/div>
+		&lt;/div>
+	&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-02-target",
+			scrollID:"ax-scroll-02-content",
+			yscroll:false,
+			xscroll:true
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<div class="containerBox" id="ax-scroll-02-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		<div class="inBox" id="ax-scroll-02-content">
+			<div style="height:200px;width:800px;"></div>
+		</div>
+	</div>
+</div>
+<script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-02-target",
+			scrollID:"ax-scroll-02-content",
+			yscroll:false,
+			xscroll:true
+		});
+	})();
+</script>
+
+	<p>
+		target의 높이는 원래 100px이지만 내용의 크기에 자동으로 맞추어 집니다.
+	</p>
+</article>
+
+
+
+
+<!-- 가로세로스크롤 -->
+<article class="content">
+	<h2 data-menu-item="com-scroll-xyscroll">AXScroll.xyscroll</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;div class="containerBox" id="ax-scroll-03-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		&lt;div class="inBox" id="ax-scroll-03-content">
+			&lt;div style="height:400px;width:800px;">&lt;/div>
+		&lt;/div>
+	&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-03-target",
+			scrollID:"ax-scroll-03-content",
+			yscroll:true,
+			xscroll:true
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<div class="containerBox" id="ax-scroll-03-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		<div class="inBox" id="ax-scroll-03-content">
+			<div style="height:400px;width:800px;"></div>
+		</div>
+	</div>
+</div>
+<script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-03-target",
+			scrollID:"ax-scroll-03-content",
+			yscroll:true,
+			xscroll:true
+		});
+	})();
+</script>
+
+
+</article>
+
+
+
+
+<!-- 바운스스크롤 -->
+<article class="content">
+	<h2 data-menu-item="com-scroll-bounces">AXScroll.bounces</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;div class="containerBox" id="ax-scroll-04-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		&lt;div class="inBox" id="ax-scroll-04-content">
+			&lt;div style="height:400px;width:800px;">&lt;/div>
+		&lt;/div>
+	&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-04-target",
+			scrollID:"ax-scroll-04-content",
+			xscroll:true,
+			bounces:true // 모바일 환경에서만 차이를 느낄 수 있습니다.
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<div class="containerBox" id="ax-scroll-04-target"
+	     style="width:400px;height:100px;border:1px solid #ccc;">
+		<div class="inBox" id="ax-scroll-04-content">
+			<div style="height:400px;width:800px;"></div>
+		</div>
+	</div>
+</div>
+<script>
+	(function(){
+		var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		myUIScroll.setConfig({
+			targetID:"ax-scroll-04-target",
+			scrollID:"ax-scroll-04-content",
+			xscroll:true,
+			bounces:true // 모바일 환경에서만 차이를 느낄 수 있습니다.
+		});
+	})();
+</script>
+
 
 </article>
 
