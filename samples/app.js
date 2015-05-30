@@ -141,6 +141,11 @@ ax5.dom.ready(function(){
 	app.set_menu_height();
 	app.menu_taping();
 	app.onscroll();
+
+	if (app.resize_timeout) clearTimeout(app.resize_timeout);
+	app.resize_timeout = setTimeout(function(){
+		$(window).resize();
+	}, 1000);
 });
 
 ax5.dom.resize(function(){
@@ -157,5 +162,10 @@ ax5.dom.scroll(function() {
 		app.timeout = setTimeout(function () {
 			app.menu_taping();
 		}, 1);
+
+		if (app.resize_timeout) clearTimeout(app.resize_timeout);
+		app.resize_timeout = setTimeout(function(){
+			$(window).resize();
+		}, 1000);
 	}
 });
