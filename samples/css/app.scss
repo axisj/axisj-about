@@ -240,6 +240,7 @@ $app-visual-height: 280px;
       &.content{padding:0px 0px 10px 0px;}
     }
     .script-result, .tag-result{
+	    position:relative;
       /* Rectangle 14: */
       background: #F2F2F2;
       border-radius: 8px;
