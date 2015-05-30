@@ -66,27 +66,38 @@
 <!-- split -->
 
 <article class="cover">
+    <h1 data-menu-item="intro">Intro</h1>
+</article>
 
-    <h1 data-menu-item="core">Core</h1>
+<article class="content">
+    <h2 class="menu">설치</h2>
+	<p>
+		소스코드를 깃허브에서 다운로드(https://github.com/axisj-com/axisj/releases) 받으신 후 다음의 코드를 html 헤드에 삽입합니다. 설치가 완료 되었습니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;!-- css block -->
+&lt;link rel="stylesheet" type="text/css" href="/axisj/ui/arongi/AXJ.css">
+&lt;!-- css block -->
+&lt;!-- js block -->
+&lt;script type="text/javascript" src="/axisj/jquery/jquery.min.js">&lt;/script>
+&lt;script type="text/javascript" src="/axisj/dist/AXJ.min.js">&lt;/script>
+</pre>
 
-    <p>
-        axisj 라이브러리를 구동시키기 위한 유틸리티와 공통 UI 컴포넌트를 말합니다.
-    </p>
-
-    <div class="callout good">
-        <h4>AXISJ Core의 구성요소</h4>
-        <ul>
-            <li>AXConfig.js - 액시스제이 환경설정 변수 모음</li>
-            <li>AXUtil.js - Prototype함수, util함수, Class 패턴 지원</li>
-            <li>AXCore.js - UI Class원형, 공용으로 쓰이는 UI클래스들 (AXMask, AXScroll..)</li>
-        </ul>
-        <p>
-            위 3가지 파일을 합쳐서 AXJ.js 파일을 만들고 다시 Uglify처리하여 AXJ.coremin.js 파일을 만듭니다.
-        </p>
-    </div>
 </article>
 
 
+
+<div class="callout good">
+	<h4>AXISJ Core의 구성요소</h4>
+	<ul>
+		<li>AXConfig.js - 액시스제이 환경설정 변수 모음</li>
+		<li>AXUtil.js - Prototype함수, util함수, Class 패턴 지원</li>
+		<li>AXCore.js - UI Class원형, 공용으로 쓰이는 UI클래스들 (AXMask, AXScroll..)</li>
+	</ul>
+	<p>
+		위 3가지 파일을 합쳐서 AXJ.js 파일을 만들고 다시 Uglify처리하여 AXJ.coremin.js 파일을 만듭니다.
+	</p>
+</div>
 
 <!-- split -->
 
@@ -172,7 +183,8 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 		</ul>
 	</div>
 	<p>
-		AXCore안에 정의된 UI클래스 들에 대해서는 아래에서 자세히 하나씩 짚어 가도록 하겠습니다.
+		AXCore안에 정의된 UI클래스 들에 대해서는 아래에서 자세히 하나씩 짚어 가도록 하겠습니다. 그 외에 다양한 ui클래스들은 lib폴더 안에 있습니다.
+		<code>AXJ.min.js</code> 파일에 모두 압축하여 배포하고 있습니다.
 	</p>
 </article>
 
@@ -377,6 +389,254 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 		<h4>테마</h4>
 		<p>액시스제이(AXISJ)에는 현재 5가지의 CSS테마 세트가 공개되어 있습니다. 현재 가용한 테마는 arongi, bulldog, flybasket, kakao, cocker이며 http://dev.axisj.com에 가시면 하단의 테마 선택 링크를 이용해 CSS 테마를 변경 해볼 수 있습니다.</p>
 	</div>
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="com-notification">AXNotification</h1>
+
+    <p>
+		애플리케이션의 상태가 변경되었을 때나 사용자에게 확인을 요청 할 때에 <code>AXNotification</code>클래스를 이용하여
+	    알림처리 할 수 있습니다.
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-toast-open">토스트 열기&lt;/button>
+	&lt;button class="AXButton" id="com-dialog-open">다이얼로그 열기&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#com-toast-open").click(function(){
+			toast.push("토스트를 열었습니다. 잠시후 사라집니다.");
+		});
+		$("#com-dialog-open").click(function(){
+			dialog.push("다이얼로그");
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-toast-open">토스트 열기</button>
+	<button class="AXButton" id="com-dialog-open">다이얼로그 열기</button>
+</div>
+<script>
+	(function(){
+		$("#com-toast-open").click(function(){
+			toast.push("토스트를 열었습니다. 잠시후 사라집니다.");
+		});
+		$("#com-dialog-open").click(function(){
+			dialog.push("다이얼로그");
+		});
+	})();
+</script>
+
+
+	<p>
+		토스트에 문자열을 전달하는 경우 기본상태로 토스트를 열게 되지만 type지정하면 토스트의 상태를 다르게 열수 있습니다. 다음은 토스트의 type선택 예제 입니다.
+	</p>
+
+	<div class="DH10"></div>
+	<h3>Toast 타입</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-toast-wran-open">Warning 토스트&lt;/button>
+	&lt;button class="AXButton" id="com-toast-caution-open">Caution 토스트&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#com-toast-wran-open").click(function(){
+			toast.push({type:"Warning", body:"토스트를 열었습니다. 잠시후 사라집니다."});
+		});
+		$("#com-toast-caution-open").click(function(){
+			toast.push({type:"Caution", body:"토스트를 열었습니다. 확인을 누르면 사라집니다."});
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-toast-wran-open">Warning 토스트</button>
+	<button class="AXButton" id="com-toast-caution-open">Caution 토스트</button>
+</div>
+<script>
+	(function(){
+		$("#com-toast-wran-open").click(function(){
+			toast.push({type:"Warning", body:"토스트를 열었습니다. 잠시후 사라집니다."});
+		});
+		$("#com-toast-caution-open").click(function(){
+			toast.push({type:"Caution", body:"토스트를 열었습니다. 확인을 누르면 사라집니다."});
+		});
+	})();
+</script>
+
+
+
+	<div class="DH10"></div>
+	<h3>Dialog</h3>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-dialog-wran-open">Warning 다이얼로그&lt;/button>
+	&lt;button class="AXButton" id="com-dialog-caution-open">Caution 다이얼로그&lt;/button>
+	&lt;button class="AXButton" id="com-dialog-button-open">Button 다이얼로그&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#com-dialog-wran-open").click(function(){
+			dialog.push({type:"Warning", body:"다이얼로그를 열었습니다."});
+		});
+		$("#com-dialog-caution-open").click(function(){
+			dialog.push({type:"Caution", body:"다이얼로그를 열었습니다."});
+		});
+		$("#com-dialog-button-open").click(function(){
+			dialog.push({
+				type: "Caution",
+				body:"토스트를 열었습니다. 잠시후 사라집니다.",
+				buttons:[
+					{buttonValue:'button1', buttonClass:'Red W100', onClick:function(arg){alert(arg);}, data:'data1'},
+					{buttonValue:'button2', buttonClass:'Blue', onClick:function(arg){alert(arg);}, data:'data2'},
+					{buttonValue:'button3', buttonClass:'Green', onClick:function(arg){alert(arg);}, data:'data3'}
+				]
+			});
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-dialog-wran-open">Warning 다이얼로그</button>
+	<button class="AXButton" id="com-dialog-caution-open">Caution 다이얼로그</button>
+	<button class="AXButton" id="com-dialog-button-open">Button 다이얼로그</button>
+</div>
+<script>
+	(function(){
+		$("#com-dialog-wran-open").click(function(){
+			dialog.push({type:"Warning", body:"다이얼로그를 열었습니다."});
+		});
+		$("#com-dialog-caution-open").click(function(){
+			dialog.push({type:"Caution", body:"다이얼로그를 열었습니다."});
+		});
+		$("#com-dialog-button-open").click(function(){
+			dialog.push({
+				type: "Caution",
+				body:"토스트를 열었습니다. 잠시후 사라집니다.",
+				buttons:[
+					{buttonValue:'button1', buttonClass:'Red W100', onClick:function(arg){alert(arg);}, data:'data1'},
+					{buttonValue:'button2', buttonClass:'Blue', onClick:function(arg){alert(arg);}, data:'data2'},
+					{buttonValue:'button3', buttonClass:'Green', onClick:function(arg){alert(arg);}, data:'data3'}
+				]
+			});
+		});
+	})();
+</script>
+
+	<p>
+		Button 다이얼로그는 다이얼로그에 버튼을 사용자 정의하는 예제입니다. 이런 방식으로 다이얼로그를 이용하여 간단한 사용자 선택을 받을 수 있습니다.
+		다이얼로그를 이용해서는 <code>window.alert, confirm, prompt</code>처럼 브라우저를 홀드하는 기능을 사용할 수는 없기 때문에 주의 해야 합니다.
+	</p>
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="com-mask">AXMask</h1>
+
+    <p>
+	    웹 애플리케이션 전체또는 특정 영역을 불투명한 레이어로 덮어서 웹애플리케이션의 UI를 사용 불능 상태로 만들거나 비동기 데이터 호출중에 사용자에게 답답함을 줄여주는 역할을 합니다.
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-mask-open">마스크시작&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		$("#com-mask-open").click(function(){
+			mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				mask.close();
+			}, 2000);
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-mask-open">마스크시작</button>
+</div>
+<script>
+	(function(){
+		$("#com-mask-open").click(function(){
+			mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				mask.close();
+			}, 2000);
+		});
+	})();
+</script>
+
+	<p>
+		액시스제이를 임포트하면 Global 개체로 미리 선언된 mask를 사용할 수 있습니다. 편의상 mask로 정의 되어 있지만 필요할 때엔 바꾸어 정의 할 수 있습니다.
+	</p>
+
+	<div class="DH10"></div>
+	<h3>Custom MASK</h3>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-custom-mask-open">로딩 마스크시작&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		var loading_mask = new AXMask(); // 새로운 인스턴스 생성
+		loading_mask.setConfig(); // 초기화
+		loading_mask.setContent({ // 마스크 컨텐츠 정의
+			width:200, height:200,
+			html: '&lt;div class="loading" style="color:#ffffff;">' +
+			'&lt;i class="axi axi-spinner axi-spin" style="font-size:100px;">&lt;/i>' +
+			'&lt;div>Loading..&lt;/div>' +
+			'&lt;/div>'
+		});
+		// 애플리케이션 상단에 정의 하면 별도의 loading_mask를 생성할 수 있습니다.
+		$("#com-custom-mask-open").click(function(){
+			loading_mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				loading_mask.close();
+			}, 2000);
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-custom-mask-open">로딩 마스크시작</button>
+</div>
+<script>
+	(function(){
+		var loading_mask = new AXMask(); // 새로운 인스턴스 생성
+		loading_mask.setConfig(); // 초기화
+		loading_mask.setContent({ // 마스크 컨텐츠 정의
+			width:200, height:200,
+			html: '<div class="loading" style="color:#ffffff;">' +
+			'<i class="axi axi-spinner axi-spin" style="font-size:100px;"></i>' +
+			'<div>Loading..</div>' +
+			'</div>'
+		});
+		// 애플리케이션 상단에 정의 하면 별도의 loading_mask를 생성할 수 있습니다.
+		$("#com-custom-mask-open").click(function(){
+			loading_mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				loading_mask.close();
+			}, 2000);
+		});
+	})();
+</script>
+
 </article>
 
 
@@ -1499,6 +1759,358 @@ $('#ax-bind-pattern-bizno-target').bindPatternGetText();
 $('#ax-bind-pattern-bizno-target').bindPatternGetDisplayText();
 $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
 </pre>
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-select">AXSelect</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="com-progress">AXProgress</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="com-scroll">AXScroll</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-tab">AXTab</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="com-context">AXContext</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-toolbar">AXToolbar</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-modal">AXModal</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-grid">AXGrid</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-tree">AXTree</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-search">AXSearch</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-upload">AXUpload5</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
 </article>
 
 

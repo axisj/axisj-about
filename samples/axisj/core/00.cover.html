@@ -1,0 +1,33 @@
+<article class="cover">
+    <h1 data-menu-item="intro">Intro</h1>
+</article>
+
+<article class="content">
+    <h2 class="menu">설치</h2>
+	<p>
+		소스코드를 깃허브에서 다운로드(https://github.com/axisj-com/axisj/releases) 받으신 후 다음의 코드를 html 헤드에 삽입합니다. 설치가 완료 되었습니다.
+	</p>
+<pre>$noscript$
+<!-- css block -->
+<link rel="stylesheet" type="text/css" href="/axisj/ui/arongi/AXJ.css">
+<!-- css block -->
+<!-- js block -->
+<script type="text/javascript" src="/axisj/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/axisj/dist/AXJ.min.js"></script>
+</pre>
+
+</article>
+
+
+
+<div class="callout good">
+	<h4>AXISJ Core의 구성요소</h4>
+	<ul>
+		<li>AXConfig.js - 액시스제이 환경설정 변수 모음</li>
+		<li>AXUtil.js - Prototype함수, util함수, Class 패턴 지원</li>
+		<li>AXCore.js - UI Class원형, 공용으로 쓰이는 UI클래스들 (AXMask, AXScroll..)</li>
+	</ul>
+	<p>
+		위 3가지 파일을 합쳐서 AXJ.js 파일을 만들고 다시 Uglify처리하여 AXJ.coremin.js 파일을 만듭니다.
+	</p>
+</div>

@@ -349,7 +349,7 @@ $app-visual-height: 280px;
       text-align: left;
     }
     ul{
-      @include transition(all 0.1s ease-in);
+      //@include transition(all 0.1s ease-in);
       margin:0px;
       padding: 0px;
       color: #999EA0;
@@ -364,10 +364,10 @@ $app-visual-height: 280px;
       }
 
       li{
-        @include transition(all 0.1s ease-in);
+        //@include transition(all 0.1s ease-in);
         padding:0px 15px;
         a{
-          @include transition(all 0.1s ease-in);
+          //@include transition(all 0.1s ease-in);
           display: block;
           font-size: 1.2em;line-height: 40px;color:inherit;
         }

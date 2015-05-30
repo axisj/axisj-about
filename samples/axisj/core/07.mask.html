@@ -1,0 +1,58 @@
+<article class="cover">
+
+    <h1 data-menu-item="com-mask">AXMask</h1>
+
+    <p>
+	    웹 애플리케이션 전체또는 특정 영역을 불투명한 레이어로 덮어서 웹애플리케이션의 UI를 사용 불능 상태로 만들거나 비동기 데이터 호출중에 사용자에게 답답함을 줄여주는 역할을 합니다.
+    </p>
+
+<pre>
+<div class="tag-result">
+	<button class="AXButton" id="com-mask-open">마스크시작</button>
+</div>
+<script>
+	(function(){
+		$("#com-mask-open").click(function(){
+			mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				mask.close();
+			}, 2000);
+		});
+	})();
+</script>
+</pre>
+	<p>
+		액시스제이를 임포트하면 Global 개체로 미리 선언된 mask를 사용할 수 있습니다. 편의상 mask로 정의 되어 있지만 필요할 때엔 바꾸어 정의 할 수 있습니다.
+	</p>
+
+	<div class="DH10"></div>
+	<h3>Custom MASK</h3>
+
+<pre>
+<div class="tag-result">
+	<button class="AXButton" id="com-custom-mask-open">로딩 마스크시작</button>
+</div>
+<script>
+	(function(){
+		var loading_mask = new AXMask(); // 새로운 인스턴스 생성
+		loading_mask.setConfig(); // 초기화
+		loading_mask.setContent({ // 마스크 컨텐츠 정의
+			width:200, height:200,
+			html: '<div class="loading" style="color:#ffffff;">' +
+			'<i class="axi axi-spinner axi-spin" style="font-size:100px;"></i>' +
+			'<div>Loading..</div>' +
+			'</div>'
+		});
+		// 애플리케이션 상단에 정의 하면 별도의 loading_mask를 생성할 수 있습니다.
+		$("#com-custom-mask-open").click(function(){
+			loading_mask.open();
+			toast.push("2초후에 마스크가 닫힙니다.");
+			setTimeout(function(){
+				loading_mask.close();
+			}, 2000);
+		});
+	})();
+</script>
+</pre>
+</article>
