@@ -1,4 +1,10 @@
 ax5.dom.ready(function(){
+
+	if(ax5.info.browser == "ie" && ax5.info.version < 9){
+		alert("본 페이지는 IE9+ 부터 사용할 수 있습니다. 브라우저를 교체하세요");
+	}
+
+
 	if (!window.app_visual) window.app_visual = ax5.dom.get("#app-visual");
 	if (!window.app_nav_left) window.app_nav_left = ax5.dom.get("#app-nav-left");
 	//if(window.app) return;
