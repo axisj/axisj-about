@@ -75,7 +75,8 @@ ax5.dom.ready(function(){
 			},
 			menu_taping: function(opt){
 				if(typeof opt === "undefined" && nav_left_on) return false;
-				var s_top = ax5.dom.scroll().top, _i = null, i = menu_list.length;
+				var s_top = ax5.dom.scroll().top, _i = null;
+				/*
 				while(i--){
 					if( menu_list[i].top > s_top){
 						_i = i;
@@ -87,7 +88,8 @@ ax5.dom.ready(function(){
 					}
 					else break;
 				}
-				/*
+				*/
+
 				//app_nav_left
 				for(var i= 0,l=menu_list.length;i<l;i++){
 					if( menu_list[i].top > s_top){
@@ -102,7 +104,7 @@ ax5.dom.ready(function(){
 						break;
 					}
 				}
-				*/
+
 				if(_i == null) _i = menu_list.length-1;
 
 				if(selected_menu_list_index > -1) {
