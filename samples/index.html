@@ -1054,6 +1054,7 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 		$("#ax-input-selector-ajax").bindSelector({
 			direction: "bottom", // selector 박스가 열리는 방향
 			appendable: false,
+			method: "GET",
 			ajaxUrl: "data/selectorData.txt",
 			ajaxPars: "",
 			optionPrintLength: "all", // options 아이템 출력갯수 제한 "all"이면 전체 출력
@@ -1072,6 +1073,7 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 		$("#ax-input-selector-ajax").bindSelector({
 			direction: "bottom", // selector 박스가 열리는 방향
 			appendable: false,
+			method: "GET",
 			ajaxUrl: "data/selectorData.txt",
 			ajaxPars: "",
 			optionPrintLength: "all", // options 아이템 출력갯수 제한 "all"이면 전체 출력
@@ -2615,12 +2617,281 @@ $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');
 <!-- split -->
 
 <article class="cover">
-    <h1 data-menu-item="com-context">AXContext</h1>
+    <h1 data-menu-item="com-context">AXContextMenu</h1>
     <p>
-		
-    </p>
+		컨텍스트메뉴란 마우스 오른쪽 버튼 클릭하면 나타내는 메뉴를 말한다. AXContextMenu는 마우스 오른쪽 버튼 클릭이벤트시에만 출력이 되는 상황에 제한하지 않고
+	    개발자가 특정 이벤트발생시점에 <code>open</code>명령을 내리도록 설계되었다.
+		UI클래스 내부에서 필요한 컨테스트메뉴들을 바인딩 해두고 UI의 상황에 따라 컨텍스트메뉴를 제어 할 수 있도록 설계 되었습니다. 주의할 점은 컨텍스트 메뉴 활성화 시점 전에 컨텍스트메뉴가 바인딩되어 있어야 한다는 것 입니다.
+	</p>
+	<p>
+		http://dev.axisj.com/samples/AXCore/AXContextMenu.html,
+		http://jdoc.axisj.com/AXContextMenu.html
+		에서 보다 많은 정보를 얻을 수 있습니다.
+	</p>
 </article>
 
+
+
+
+<!-- 마우스 오른쪽 버튼 클릭 -->
+<article class="content">
+	<h2 data-menu-item="com-context-default">AXContextMenu.default</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result" id="com-context-default-target">
+	&lt;button class="AXButton" id="com-context-default-open">컨텍스트 메뉴 열기&lt;/button>
+&lt;/div>
+&lt;script>
+(function(){
+	//컨텍스트 메뉴 바인딩
+	AXContextMenu.bind({
+		id: "myContextMenuTree", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+		theme: "AXContextMenu",
+		width: "150", // 컨텍스트 메뉴 크기
+		menu:[
+			{userType:0, label:"트리등록"},
+			{userType:0, label:"하위메뉴 선택",
+				subMenu:[
+					{userType:0, label:"하위메뉴1"},
+					{userType:0, label:"하위메뉴2",
+						subMenu:[
+							{userType:0, label:"하위메뉴21"},
+							{userType:0, label:"하위메뉴22"}
+						]
+					},
+					{userType:0, label:"하위메뉴3"},
+					{userType:0, label:"하위메뉴3"},
+					{userType:0, label:"하위메뉴3"}
+				],
+				upperLine:true, underLine:true
+			},
+			{userType:1, label:"추가하기"},
+			{userType:1, label:"삭제하기"}
+		]
+	});
+
+	$("#com-context-default-open").click(function(e){
+		AXContextMenu.open({id:"myContextMenuTree"}, e||window.event);
+	});
+	$("#com-context-default-target").on("contextmenu", function(e){
+		var pos = $("#com-context-default-open").offset();
+		AXContextMenu.open({id:"myContextMenuTree"}, pos);
+		return false;
+	});
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result" id="com-context-default-target">
+	<button class="AXButton" id="com-context-default-open">컨텍스트 메뉴 열기</button>
+</div>
+<script>
+(function(){
+	//컨텍스트 메뉴 바인딩
+	AXContextMenu.bind({
+		id: "myContextMenuTree", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+		theme: "AXContextMenu",
+		width: "150", // 컨텍스트 메뉴 크기
+		menu:[
+			{userType:0, label:"트리등록"},
+			{userType:0, label:"하위메뉴 선택",
+				subMenu:[
+					{userType:0, label:"하위메뉴1"},
+					{userType:0, label:"하위메뉴2",
+						subMenu:[
+							{userType:0, label:"하위메뉴21"},
+							{userType:0, label:"하위메뉴22"}
+						]
+					},
+					{userType:0, label:"하위메뉴3"},
+					{userType:0, label:"하위메뉴3"},
+					{userType:0, label:"하위메뉴3"}
+				],
+				upperLine:true, underLine:true
+			},
+			{userType:1, label:"추가하기"},
+			{userType:1, label:"삭제하기"}
+		]
+	});
+
+	$("#com-context-default-open").click(function(e){
+		AXContextMenu.open({id:"myContextMenuTree"}, e||window.event);
+	});
+	$("#com-context-default-target").on("contextmenu", function(e){
+		var pos = $("#com-context-default-open").offset();
+		AXContextMenu.open({id:"myContextMenuTree"}, pos);
+		return false;
+	});
+})();
+</script>
+
+	<p>
+		"컨텍스트 메뉴 열기" 버튼을 클릭하면 클릭이벤트를 <code>AXContextMenu.open</code>의 두번째 인자값으로 이벤트를 전달하고 이벤트의 포지션정보를 이용하여
+		컨텍스트 메뉴의 위치를 결정하고 버튼을 포함한 회색영역을 마우스 오른쪽 버튼 클릭하면 버튼의 절대 위치값으로 컨텍스트 메뉴의 위치를 결정한다.
+	</p>
+</article>
+
+
+
+
+<!-- 컨텍스트 메뉴 아이콘 달기 -->
+<article class="content">
+	<h2 data-menu-item="com-context-icon">AXContextMenu.icon</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-context-icon-open">컨텍스트 메뉴 열기&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		//컨텍스트 메뉴 바인딩
+		AXContextMenu.bind({
+			id: "myContextMenuIcon", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+			theme: "AXContextMenu",
+			width: "150", // 컨텍스트 메뉴 크기
+			menu:[
+				{
+					label: '&lt;i class="axi axi-eye">&lt;/i> 상세보기',
+					onclick: function(){ dialog.push(Object.toJSON(this)); },
+					underLine:true
+				},
+				{label: '&lt;i class="axi axi-paper-clip">&lt;/i> 클립연결하기'},
+				{label: '&lt;i class="axi axi-mail">&lt;/i> 이메일'},
+				{label: '&lt;i class="axi axi-layout">&lt;/i> 레이아웃 설정'}
+			]
+		});
+
+		$("#com-context-icon-open").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuIcon",
+				sendObj: {data:"데이터"}
+			}, e||window.event);
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-context-icon-open">컨텍스트 메뉴 열기</button>
+</div>
+<script>
+	(function(){
+		//컨텍스트 메뉴 바인딩
+		AXContextMenu.bind({
+			id: "myContextMenuIcon", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+			theme: "AXContextMenu",
+			width: "150", // 컨텍스트 메뉴 크기
+			menu:[
+				{
+					label: '<i class="axi axi-eye"></i> 상세보기',
+					onclick: function(){ dialog.push(Object.toJSON(this)); },
+					underLine:true
+				},
+				{label: '<i class="axi axi-paper-clip"></i> 클립연결하기'},
+				{label: '<i class="axi axi-mail"></i> 이메일'},
+				{label: '<i class="axi axi-layout"></i> 레이아웃 설정'}
+			]
+		});
+
+		$("#com-context-icon-open").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuIcon",
+				sendObj: {data:"데이터"}
+			}, e||window.event);
+		});
+	})();
+</script>
+
+	<p>
+		메뉴 아이템에 아이콘은 <code>AXIcon</code>을 이용한다. (http://axicon.axisj.com) 액시콘은 웹 애플리케이션에서 문자열처럼 손 쉽게 사용이 가능하다.
+		"컨텍스트 메뉴 열기" 버튼을 클릭하여 컨텍스트 메뉴를 열고 첫번째 메뉴(상세보기)를 클릭하면 <code>dialog</code>가 출력되는데 이것은 메뉴 아이템에 onclick이벤트를 통해서 발동된다.
+	</p>
+</article>
+
+
+
+
+<!-- 컨텍스트 메뉴 필터 -->
+<article class="content">
+	<h2 data-menu-item="com-context-filter">AXContextMenu.filter</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="com-context-filter-open-0">컨텍스트 메뉴 열기(typ:0)&lt;/button>
+	&lt;button class="AXButton" id="com-context-filter-open-1">컨텍스트 메뉴 열기(typ:1)&lt;/button>
+&lt;/div>
+&lt;script>
+	(function(){
+		//컨텍스트 메뉴 바인딩
+		AXContextMenu.bind({
+			id: "myContextMenuFilter", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+			theme: "AXContextMenu",
+			width: "150", // 컨텍스트 메뉴 크기
+			menu:[
+				{typ:0, label: '&lt;i class="axi axi-eye">&lt;/i> 상세보기'},
+				{typ:0, label: '&lt;i class="axi axi-paper-clip">&lt;/i> 클립연결하기'},
+				{typ:1, label: '&lt;i class="axi axi-mail">&lt;/i> 이메일'},
+				{typ:1, label: '&lt;i class="axi axi-layout">&lt;/i> 레이아웃 설정'}
+			]
+		});
+
+		$("#com-context-filter-open-0").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuFilter",
+				filter:function(){
+					return (this.menu.typ == 0);
+				}
+			}, e||window.event);
+		});
+		$("#com-context-filter-open-1").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuFilter",
+				filter:function(){
+					return (this.menu.typ == 1);
+				}
+			}, e||window.event);
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="com-context-filter-open-0">컨텍스트 메뉴 열기(typ:0)</button>
+	<button class="AXButton" id="com-context-filter-open-1">컨텍스트 메뉴 열기(typ:1)</button>
+</div>
+<script>
+	(function(){
+		//컨텍스트 메뉴 바인딩
+		AXContextMenu.bind({
+			id: "myContextMenuFilter", // 컨텍스트 메뉴 아이디 (컨텍스트 메뉴 open 시 사용)
+			theme: "AXContextMenu",
+			width: "150", // 컨텍스트 메뉴 크기
+			menu:[
+				{typ:0, label: '<i class="axi axi-eye"></i> 상세보기'},
+				{typ:0, label: '<i class="axi axi-paper-clip"></i> 클립연결하기'},
+				{typ:1, label: '<i class="axi axi-mail"></i> 이메일'},
+				{typ:1, label: '<i class="axi axi-layout"></i> 레이아웃 설정'}
+			]
+		});
+
+		$("#com-context-filter-open-0").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuFilter",
+				filter:function(){
+					return (this.menu.typ == 0);
+				}
+			}, e||window.event);
+		});
+		$("#com-context-filter-open-1").click(function(e){
+			AXContextMenu.open({
+				id:"myContextMenuFilter",
+				filter:function(){
+					return (this.menu.typ == 1);
+				}
+			}, e||window.event);
+		});
+	})();
+</script>
+
+	<p>
+		컨텍스트메뉴 오픈시에 filter 함수를 사용할 수도 있다. 컨텍스트 메뉴가 열리기 전에 menu 아이템들을 filter 함수를 결과가 <code>true</code>인 아이템들만 출력하게 해준다.
+		웹 애플리케이션에서 애플리케이션 상태에 따라 컨텍스트 메뉴 아이템을 제어하는데 매우 유용합니다.
+	</p>
+</article>
 
 <!-- split -->
 
