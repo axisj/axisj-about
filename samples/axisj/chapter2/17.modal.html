@@ -1,0 +1,43 @@
+<article class="cover">
+    <h1 data-menu-item="ui-modal">AXModal</h1>
+    <p>
+		AXModal은 웹 애플리케이션에서 한개의 화면 안에 새로운 창을 열어야 하는 경우에 쓰입니다. AXModal은 현재 페이지와 관계없는 새로운 페이지를
+	    <code>iframe</code>으로 불러오는 방식과 현재 페이지 안에 선언된 <code>div</code>를 모달컨텐츠로 사용하는 방식이 이 있습니다.
+    </p>
+</article>
+
+
+
+
+<article class="content">
+	<h2 data-menu-item="ui-modal-iframe">AXModal.iframe</h2>
+<pre>
+<div class="tag-result">
+	<button class="AXButton" id="ui-modal-iframe-open">모달창 열기</button>
+</div>
+<script>
+(function(){
+	var myModal = new AXModal();
+	myModal.setConfig({
+		windowID:"myModalCT", width:740,
+		mediaQuery: { // 모달창 반응형 조건 - 필수 조건 아님
+			mx:{min:0, max:767}, dx:{min:767}
+		},
+		displayLoading: true, // 로딩중 표시 여부
+		scrollLock: true, // 모달창이 열렸을 때 페이지 스크롤 금지 옵션
+		onclose: function(){
+			toast.push("모달 close");
+		}
+	});
+	$("#ui-modal-iframe-open").click(function(){
+		myModal.open({
+			method:"GET",
+			url:"data/modal-iframe.html",
+			pars:"",
+			closeByEscKey: true // 모달창이 열렸을 때 ESC키로 모달창 닫기 옵션
+		});
+	});
+})()
+</script>
+</pre>
+</article>

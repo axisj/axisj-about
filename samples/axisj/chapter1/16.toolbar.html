@@ -1,0 +1,46 @@
+<article class="cover">
+    <h1 data-menu-item="ui-toolbar">AXToolbar</h1>
+    <p>
+		AXToolbar는 바에 여러개의 메뉴를 묶어두어서 사용자에게 편리하게 제공하는 UI입니다. 일반 메뉴와는 다르게
+	    클릭을 한후에 오버이벤트에 따라 메뉴가 보여진다는 점이다. AXToolbar는 AXContextMenu UI를 내부에 내장하여 구현되었습니다.
+	    그런 이유로 AXContextMenu에서 사용되는 모든 기능이 그대로 사용됩니다.
+    </p>
+	<p>
+		<a href="http://dev.axisj.com/samples/AXToolBar/index.html" target="_blank">http://dev.axisj.com/samples/AXToolBar/index.html</a>
+	</p>
+<pre>
+<div class="tag-result">
+	<div class="toolBar" id="ax-tool-bar" style="border-bottom: 1px solid #d6d6d6;border-top: 1px solid #d6d6d6;"></div>
+</div>
+<script>
+	(function(){
+		var myBar = new AXToolBar();
+		var menu = [
+			{userType:0, label:"트리등록"},
+			{userType:0, label:"하위메뉴 선택",
+				subMenu:[
+					{userType:0, label:"하위메뉴1"},
+					{userType:0, label:"하위메뉴2",
+						subMenu:[
+							{userType:0, label:"하위메뉴21"},
+							{userType:0, label:"하위메뉴22"}
+						]
+					},
+					{userType:0, label:"하위메뉴3"}
+				]
+			},
+			{userType:1, label:"추가하기"},
+			{userType:1, label:"삭제하기"}
+		];
+		myBar.setConfig({
+			targetID: "ax-tool-bar",
+			theme   : "AXToolBar",
+			menu    : menu,
+			reserveKeys: {
+				subMenu: "subMenu"
+			}
+		});
+	})();
+</script>
+</pre>
+</article>

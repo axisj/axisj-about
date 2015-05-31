@@ -4,10 +4,10 @@
 
 <article class="content">
 
-	<h2>주의사항</h2>
+	<h2 data-menu-item="intro-0">주의사항</h2>
 	<p>본 문서는 IE 하위 버전에서는 제대로 작동하지 않습니다. 부디 IE9+ 이상의 브라우저를 사용해주세요.</p>
 
-    <h2>설치</h2>
+    <h2 data-menu-item="intro-install">AXISJ 설치</h2>
 	<p>
 		소스코드를 깃허브에서 다운로드(https://github.com/axisj-com/axisj/releases) 받으신 후 다음의 코드를 html 헤드에 삽입합니다. 설치가 완료 되었습니다.
 	</p>
@@ -23,9 +23,17 @@
 </article>
 
 
+<article class="cover">
+	<h1 data-menu-item="axisjcore">AXJ.js</h1>
+	<p>
+		액시스제이의 모든 구성요소를 일일이 다 설명해야 겠지만 먼저 액시스제이 라이브러리 전체를 구성할 수 있도록 만들어주는 코어 파일에 대해서는 짚고 넘어가야 겠습니다.
+		<code>AXJ.js</code>파일은 환경설정, 공통 함수, 공용 클래스로 구성됩니다. 액시스제이를 사용할 때에 <code>dist/AXJ.min.js</code>파일을 사용한다면 따로 고민할 필요가 없겠지만
+		만일 개별 파일 단위로 쪼개여 사용하는 UI 요소만 선택적으로 사용하고자 한다면 다른 파일들은 사용하는 파일만 페이지에 추가하면 되지만 <code>AXJ.js</code>파일은 반드시 다른 UI 요소들 위에 선언되어야 합니다.
+	</p>
+</article>
 
 <div class="callout good">
-	<h4>AXISJ Core의 구성요소</h4>
+	<h4>lib/AXJ.js 구성요소</h4>
 	<ul>
 		<li>AXConfig.js - 액시스제이 환경설정 변수 모음</li>
 		<li>AXUtil.js - Prototype함수, util함수, Class 패턴 지원</li>

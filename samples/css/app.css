@@ -7,6 +7,9 @@ html, body {
   color: #555555;
   height: 100%;
   line-height: 1.7em; }
+  html a, body a {
+    text-decoration: none;
+    color: #32B4DC; }
   html button, html select, html textarea, body button, body select, body textarea {
     box-sizing: border-box;
     font-family: "Nanum Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -193,6 +196,8 @@ pre.prettyprint {
       padding: 10px 15px; }
       .app-page .app-content .script-result label, .app-page .app-content .tag-result label {
         margin: 0px 3px; }
+      .app-page .app-content .script-result a, .app-page .app-content .tag-result a {
+        color: #555; }
     .app-page .app-content .ax-section {
       position: relative;
       border: 1px solid #ccc;

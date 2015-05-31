@@ -19,18 +19,23 @@ $theme-link: #fff;
 $theme-special: #bc4cd0;
 
 html, body{
-  margin:0px;padding:0px;
-  font-family: $font-family-base;
-  font-size: 13px;color:#555555;
-  height:100%;line-height: 1.7em;
-  button, select, textarea{
-    box-sizing: border-box;
-    font-family: $font-family-base;
-    line-height: 28px;
-    &:hover{
-      font-family: Inherit;
-    }
-  }
+	margin:0px;padding:0px;
+	font-family: $font-family-base;
+	font-size: 13px;color:#555555;
+	height:100%;line-height: 1.7em;
+	a{
+		text-decoration: none;
+		color: $theme-basic;
+	}
+	button, select, textarea{
+		box-sizing: border-box;
+		font-family: $font-family-base;
+		line-height: 28px;
+		&:hover{
+			font-family: Inherit;
+		}
+	}
+
   .AXButton{
     line-height: 28px;
     font-family: $font-family-base;
@@ -250,6 +255,9 @@ $app-visual-height: 280px;
       label{
         margin: 0px 3px;
       }
+	    a{
+		    color: #555;
+	    }
     }
     .ax-section{
       position: relative;
