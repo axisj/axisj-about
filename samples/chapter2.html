@@ -81,6 +81,7 @@
 
 
 
+
 <article class="content">
 	<h2 data-menu-item="ui-modal-iframe">AXModal.iframe</h2>
 <pre class="prettyprint linenums">
@@ -140,6 +141,100 @@
 })()
 </script>
 
+</article>
+
+
+
+
+
+<!-- modal div -->
+<article class="content">
+	<h2 data-menu-item="ui-modal-div">AXModal.div</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="ui-modal-div-open">모달창 열기&lt;/button>
+	&lt;div style="display:none;">
+		&lt;!-- AXModal 이 컨텐츠로 사용하게된 레이어 -->
+		&lt;div id="ui-modal-div-content" style="padding:20px;">
+			&lt;h1>MODAL&lt;/h1>
+			&lt;br/>
+			&lt;br/>
+			&lt;input type="text" class="AXInput" id="ui-modal-div-content-input" />
+			&lt;br/>
+			&lt;br/>
+			&lt;input type="button" value="창닫기" class="AXButton" onclick="div_modal_target.close('my-modal-div');" />
+		&lt;/div>
+	&lt;/div>
+&lt;/div>
+&lt;script>
+	(function(){
+		var myModal = window.div_modal_target = new AXModal();
+		myModal.setConfig({
+			windowID:"myModalCT",
+			width:740,
+			onclose: function(){
+				toast.push("모달 close");
+			}
+		});
+		$("#ui-modal-div-open").click(function(){
+			myModal.openDiv({
+				modalID: "my-modal-div",
+				targetID: "ui-modal-div-content",
+				width: 300,
+				closeByEscKey:true
+			});
+			$("#ui-modal-div-content-input").bindNumber();
+			// 모달창이 열리기 전에 bind하면 안됩니다.
+		});
+	})()
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="ui-modal-div-open">모달창 열기</button>
+	<div style="display:none;">
+		<!-- AXModal 이 컨텐츠로 사용하게된 레이어 -->
+		<div id="ui-modal-div-content" style="padding:20px;">
+			<h1>MODAL</h1>
+			<br/>
+			<br/>
+			<input type="text" class="AXInput" id="ui-modal-div-content-input" />
+			<br/>
+			<br/>
+			<input type="button" value="창닫기" class="AXButton" onclick="div_modal_target.close('my-modal-div');" />
+		</div>
+	</div>
+</div>
+<script>
+	(function(){
+		var myModal = window.div_modal_target = new AXModal();
+		myModal.setConfig({
+			windowID:"myModalCT",
+			width:740,
+			onclose: function(){
+				toast.push("모달 close");
+			}
+		});
+		$("#ui-modal-div-open").click(function(){
+			myModal.openDiv({
+				modalID: "my-modal-div",
+				targetID: "ui-modal-div-content",
+				width: 300,
+				closeByEscKey:true
+			});
+			$("#ui-modal-div-content-input").bindNumber();
+			// 모달창이 열리기 전에 bind하면 안됩니다.
+		});
+	})()
+</script>
+
+	<p>
+		<code>openDiv</code>를 이용한 모달창 오픈을 하게되면 최초 1회에 한하여 targetID에 레이어 컨텐츠를 모달창으로 옮겨주고 모달창을 오픈하게 됩니다.
+		한번 옮겨진 컨텐츠는 모달을 닫은 후에 다시 오픈할 때 다시 옮기지 않습니다.
+	</p>
+	<p>
+		openDiv를 이용하면서 AXInput, AXSelect를 바인딩 하려고 하면 반드시 <code>myModal.openDiv</code>후에 바인딩 해야 합니다.
+		바인드 코드를 <code>display:none</code>인 컨텐츠에 시도하면 제대로 작동하지 않습니다.
+	</p>
 </article>
 
 <!-- split -->
