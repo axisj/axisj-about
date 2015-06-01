@@ -15,47 +15,47 @@
 			},
 			intro: {
 				src: [
-					'samples/layout/head.html',
-					'samples/layout/visual-dom.html',
-					'samples/axisj/intro/*.html',
-					'samples/layout/bottom.html'
+					'docs/layout/head.html',
+					'docs/layout/visual-dom.html',
+					'docs/axisj/intro/*.html',
+					'docs/layout/bottom.html'
 				],
-				dest: 'samples/index.html'
+				dest: 'docs/index.html'
 			},
 			chapter1: {
 				src: [
-					'samples/layout/head.html',
-					'samples/layout/visual-dom.html',
-					'samples/axisj/chapter1/*.html',
-					'samples/layout/bottom.html'
+					'docs/layout/head.html',
+					'docs/layout/visual-dom.html',
+					'docs/axisj/chapter1/*.html',
+					'docs/layout/bottom.html'
 				],
-				dest: 'samples/chapter1.html'
+				dest: 'docs/chapter1.html'
 			},
 			chapter2: {
 				src: [
-					'samples/layout/head.html',
-					'samples/layout/visual-dom.html',
-					'samples/axisj/chapter2/*.html',
-					'samples/layout/bottom.html'
+					'docs/layout/head.html',
+					'docs/layout/visual-dom.html',
+					'docs/axisj/chapter2/*.html',
+					'docs/layout/bottom.html'
 				],
-				dest: 'samples/chapter2.html'
+				dest: 'docs/chapter2.html'
 			}
 		},
 		watch: {
 			intro: {
-				files: ['samples/axisj/intro/*.html'],
+				files: ['docs/axisj/intro/*.html'],
 				tasks: ['concat:intro', 'replace:intro']
 			},
 			chapter1: {
-				files: ['samples/axisj/chapter1/*.html'],
+				files: ['docs/axisj/chapter1/*.html'],
 				tasks: ['concat:chapter1', 'replace:chapter1']
 			},
 			chapter2: {
-				files: ['samples/axisj/chapter2/*.html'],
+				files: ['docs/axisj/chapter2/*.html'],
 				tasks: ['concat:chapter2', 'replace:chapter2']
 			},
 			sample_doc: {
-				files: ['samples/css/*.scss'],
+				files: ['docs/css/*.scss'],
 				tasks: ['sass:sample_doc']
 			}
 		},
@@ -69,13 +69,13 @@
 			},
 			sample_doc: {
 				files: {
-					'samples/css/app.css': 'samples/css/app.scss'
+					'docs/css/app.css': 'docs/css/app.scss'
 				}
 			}
 		},
 		replace: {
 			intro: {
-				src: ['samples/index.html'],
+				src: ['docs/index.html'],
 				overwrite: true,                 // overwrite matched source files
 				options: {
 					processTemplates: false
@@ -92,7 +92,7 @@
 				}]
 			},
 			chapter1: {
-				src: ['samples/chapter1.html'],
+				src: ['docs/chapter1.html'],
 				overwrite: true,                 // overwrite matched source files
 				options: {
 					processTemplates: false
@@ -109,7 +109,7 @@
 				}]
 			},
 			chapter2: {
-				src: ['samples/chapter2.html'],
+				src: ['docs/chapter2.html'],
 				overwrite: true,                 // overwrite matched source files
 				options: {
 					processTemplates: false
