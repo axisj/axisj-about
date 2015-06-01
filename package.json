@@ -1,5 +1,5 @@
 ﻿{
-  "name": "ax5",
+  "name": "axisj-about",
   "version": "0.0.1",
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -14,20 +14,19 @@
     "grunt-sass": "^0.18.1",
     "grunt-text-replace": "^0.4.0"
   },
-  "description": "new javascript UI Library\r - [ax5](http://ax5.io)",
+  "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/axisj-com/ax5.git"
+    "url": "https://github.com/axisj/axisj-about.git"
   },
   "keywords": [
-    "ax5",
     "axisj",
     "javascript"
   ],
   "author": "tom-axisj",
   "license": "The MIT License (MIT)",
   "bugs": {
-    "url": "https://github.com/axisj-com/ax5/issues"
+    "url": "https://github.com/axisj/axisj-about/issues"
   },
-  "homepage": "https://github.com/axisj-com/ax5"
+  "homepage": "https://www.axisj.com"
 }
