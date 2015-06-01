@@ -151,7 +151,9 @@ ax5.dom.ready(function(){
 
 	if (app.resize_timeout) clearTimeout(app.resize_timeout);
 	app.resize_timeout = setTimeout(function(){
-		$(window).resize();
+		//$(window).resize();
+		AXInput.alignAllAnchor();
+		AXSelect.alignAllAnchor();
 	}, 1000);
 });
 

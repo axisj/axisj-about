@@ -297,7 +297,7 @@
 
 <!-- configs -->
 <article class="content">
-	<h2 data-menu-item="ui-grid-configs">AXModal.configs</h2>
+	<h2 data-menu-item="ui-grid-configs">AXGrid.configs</h2>
 	<p>그리드의 많은 설정요소중에 단일 값으로 설정되는 요소에 대해 설명드리겠습니다. 틀고정, 정렬, 셀 머지, 높이, 표현등의 요소를 컨트롤 할 수 있습니다.</p>
 <pre class="prettyprint linenums">
 &lt;div id="ui-grid-configs" style="height:150px;">&lt;/div>
@@ -419,7 +419,7 @@
 
 <!-- multiHead -->
 <article class="content">
-	<h2 data-menu-item="ui-grid-multihead">AXModal.multiHead</h2>
+	<h2 data-menu-item="ui-grid-multihead">AXGrid.multiHead</h2>
 	<p>
 		그리드 컬럼 헤드가 단일 row값으로만 구성되어지지 않고 colspan, rowspan값을 가지는 경우에
 		HTML table 에서 td에 colspan, rowspan속성을 사용하는 룰과 같은 방법으로 <code>colHead</code>에 rows를 추가하게 됩니다.
@@ -525,7 +525,7 @@
 
 <!-- multiBody -->
 <article class="content">
-	<h2 data-menu-item="ui-grid-multibody">AXModal.multiBody</h2>
+	<h2 data-menu-item="ui-grid-multibody">AXGrid.multiBody</h2>
 	<p>
 		colHead에 정의한 rows를 body엔에 추가합니다.
 	</p>
@@ -631,9 +631,11 @@
 
 <!-- foot -->
 <article class="content">
-	<h2 data-menu-item="ui-grid-foot">AXModal.foot</h2>
+	<h2 data-menu-item="ui-grid-foot">AXGrid.foot</h2>
 	<p>
-
+		<code>setList</code>데이터와는 별개로 <code>setDataSet</code>에서 합계 데이터를 전달하게 됩니다.
+		setDataSet에 전달된 데이터는 그리드안에 myGrid.dataSet에 저장되어 foot처리시에 value로 활용됩니다.
+		그와는 별개로 foot.rows[0].formatter 에서는 this로 <code>list, item</code>를 사용할 수 있습니다.
 	</p>
 <pre class="prettyprint linenums">
 &lt;div id="ui-grid-foot" style="height:200px;">&lt;/div>
@@ -730,11 +732,7 @@
 	})();
 </script>
 
-	<p>
-		<code>setList</code>데이터와는 별개로 <code>setDataSet</code>에서 합계 데이터를 전달하게 됩니다.
-  		setDataSet에 전달된 데이터는 그리드안에 myGrid.dataSet에 저장되어 foot처리시에 value로 활용됩니다.
-		그와는 별개로 foot.rows[0].formatter 에서는 this로 <code>list, item</code>를 사용할 수 있습니다.
-	</p>
+
 </article>
 
 
@@ -742,15 +740,20 @@
 
 <!-- marker -->
 <article class="content">
-	<h2 data-menu-item="ui-grid-marker">AXModal.marker</h2>
+	<h2 data-menu-item="ui-grid-marker">AXGrid.marker</h2>
 	<p>
-
+		<code>body.marker.display</code>에서 마커 출력여부를 판단하기도 하지만 아이템마다 display를 거치게 되므로 이를 이용해 소계를 구하는 함수를 직접 구현할 수 있다.
+		예제에서는 marker.display를 통해 마커를 통해 출력여부가 검증되면 marker.rows를 출력하는 샘플입니다.
 	</p>
 <pre class="prettyprint linenums">
 &lt;div id="ui-grid-marker" style="height:200px;">&lt;/div>
 &lt;script>
 	(function(){
 		var myGrid = new AXGrid();
+		var grid_ext_data = {};
+		var gridSubToalClear = true;
+		var gridSubToalLabel = "";
+
 		myGrid.setConfig({
 			targetID: "ui-grid-marker",
 			colGroup: [
@@ -761,7 +764,45 @@
 				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
 					return (this.item.price.number() * this.item.amount.number()).money();
 				}}
-			]
+			],
+			body:{
+				marker: {
+					display: function(){ // 아이템 한개가 출력될 때 마다 출력여부를 검사합니다.
+						var pitem = this.item.title;
+						var nitem = null;
+						var _this = this;
+						if(this.list.length-1 > this.index){
+							nitem = this.list[this.index.number()+1].title;
+						}
+						if(gridSubToalClear){
+							grid_ext_data["price"] = 0;
+							grid_ext_data["amount"] = 0;
+							gridSubToalClear = false;
+						}
+						if(pitem != nitem){
+							grid_ext_data["price"] += this.item.price;
+							grid_ext_data["amount"] += this.item.amount;
+
+							gridSubToalLabel = "&lt;b>" + pitem + "&lt;/b> 소계";
+							gridSubToalClear = true;
+							return true;
+						}else{
+							grid_ext_data["price"] += this.item.price;
+							grid_ext_data["amount"] += this.item.amount;
+						}
+					},
+					rows:[
+						[
+							{ colspan: 2, formatter: function () { return gridSubToalLabel; }, align: "center" },
+							{ key:"price", formatter: function () { return grid_ext_data["price"].money(); }},
+							{ key:"amount", formatter: function () { return grid_ext_data["amount"] } },
+							{ key:"sum_cost", formatter: function () {
+								return (grid_ext_data["price"] * grid_ext_data["amount"]).money()
+							} , align:"right" }
+						]
+					]
+				}
+			}
 		});
 		myGrid.setList([
 			{no:1, title:"AXGrid 첫번째 줄 입니다.", price:123000, amount:2}, // item
@@ -775,6 +816,10 @@
 <script>
 	(function(){
 		var myGrid = new AXGrid();
+		var grid_ext_data = {};
+		var gridSubToalClear = true;
+		var gridSubToalLabel = "";
+
 		myGrid.setConfig({
 			targetID: "ui-grid-marker",
 			colGroup: [
@@ -785,7 +830,45 @@
 				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
 					return (this.item.price.number() * this.item.amount.number()).money();
 				}}
-			]
+			],
+			body:{
+				marker: {
+					display: function(){ // 아이템 한개가 출력될 때 마다 출력여부를 검사합니다.
+						var pitem = this.item.title;
+						var nitem = null;
+						var _this = this;
+						if(this.list.length-1 > this.index){
+							nitem = this.list[this.index.number()+1].title;
+						}
+						if(gridSubToalClear){
+							grid_ext_data["price"] = 0;
+							grid_ext_data["amount"] = 0;
+							gridSubToalClear = false;
+						}
+						if(pitem != nitem){
+							grid_ext_data["price"] += this.item.price;
+							grid_ext_data["amount"] += this.item.amount;
+
+							gridSubToalLabel = "<b>" + pitem + "</b> 소계";
+							gridSubToalClear = true;
+							return true;
+						}else{
+							grid_ext_data["price"] += this.item.price;
+							grid_ext_data["amount"] += this.item.amount;
+						}
+					},
+					rows:[
+						[
+							{ colspan: 2, formatter: function () { return gridSubToalLabel; }, align: "center" },
+							{ key:"price", formatter: function () { return grid_ext_data["price"].money(); }},
+							{ key:"amount", formatter: function () { return grid_ext_data["amount"] } },
+							{ key:"sum_cost", formatter: function () {
+								return (grid_ext_data["price"] * grid_ext_data["amount"]).money()
+							} , align:"right" }
+						]
+					]
+				}
+			}
 		});
 		myGrid.setList([
 			{no:1, title:"AXGrid 첫번째 줄 입니다.", price:123000, amount:2}, // item
@@ -795,8 +878,381 @@
 	})();
 </script>
 
-	<p>
 
+</article>
+
+
+
+
+<!-- ajax -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-ajax">AXGrid.ajax</h2>
+	<p>
+		AJAX 통신관련 설정을 <code>setList</code>메소드안에 정의하면 AXGrid안에서 AJAX통신을 하게 됩니다. setList의 첫번째 아규먼트가 Array이면 데이터로 인식하고 Object이면 AJAX통신을 하게됩니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-grid-ajax" style="height:300px;">&lt;/div>
+&lt;script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-ajax",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			],
+			body:{
+				onclick: function(){
+					toast.push( Object.toJSON(this.item) );
+				}
+			},
+			page:{
+				paging:true
+			}
+		});
+		myGrid.setList({
+			method:"GET",
+			ajaxUrl:"data/loadGrid.txt", ajaxPars:"", onLoad:function(){
+				// AJAX 통신완료
+			}
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-grid-ajax" style="height:300px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-ajax",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			],
+			body:{
+				onclick: function(){
+					toast.push( Object.toJSON(this.item) );
+				}
+			},
+			page:{
+				paging:true
+			}
+		});
+		myGrid.setList({
+			method:"GET",
+			ajaxUrl:"data/loadGrid.txt", ajaxPars:"", onLoad:function(){
+				// AJAX 통신완료
+			}
+		});
+	})();
+</script>
+
+
+</article>
+
+
+
+
+<!-- setData -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-setdata">AXGrid.setData</h2>
+	<p>
+		AXGrid.ajax에서 AJAX통신으로 그리드의 데이터를 구성하는 예제를 구현하였는데요. 경우에 따라서는 그리드의 리스트데이터와 페이징 정보를 직접 전달해야 하는 경우도 있습니다.
+		그런 경우를 대비해 <code>setData</code>를 사용합니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-grid-setdata" style="height:200px;">&lt;/div>
+&lt;script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-setdata",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			],
+			body:{
+				onclick: function(){
+					toast.push( Object.toJSON(this.item) );
+				}
+			},
+			page:{
+				paging:true
+			}
+		});
+
+		new AXReq("data/loadGrid.txt", {
+			method: "GET", pars: "",
+			onsucc:function(res){
+				var data = {
+					list: res.list,
+					page:{
+						pageNo: res.page.pageNo, // 현재페이지
+						pageCount: res.page.pageCount, // 전체 페이지수
+						listCount: res.page.listCount // 우측하단 카운트 표시 갯수
+					}
+				};
+				myGrid.setData(data);
+			}
+		});
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-grid-setdata" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-setdata",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			],
+			body:{
+				onclick: function(){
+					toast.push( Object.toJSON(this.item) );
+				}
+			},
+			page:{
+				paging:true
+			}
+		});
+
+		new AXReq("data/loadGrid.txt", {
+			method: "GET", pars: "",
+			onsucc:function(res){
+				var data = {
+					list: res.list,
+					page:{
+						pageNo: res.page.pageNo, // 현재페이지
+						pageCount: res.page.pageCount, // 전체 페이지수
+						listCount: res.page.listCount // 우측하단 카운트 표시 갯수
+					}
+				};
+				myGrid.setData(data);
+			}
+		});
+	})();
+</script>
+
+
+</article>
+
+
+
+
+<!-- inline edit -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-inline-edit">AXGrid.inlineEdit</h2>
+	<p>
+		colGroup 아이템에 editor를 정의하고 그리드의 한줄을 두번 클릭하면 editor.type에 따라 인라인에디트가 활성화 됩니다.
+		이렇게 활성화 된 에디트모드에서 변경된 데이터가 그리드에 반영되면 그리드 리스트 아이템에 <code>_CUD</code>속성이 추가됩니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-grid-inline-edit" style="height:200px;">&lt;/div>
+&lt;script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-inline-edit",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200", editor:{
+					type:"text"
+				}},
+				{key:"writer", label:"작성자", width:"80", align:"center", editor:{
+					type:"text"
+				}},
+				{key:"regDate", label:"작성일", width:"100", align:"center", editor:{
+					type:"calendar"
+				}},
+				{key:"desc", label:"비고", width:"200", editor:{
+					type:"text"
+				}}
+			],
+			body:{
+				onclick: function(){
+
+				}
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:2, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:3, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:4, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:5, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:6, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"}
+		]);
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-grid-inline-edit" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-inline-edit",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200", editor:{
+					type:"text"
+				}},
+				{key:"writer", label:"작성자", width:"80", align:"center", editor:{
+					type:"text"
+				}},
+				{key:"regDate", label:"작성일", width:"100", align:"center", editor:{
+					type:"calendar"
+				}},
+				{key:"desc", label:"비고", width:"200", editor:{
+					type:"text"
+				}}
+			],
+			body:{
+				onclick: function(){
+
+				}
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:2, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:3, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:4, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:5, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:6, title:"여기를 더블클릭하세요", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"}
+		]);
+	})();
+</script>
+
+
+</article>
+
+
+
+
+<!-- context -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-context">AXGrid.context</h2>
+	<p>
+		AXContextMenu UI를 그리드안에 추가할 수 있습니다. 구현은 AXContextMenu 설정과 거의 동일합니다. 그리드 setConfig구문안에 contextMenu 값을 추가하면
+		그리드위에서 마우스 오른쪽 버튼 클릭시 정해진 컨텍스트 메뉴가 열립니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-grid-context" style="height:200px;">&lt;/div>
+&lt;script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-context",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200"},
+				{key:"writer", label:"작성자", width:"80", align:"center"},
+				{key:"regDate", label:"작성일", width:"100", align:"center"},
+				{key:"desc", label:"비고", width:"200"}
+			],
+			body:{
+				onclick: function(){
+
+				}
+			},
+			contextMenu: {
+				theme: "AXContextMenu", // 선택항목
+				width: "150", // 선택항목
+				menu:[
+					{userType:1, label:"추가하기", className:"plus", onclick:function(){}},
+					{userType:1, label:"삭제하기", className:"minus", onclick:function(){}},
+					{userType:1, label:"수정하기", className:"edit", onclick:function(){}}
+				],
+				filter:function(id){
+					return true;
+				}
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"마우스 오른쪽 버튼 클릭", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:2, title:"마우스 오른쪽 버튼 클릭", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"}
+		]);
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-grid-context" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-context",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200"},
+				{key:"writer", label:"작성자", width:"80", align:"center"},
+				{key:"regDate", label:"작성일", width:"100", align:"center"},
+				{key:"desc", label:"비고", width:"200"}
+			],
+			body:{
+				onclick: function(){
+
+				}
+			},
+			contextMenu: {
+				theme: "AXContextMenu", // 선택항목
+				width: "150", // 선택항목
+				menu:[
+					{userType:1, label:"추가하기", className:"plus", onclick:function(){}},
+					{userType:1, label:"삭제하기", className:"minus", onclick:function(){}},
+					{userType:1, label:"수정하기", className:"edit", onclick:function(){}}
+				],
+				filter:function(id){
+					return true;
+				}
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"마우스 오른쪽 버튼 클릭", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:2, title:"마우스 오른쪽 버튼 클릭", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"}
+		]);
+	})();
+</script>
+
+	<p>
+		<a href="http://dev.axisj.com/samples/AXGrid/index.html" target="_blank">http://dev.axisj.com/samples/AXGrid/index.html</a>에 가시면 보다 다양하고 빠른 정보를 얻을 수 있습니다.
 	</p>
 </article>
 
@@ -807,7 +1263,8 @@
     <h1 data-menu-item="ui-tree">AXTree</h1>
 
     <p>
-
+		AXTree는 <code>Tree형</code>데이터 또는 부모자식 관계가 있는 <code>Array형</code>데이터를 Tree구조로 표현해주는 UI 컴포넌트 입니다.
+	    expand, collapse처리와 노드이동, 추가, 삭제 등의 기능을 수행할 수 있습니다.
     </p>
 
 <pre class="prettyprint linenums">
