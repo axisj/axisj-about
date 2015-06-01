@@ -217,3 +217,106 @@
 </script>
 </pre>
 </article>
+
+
+
+
+<!-- foot -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-foot">AXModal.foot</h2>
+	<p>
+
+	</p>
+<pre>
+<div id="ui-grid-foot" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-foot",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			],
+			foot : {
+				rows: [
+					[
+						{ colspan: 2, formatter: function () { return "계"; }, align: "center" },
+						{ key:"price",
+							formatter: function(){
+								var sum = 0;
+								for(var i=0, l=this.list.length;i<l;i++){
+									sum += this.list[i].price;
+								}
+								return sum.money();
+							}
+						},
+						{ key:"amount" },
+						{ key:"sum_cost", align:"right", formatter:"money" }
+					]
+				]
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"AXGrid 첫번째 줄 입니다.", price:123000, amount:2}, // item
+			{no:2, title:"AXGrid 두번째 줄 입니다.", price:12300, amount:7},
+			{no:3, title:"AXGrid 두번째 줄 입니다.", price:12300, amount:7}
+		]);
+		myGrid.setDataSet({
+			price: 100,
+			amount: 100,
+			sum_cost: 10000
+		});
+	})();
+</script>
+</pre>
+	<p>
+		<code>setList</code>데이터와는 별개로 <code>setDataSet</code>에서 합계 데이터를 전달하게 됩니다.
+  		setDataSet에 전달된 데이터는 그리드안에 myGrid.dataSet에 저장되어 foot처리시에 value로 활용됩니다.
+		그와는 별개로 foot.rows[0].formatter 에서는 this로 <code>list, item</code>를 사용할 수 있습니다.
+	</p>
+</article>
+
+
+
+
+<!-- marker -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-marker">AXModal.marker</h2>
+	<p>
+
+	</p>
+<pre>
+<div id="ui-grid-marker" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-marker",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}}
+			]
+		});
+		myGrid.setList([
+			{no:1, title:"AXGrid 첫번째 줄 입니다.", price:123000, amount:2}, // item
+			{no:2, title:"AXGrid 두번째 줄 입니다.", price:12300, amount:7},
+			{no:3, title:"AXGrid 두번째 줄 입니다.", price:12300, amount:7}
+		]);
+	})();
+</script>
+</pre>
+	<p>
+
+	</p>
+</article>
