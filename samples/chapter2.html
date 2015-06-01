@@ -41,9 +41,9 @@
 			<li class="vline"></li>
 			<li><a href="chapter2.html">Chapter 2</a></li>
 			<li class="vline"></li>
-			<!--
-			<li><a href="https://www.axisj.com" target="_blank">Website</a></li>
+			<li><a href="http://dev.axisj.com" target="_blank">Demo Page</a></li>
 			<li class="vline"></li>
+			<!--
 			<li><a href="https://github.com/axisj/axisj" target="_blank">Github</a></li>
 			<li class="vline"></li>
 			<li><a href="https://www.facebook.com/axisj" target="_blank">Facebook</a></li>
@@ -1268,58 +1268,318 @@
     </p>
 
 <pre class="prettyprint linenums">
-&lt;div class="tag-result">
-
-&lt;/div>
+&lt;div id="ui-tree-target" style="height:200px;">&lt;/div>
 &lt;script>
-	(function(){
+(function(){
+	var myTree = new AXTree();
+	myTree.setConfig({
+		targetID : "ui-tree-target",
+		theme: "AXTree_none",
+		indentRatio: 0.7,
+		reserveKeys:{
+			parentHashKey: "pHash", // 부모 트리 포지션
+			hashKey: "hash", // 트리 포지션
+			openKey: "open", // 확장여부
+			subTree: "subTree", // 자식리스트 키
+			displayKey: "display" // 표시여부
+		},
+		colGroup: [
+			{
+				key:"nodeName",
+				label:"제목",
+				width:"100%", align:"left",
+				indent:true, // indent 속성값이 있는 컬럼만 인덴트 처리 합니다.
+				getIconClass: function(){
+					//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+					return "file";
+				},
+				formatter:function(){
+					return this.item.activity;
+				}
+			}
+		]
+	});
 
-	})();
+	var tree = [
+		{no:"1", activity:"WBS 이름", open:true, subTree:[
+			{no:"1.1", activity:"기획 및 설계", open:true, subTree:[
+				{no:"1.1.1", activity:"기획단계", open:true, subTree:[
+					{no:"1.1.1.1", activity:"요구사항정의"},
+					{no:"1.1.1.2", activity:"업무분할"}
+				]}
+			]}
+		]},
+		{AXTreeSplit:true},
+		{no:"9", activity:"WBS 이름"}
+	];
+	myTree.setTree(tree);
+
+})();
 &lt;/script>
 </pre><h4>Result</h4>
-<div class="tag-result">
-
-</div>
+<div id="ui-tree-target" style="height:200px;"></div>
 <script>
-	(function(){
+(function(){
+	var myTree = new AXTree();
+	myTree.setConfig({
+		targetID : "ui-tree-target",
+		theme: "AXTree_none",
+		indentRatio: 0.7,
+		reserveKeys:{
+			parentHashKey: "pHash", // 부모 트리 포지션
+			hashKey: "hash", // 트리 포지션
+			openKey: "open", // 확장여부
+			subTree: "subTree", // 자식리스트 키
+			displayKey: "display" // 표시여부
+		},
+		colGroup: [
+			{
+				key:"nodeName",
+				label:"제목",
+				width:"100%", align:"left",
+				indent:true, // indent 속성값이 있는 컬럼만 인덴트 처리 합니다.
+				getIconClass: function(){
+					//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+					return "file";
+				},
+				formatter:function(){
+					return this.item.activity;
+				}
+			}
+		]
+	});
 
-	})();
+	var tree = [
+		{no:"1", activity:"WBS 이름", open:true, subTree:[
+			{no:"1.1", activity:"기획 및 설계", open:true, subTree:[
+				{no:"1.1.1", activity:"기획단계", open:true, subTree:[
+					{no:"1.1.1.1", activity:"요구사항정의"},
+					{no:"1.1.1.2", activity:"업무분할"}
+				]}
+			]}
+		]},
+		{AXTreeSplit:true},
+		{no:"9", activity:"WBS 이름"}
+	];
+	myTree.setTree(tree);
+
+})();
 </script>
 
 </article>
 
+
+
+
+<!-- configs -->
+<article class="content">
+	<h2 data-menu-item="ui-tree-configs">AXTree.configs</h2>
+	<p>트리의 많은 설정요소중에 단일 값으로 설정되는 요소에 대해 설명드리겠습니다.</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-tre-configs" style="height:150px;">&lt;/div>
+&lt;script>
+(function(){
+
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-tre-configs" style="height:150px;"></div>
+<script>
+(function(){
+
+})();
+</script>
+
+</article>
 
 <!-- split -->
 
 <article class="cover">
 
     <h1 data-menu-item="ui-search">AXSearch</h1>
-
     <p>
-
+		AXSearch UI는 검색바를 효과적으로 표현해주는 UI 컴포넌트입니다.
+	    빈 레이어를 타겟으로 스크립트만으로 검색필드를 구성하는 방법과 HTML태그로 만들어진 검색필드들을 변환해주는 두가지 방법이 있습니다.
     </p>
 
 <pre class="prettyprint linenums">
-&lt;div class="tag-result">
-
-&lt;/div>
+&lt;div id="ui-search-target" style="border-top:1px solid #ccc;">&lt;/div>
 &lt;script>
-	(function(){
-
-	})();
+(function(){
+	var mySearch = new AXSearch();
+	var get_list = function(idx) {
+		var list = [{
+			label        : "Selector-" + idx,
+			labelWidth   : "",
+			width        : "150",
+			key          : "inputTextSelector-" + idx,
+			addClass     : "",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : "123",
+			AXBind       : {
+				type: "selector", config: {
+					method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+				}
+			}
+		}, {
+			label        : "Date-" + idx,
+			labelWidth   : "",
+			width        : "110",
+			key          : "inputTextDate-" + idx,
+			addClass     : "secondItem",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : (new Date).print(),
+			AXBind       : {
+				type: "date"
+			}
+		}];
+		return list;
+	};
+	mySearch.setConfig({
+		targetID: "ui-search-target",
+		theme : "AXSearch",
+		rows:[
+			{display:true, addClass:"", style:"", list:get_list(0)},
+			{display:false, addClass:"gray", style:"", list:get_list(1)}
+		]
+	});
+})();
 &lt;/script>
 </pre><h4>Result</h4>
-<div class="tag-result">
-
-</div>
+<div id="ui-search-target" style="border-top:1px solid #ccc;"></div>
 <script>
-	(function(){
-
-	})();
+(function(){
+	var mySearch = new AXSearch();
+	var get_list = function(idx) {
+		var list = [{
+			label        : "Selector-" + idx,
+			labelWidth   : "",
+			width        : "150",
+			key          : "inputTextSelector-" + idx,
+			addClass     : "",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : "123",
+			AXBind       : {
+				type: "selector", config: {
+					method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+				}
+			}
+		}, {
+			label        : "Date-" + idx,
+			labelWidth   : "",
+			width        : "110",
+			key          : "inputTextDate-" + idx,
+			addClass     : "secondItem",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : (new Date).print(),
+			AXBind       : {
+				type: "date"
+			}
+		}];
+		return list;
+	};
+	mySearch.setConfig({
+		targetID: "ui-search-target",
+		theme : "AXSearch",
+		rows:[
+			{display:true, addClass:"", style:"", list:get_list(0)},
+			{display:false, addClass:"gray", style:"", list:get_list(1)}
+		]
+	});
+})();
 </script>
 
 </article>
 
+
+
+
+<!-- tagBind -->
+<article class="content">
+	<h2 data-menu-item="ui-search-tagbind">AXSearch.tagBind</h2>
+	<p>HTML 태그로만들어진 필드에 AXSearch UI를 바인딩 하는 방식입니다.</p>
+<pre class="prettyprint linenums">
+&lt;form id="ui-search-tagbind-target">
+	&lt;table>
+		&lt;tr>
+			&lt;td>
+				&lt;select name="field-1" class="AXSelect">
+					&lt;option value="A">A&lt;/option>
+					&lt;option value="B">B&lt;/option>
+				&lt;/select>
+			&lt;/td>
+			&lt;td>
+				&lt;input type="text" name="field-2" value="" class="AXInput" />
+			&lt;/td>
+			&lt;td>
+				&lt;input type="checkbox" name="field-3" value="C1" />
+				&lt;input type="checkbox" name="field-3" value="C2" />
+			&lt;/td>
+			&lt;td>
+				&lt;button type="button" class="AXButton" id="ui-search-tagbind-btn">확인&lt;/button>
+			&lt;/td>
+		&lt;/tr>
+	&lt;/table>
+&lt;/form>
+&lt;script>
+(function(){
+	var mySearch = new AXSearch();
+	mySearch.setConfig({
+		targetID: "ui-search-tagbind-target",
+		onsubmit: function(){
+			alert("submit");
+		}
+	});
+	$("#ui-search-tagbind-btn").click(function(){
+		mySearch.submit();
+		toast.push( mySearch.getParam() );
+	});
+})();
+&lt;/script>
+</pre><h4>Result</h4>
+<form id="ui-search-tagbind-target">
+	<table>
+		<tr>
+			<td>
+				<select name="field-1" class="AXSelect">
+					<option value="A">A</option>
+					<option value="B">B</option>
+				</select>
+			</td>
+			<td>
+				<input type="text" name="field-2" value="" class="AXInput" />
+			</td>
+			<td>
+				<input type="checkbox" name="field-3" value="C1" />
+				<input type="checkbox" name="field-3" value="C2" />
+			</td>
+			<td>
+				<button type="button" class="AXButton" id="ui-search-tagbind-btn">확인</button>
+			</td>
+		</tr>
+	</table>
+</form>
+<script>
+(function(){
+	var mySearch = new AXSearch();
+	mySearch.setConfig({
+		targetID: "ui-search-tagbind-target",
+		onsubmit: function(){
+			alert("submit");
+		}
+	});
+	$("#ui-search-tagbind-btn").click(function(){
+		mySearch.submit();
+		toast.push( mySearch.getParam() );
+	});
+})();
+</script>
+
+</article>
 
 <!-- split -->
 

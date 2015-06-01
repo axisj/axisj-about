@@ -1,19 +1,103 @@
 <article class="cover">
 
     <h1 data-menu-item="ui-search">AXSearch</h1>
-
     <p>
-
+		AXSearch UI는 검색바를 효과적으로 표현해주는 UI 컴포넌트입니다.
+	    빈 레이어를 타겟으로 스크립트만으로 검색필드를 구성하는 방법과 HTML태그로 만들어진 검색필드들을 변환해주는 두가지 방법이 있습니다.
     </p>
 
 <pre>
-<div class="tag-result">
-
-</div>
+<div id="ui-search-target" style="border-top:1px solid #ccc;"></div>
 <script>
-	(function(){
+(function(){
+	var mySearch = new AXSearch();
+	var get_list = function(idx) {
+		var list = [{
+			label        : "Selector-" + idx,
+			labelWidth   : "",
+			width        : "150",
+			key          : "inputTextSelector-" + idx,
+			addClass     : "",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : "123",
+			AXBind       : {
+				type: "selector", config: {
+					method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+				}
+			}
+		}, {
+			label        : "Date-" + idx,
+			labelWidth   : "",
+			width        : "110",
+			key          : "inputTextDate-" + idx,
+			addClass     : "secondItem",
+			valueBoxStyle: "",
+			type         : "inputText",
+			value        : (new Date).print(),
+			AXBind       : {
+				type: "date"
+			}
+		}];
+		return list;
+	};
+	mySearch.setConfig({
+		targetID: "ui-search-target",
+		theme : "AXSearch",
+		rows:[
+			{display:true, addClass:"", style:"", list:get_list(0)},
+			{display:false, addClass:"gray", style:"", list:get_list(1)}
+		]
+	});
+})();
+</script>
+</pre>
+</article>
 
-	})();
+
+
+
+<!-- tagBind -->
+<article class="content">
+	<h2 data-menu-item="ui-search-tagbind">AXSearch.tagBind</h2>
+	<p>HTML 태그로만들어진 필드에 AXSearch UI를 바인딩 하는 방식입니다.</p>
+<pre>
+<form id="ui-search-tagbind-target">
+	<table>
+		<tr>
+			<td>
+				<select name="field-1" class="AXSelect">
+					<option value="A">A</option>
+					<option value="B">B</option>
+				</select>
+			</td>
+			<td>
+				<input type="text" name="field-2" value="" class="AXInput" />
+			</td>
+			<td>
+				<input type="checkbox" name="field-3" value="C1" />
+				<input type="checkbox" name="field-3" value="C2" />
+			</td>
+			<td>
+				<button type="button" class="AXButton" id="ui-search-tagbind-btn">확인</button>
+			</td>
+		</tr>
+	</table>
+</form>
+<script>
+(function(){
+	var mySearch = new AXSearch();
+	mySearch.setConfig({
+		targetID: "ui-search-tagbind-target",
+		onsubmit: function(){
+			alert("submit");
+		}
+	});
+	$("#ui-search-tagbind-btn").click(function(){
+		mySearch.submit();
+		toast.push( mySearch.getParam() );
+	});
+})();
 </script>
 </pre>
 </article>

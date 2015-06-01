@@ -8,13 +8,70 @@
     </p>
 
 <pre>
-<div class="tag-result">
-
-</div>
+<div id="ui-tree-target" style="height:200px;"></div>
 <script>
-	(function(){
+(function(){
+	var myTree = new AXTree();
+	myTree.setConfig({
+		targetID : "ui-tree-target",
+		theme: "AXTree_none",
+		indentRatio: 0.7,
+		reserveKeys:{
+			parentHashKey: "pHash", // 부모 트리 포지션
+			hashKey: "hash", // 트리 포지션
+			openKey: "open", // 확장여부
+			subTree: "subTree", // 자식리스트 키
+			displayKey: "display" // 표시여부
+		},
+		colGroup: [
+			{
+				key:"nodeName",
+				label:"제목",
+				width:"100%", align:"left",
+				indent:true, // indent 속성값이 있는 컬럼만 인덴트 처리 합니다.
+				getIconClass: function(){
+					//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+					return "file";
+				},
+				formatter:function(){
+					return this.item.activity;
+				}
+			}
+		]
+	});
 
-	})();
+	var tree = [
+		{no:"1", activity:"WBS 이름", open:true, subTree:[
+			{no:"1.1", activity:"기획 및 설계", open:true, subTree:[
+				{no:"1.1.1", activity:"기획단계", open:true, subTree:[
+					{no:"1.1.1.1", activity:"요구사항정의"},
+					{no:"1.1.1.2", activity:"업무분할"}
+				]}
+			]}
+		]},
+		{AXTreeSplit:true},
+		{no:"9", activity:"WBS 이름"}
+	];
+	myTree.setTree(tree);
+
+})();
+</script>
+</pre>
+</article>
+
+
+
+
+<!-- configs -->
+<article class="content">
+	<h2 data-menu-item="ui-tree-configs">AXTree.configs</h2>
+	<p>트리의 많은 설정요소중에 단일 값으로 설정되는 요소에 대해 설명드리겠습니다.</p>
+<pre>
+<div id="ui-tre-configs" style="height:150px;"></div>
+<script>
+(function(){
+
+})();
 </script>
 </pre>
 </article>
