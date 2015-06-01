@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!-- 
+ ax5 - v0.0.1 
+ publish date : 2015-06-01 
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About AXISJ</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<link rel="shortcut icon" href="http://dev.axisj.com/ui/axisj.ico" type="image/x-icon" />
+	<link rel="icon" href="http://dev.axisj.com/ui/axisj.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://dev.axisj.com/ui/AXJ.png" />
+	<link rel="apple-touch-icon-precomposed" href="http://dev.axisj.com/ui/AXJ.png" />
+
+    <link rel="stylesheet" type="text/css" href="../plugins/prettify/github.css">
+	<link rel="stylesheet" type="text/css" href="../plugins/ax5/css/jellyfish/ax5.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css">
+	
+    <script type="text/javascript" src="../plugins/prettify/prettify.js"></script>
+    <script type="text/javascript" src="../plugins/ax5/ax5.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axisj/ui/arongi/AXJ.min.css" />
+	<script type="text/javascript" src="http://cdn.axisj.com/axisj/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdn.axisj.com/axisj/dist/AXJ.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body>
+
+<div class="app-nav">
+	<div class="box-bg"></div>
+	<div class="box-content">
+		<a href="#" class="logo">AXISJ</a>
+		<ul class="menu">
+			<li class="vline"></li>
+			<li><a href="index.html">Intro</a></li>
+			<li class="vline"></li>
+			<li><a href="chapter1.html">Chapter 1</a></li>
+			<li class="vline"></li>
+			<li><a href="chapter2.html">Chapter 2</a></li>
+			<li class="vline"></li>
+			<!--
+			<li><a href="https://www.axisj.com" target="_blank">Website</a></li>
+			<li class="vline"></li>
+			<li><a href="https://github.com/axisj/axisj" target="_blank">Github</a></li>
+			<li class="vline"></li>
+			<li><a href="https://www.facebook.com/axisj" target="_blank">Facebook</a></li>
+			<li class="vline"></li>
+			-->
+		</ul>
+	</div>
+</div>
+
+<!-- split -->
+
+<div class="app-visual" id="app-visual">
+	<div class="app-wrap">
+		<div class="visual"></div>
+		<h1>AXISJ 소개서</h1>
+		<h3>Opensource Javascript UI Library -
+			https://github.com/axisj/axisj
+		</h3>
+	</div>
+</div>
+
+<div class="app-page">
+	<div class="app-content app-wrap">
+
+<!-- split -->
+
+<article class="cover">
+    <h1 data-menu-item="ui-modal">AXModal</h1>
+    <p>
+		AXModal은 웹 애플리케이션에서 한개의 화면 안에 새로운 창을 열어야 하는 경우에 쓰입니다. AXModal은 현재 페이지와 관계없는 새로운 페이지를
+	    <code>iframe</code>으로 불러오는 방식과 현재 페이지 안에 선언된 <code>div</code>를 모달컨텐츠로 사용하는 방식이 이 있습니다.
+    </p>
+</article>
+
+
+
+
+<article class="content">
+	<h2 data-menu-item="ui-modal-iframe">AXModal.iframe</h2>
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+	&lt;button class="AXButton" id="ui-modal-iframe-open">모달창 열기&lt;/button>
+&lt;/div>
+&lt;script>
+(function(){
+	var myModal = new AXModal();
+	myModal.setConfig({
+		windowID:"myModalCT", width:740,
+		mediaQuery: { // 모달창 반응형 조건 - 필수 조건 아님
+			mx:{min:0, max:767}, dx:{min:767}
+		},
+		displayLoading: true, // 로딩중 표시 여부
+		scrollLock: true, // 모달창이 열렸을 때 페이지 스크롤 금지 옵션
+		onclose: function(){
+			toast.push("모달 close");
+		}
+	});
+	$("#ui-modal-iframe-open").click(function(){
+		myModal.open({
+			method:"GET",
+			url:"data/modal-iframe.html",
+			pars:"",
+			closeByEscKey: true // 모달창이 열렸을 때 ESC키로 모달창 닫기 옵션
+		});
+	});
+})()
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+	<button class="AXButton" id="ui-modal-iframe-open">모달창 열기</button>
+</div>
+<script>
+(function(){
+	var myModal = new AXModal();
+	myModal.setConfig({
+		windowID:"myModalCT", width:740,
+		mediaQuery: { // 모달창 반응형 조건 - 필수 조건 아님
+			mx:{min:0, max:767}, dx:{min:767}
+		},
+		displayLoading: true, // 로딩중 표시 여부
+		scrollLock: true, // 모달창이 열렸을 때 페이지 스크롤 금지 옵션
+		onclose: function(){
+			toast.push("모달 close");
+		}
+	});
+	$("#ui-modal-iframe-open").click(function(){
+		myModal.open({
+			method:"GET",
+			url:"data/modal-iframe.html",
+			pars:"",
+			closeByEscKey: true // 모달창이 열렸을 때 ESC키로 모달창 닫기 옵션
+		});
+	});
+})()
+</script>
+
+</article>
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-grid">AXGrid</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-tree">AXTree</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-search">AXSearch</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+<article class="cover">
+
+    <h1 data-menu-item="ui-upload">AXUpload5</h1>
+
+    <p>
+
+    </p>
+
+<pre class="prettyprint linenums">
+&lt;div class="tag-result">
+
+&lt;/div>
+&lt;script>
+	(function(){
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div class="tag-result">
+
+</div>
+<script>
+	(function(){
+
+	})();
+</script>
+
+</article>
+
+
+<!-- split -->
+
+		<div style="height:1000px;"></div>
+
+		<!-- end div class="nav-content"-->
+	</div>
+	<div class="app-nav-left" id="app-nav-left"></div>
+</div>
+<!-- end div class="app-page"-->
+<script type="text/javascript" src="app.js"></script>
+</body>
+</hml>
