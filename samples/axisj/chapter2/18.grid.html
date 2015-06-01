@@ -36,9 +36,80 @@
 
 
 
+<!-- configs -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-configs">AXModal.configs</h2>
+	<p>그리드의 많은 설정요소중에 단일 값으로 설정되는 요소에 대해 설명드리겠습니다. 틀고정, 정렬, 셀 머지, 높이, 표현등의 요소를 컨트롤 할 수 있습니다.</p>
+<pre>
+<div id="ui-grid-configs" style="height:150px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-configs",
+			theme: "AXGrid", // 그리드 theme CSS 클래스 명
+			fixedColSeq : 1,
+			// {Number} -- 컬럼고정 기능을 사용합니다. 고정할 마지막 컬럼의 인덱스 값입니다.
+			fitToWidth  : false,
+			// {Boolean} [false] -- 컬럼 가로 길이를 그리드의 가로 길이에 맞춥니다.
+			colHeadAlign: "center",
+			// {String} 헤드의 기본 정렬. "left"|"center"|"right" 값을 사용할 수 있습니다. colHeadAlign 을 지정하면
+			// colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+			mergeCells  : [1,2],
+			// {Boolean|Array} -- 전체셀병합,병합안함,지정된 인덱스열만 병합
+			height      : 150,
+			// {Number|String} -- 그리드의 높이를 지정합니다.
+			// 숫자를 사용하면 픽셀 단위로, "auto" 값을 사용하면 그리드의 높이가 내용에 맞춰서 늘어납니다.
+			sort        : true,
+			// {Boolean} -- true: 그리드의 헤더를 클릭해서 정렬 할 수 있습니다. false: 정렬 기능을 비활성화 합니다.
+			// 이 설정은 colGroup의 sort 보다 우선적으로 적용됩니다.
+			remoteSort  : true,
+			// {Boolean} [false] -- 서버에서 정렬을 처리(서버에서 별도 처리 필요)합니다.
+			// 헤더 클릭시 'sortBy=cost desc' 형식의 정렬 정보가 ajax 요청에 포함됩니다.
+			colHeadTool : true,
+			// {Boolean} -- 컬럼 툴 display 여부를 설정 합니다.
+			// 이 설정은 colGroup의 colHeadTool 보다 우선적으로 적용됩니다.
+			viewMode    : "grid",
+			// {String} -- 그리드가 보여지는 형태("grid"|"icon"|"mobile")를 지정합니다.
+			// viewMode는 mediaQuery에 의해서 자동으로 결정되기도 합니다.
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200"},
+				{key:"writer", label:"작성자", width:"80", align:"center"},
+				{key:"regDate", label:"작성일", width:"100", align:"center"},
+				{key:"desc", label:"비고", width:"200"}
+			]
+		});
+		myGrid.setList([
+			{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:2, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:3, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:4, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:5, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"},
+			{no:6, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법"}
+		]);
+	})();
+</script>
+</pre>
+</article>
+
+
+
+
 <!-- multiHead -->
 <article class="content">
 	<h2 data-menu-item="ui-grid-multihead">AXModal.multiHead</h2>
+	<p>
+		그리드 컬럼 헤드가 단일 row값으로만 구성되어지지 않고 colspan, rowspan값을 가지는 경우에
+		HTML table 에서 td에 colspan, rowspan속성을 사용하는 룰과 같은 방법으로 <code>colHead</code>에 rows를 추가하게 됩니다.
+		table태그와 마찬가지로 colspan과 rowspan값을 잘못 입력하면 테이블이 깨져 보일 수 있습니다.
+	</p>
 <pre>
 <div id="ui-grid-multihead" style="height:200px;"></div>
 <script>
@@ -46,11 +117,10 @@
 	var myGrid = new AXGrid();
 	myGrid.setConfig({
 		targetID: "ui-grid-multihead",
+		colHeadAlign:"center",
 		colGroup: [
 			{key:"no", label:"번호", width:"50", align:"right"},
-			{key:"title", label:"제목", width:"*", formatter:function(){
-				return "<u>"+this.item.title+"</u>";
-			}},
+			{key:"title", label:"제목", width:"*"}, // *는 테이블의 남은 너비를 모두 차지합니다.
 			{key:"writer", label:"작성자", width:"100", align:"center"},
 			{key:"regDate", label:"작성일", width:"100", align:"center"},
 			{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
@@ -64,7 +134,7 @@
 			rows: [
 				[
 					{key:"no", rowspan:2},
-					{colspan:3, label:"표현식", align:"center"},
+					{colspan:3, label:"표현식", align:"center"}, // colspan을 사용할 땐 key를 정의하면 안됩니다.
 					{key:"price", rowspan:2},
 					{key:"amount", rowspan:2},
 					{key:"cost", rowspan:2},
@@ -79,10 +149,71 @@
 		}
 	});
 	myGrid.setList([
-		{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:0}, // item
-		{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7}
+		{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+			desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:0}, // item
+		{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+			desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7}
 	]);
 })();
+</script>
+</pre>
+</article>
+
+
+
+
+<!-- multiBody -->
+<article class="content">
+	<h2 data-menu-item="ui-grid-multibody">AXModal.multiBody</h2>
+	<p>
+		colHead에 정의한 rows를 body엔에 추가합니다.
+	</p>
+<pre>
+<div id="ui-grid-multibody" style="height:200px;"></div>
+<script>
+	(function(){
+		var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID: "ui-grid-multibody",
+			colGroup: [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"*"},
+				{key:"writer", label:"작성자", width:"100", align:"center"},
+				{key:"regDate", label:"작성일", width:"100", align:"center"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}},
+				{key:"desc", label:"비고", width:"*"}
+			],
+			body: {
+				rows: [
+					[
+						{key:"no", rowspan:2},
+						{colspan:3, label:"표현식", formatter: function(){
+							return "표현식";
+						}}, // colspan을 사용할 땐 key를 정의하면 안됩니다.
+						{key:"price", rowspan:2},
+						{key:"amount", rowspan:2},
+						{key:"cost", rowspan:2},
+						{key:"desc", rowspan:2}
+					],
+					[
+						{key:"title"},
+						{key:"writer"},
+						{key:"regDate"}
+					]
+				]
+			}
+		});
+		myGrid.setList([
+			{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:0}, // item
+			{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18",
+				desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7}
+		]);
+	})();
 </script>
 </pre>
 </article>
