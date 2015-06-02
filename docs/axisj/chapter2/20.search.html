@@ -102,6 +102,84 @@
 </pre>
 	<p>
 		필드에 값을 입력하거나 선택한 후 "확인"버튼을 클릭하면 <code>submit</code>이벤트와 생성된 파라미터 값이 출력됩니다.
-		자바스크립트로 필드의 값을 수집할 때엔 checkbox 나 radio의 값을 가져오는 것이 까다로운데 파라미터 확인을 해볼 수 있습니다.
+		mySearch.setConfig에 선언된 onsubmit이벤트는 스크립트로 submit을 호출하거나 form필드에서 submit이벤트가 발생하는 경우에 호출됩니다.
+		(submit 이벤트가 발생하는 상황은 form안에 submit타입 버튼이 있거나[button에 type을 지정안하면 기본 submit타입이 됩니다.] input[type=text]가 한개만 있는 경우에 input안에서 return키가 입력되었을 때 입니다.)
+	</p>
+	<p>
+		자바스크립트로 필드의 값을 수집할 때엔 checkbox 나 radio의 값을 가져오는 것이 까다로운데 파라미터 확인을 해볼 수 있습니다. 잘 되시나요?
+	</p>
+</article>
+
+
+
+
+<!-- tagBind -->
+<article class="content">
+	<h2 data-menu-item="ui-search-finditem">AXSearch.finditem</h2>
+	<p>
+		경우에 따라 AXSearch에 내장된 검색 필드들을 직접 컨트롤 해야 하는 경우가 있습니다. 외부에서 값을 비동기적으로 부여 할 때도 있습니다.
+		이러한 상황에서 내장된 검색 필드들은 찾는 방법에 대해 알아보겠습니다.
+	</p>
+<pre>
+<div id="ui-search-finditem-target" style="border-top:1px solid #ccc;"></div>
+<div class="DH10"></div>
+<button class="AXButton" id="ui-search-finditem-find-0">필드 아이디 찾기</button>
+<button class="AXButton" id="ui-search-finditem-find-1">필드 값 변경</button>
+<script>
+	(function(){
+		var mySearch = new AXSearch();
+		var get_list = function(idx) {
+			var list = [{
+				label        : "Selector-" + idx,
+				labelWidth   : "",
+				width        : "150",
+				key          : "inputTextSelector-" + idx,
+				addClass     : "",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : "123",
+				AXBind       : {
+					type: "selector", config: {
+						method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+					}
+				}
+			}, {
+				label        : "Date-" + idx,
+				labelWidth   : "",
+				width        : "110",
+				key          : "inputTextDate-" + idx,
+				addClass     : "secondItem",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : (new Date).print(),
+				AXBind       : {
+					type: "date"
+				}
+			}];
+			return list;
+		};
+		mySearch.setConfig({
+			targetID: "ui-search-finditem-target",
+			theme : "AXSearch",
+			rows:[
+				{display:true, addClass:"", style:"", list:get_list(0)}
+			]
+		});
+
+		$("#ui-search-finditem-find-0").click(function(){
+			alert( mySearch.getItemId("inputTextDate-" + 0) );
+		});
+		$("#ui-search-finditem-find-1").click(function(){
+			mySearch.setItemValue("inputTextDate-" + 0, "2012-01-01");
+			// mySearch.setItemValue("inputTextDate-" + 0); 값을 지울땐 이렇게
+			// mySearch.setItemValue("checkbox", ["all","open"]); 체크박스
+		});
+
+	})();
+</script>
+</pre>
+	<p>
+		"필드 아이디 찾기"를 클릭하면 <code>Date-0</code>의 input필드 아이디가 출력됩니다. 이 아이디 값을 이용해서 필드의 값을 컨트롤 할 수 있습니다.
+		"필드 값 변경"을 클릭하면 <code>Date-0</code>의 값을 "2012-01-01"으로 변경합니다. <code>setItemValue</code>를 이용합니다.
 	</p>
 </article>

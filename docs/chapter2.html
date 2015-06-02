@@ -1581,7 +1581,142 @@
 
 	<p>
 		필드에 값을 입력하거나 선택한 후 "확인"버튼을 클릭하면 <code>submit</code>이벤트와 생성된 파라미터 값이 출력됩니다.
-		자바스크립트로 필드의 값을 수집할 때엔 checkbox 나 radio의 값을 가져오는 것이 까다로운데 파라미터 확인을 해볼 수 있습니다.
+		mySearch.setConfig에 선언된 onsubmit이벤트는 스크립트로 submit을 호출하거나 form필드에서 submit이벤트가 발생하는 경우에 호출됩니다.
+		(submit 이벤트가 발생하는 상황은 form안에 submit타입 버튼이 있거나[button에 type을 지정안하면 기본 submit타입이 됩니다.] input[type=text]가 한개만 있는 경우에 input안에서 return키가 입력되었을 때 입니다.)
+	</p>
+	<p>
+		자바스크립트로 필드의 값을 수집할 때엔 checkbox 나 radio의 값을 가져오는 것이 까다로운데 파라미터 확인을 해볼 수 있습니다. 잘 되시나요?
+	</p>
+</article>
+
+
+
+
+<!-- tagBind -->
+<article class="content">
+	<h2 data-menu-item="ui-search-finditem">AXSearch.finditem</h2>
+	<p>
+		경우에 따라 AXSearch에 내장된 검색 필드들을 직접 컨트롤 해야 하는 경우가 있습니다. 외부에서 값을 비동기적으로 부여 할 때도 있습니다.
+		이러한 상황에서 내장된 검색 필드들은 찾는 방법에 대해 알아보겠습니다.
+	</p>
+<pre class="prettyprint linenums">
+&lt;div id="ui-search-finditem-target" style="border-top:1px solid #ccc;">&lt;/div>
+&lt;div class="DH10">&lt;/div>
+&lt;button class="AXButton" id="ui-search-finditem-find-0">필드 아이디 찾기&lt;/button>
+&lt;button class="AXButton" id="ui-search-finditem-find-1">필드 값 변경&lt;/button>
+&lt;script>
+	(function(){
+		var mySearch = new AXSearch();
+		var get_list = function(idx) {
+			var list = [{
+				label        : "Selector-" + idx,
+				labelWidth   : "",
+				width        : "150",
+				key          : "inputTextSelector-" + idx,
+				addClass     : "",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : "123",
+				AXBind       : {
+					type: "selector", config: {
+						method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+					}
+				}
+			}, {
+				label        : "Date-" + idx,
+				labelWidth   : "",
+				width        : "110",
+				key          : "inputTextDate-" + idx,
+				addClass     : "secondItem",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : (new Date).print(),
+				AXBind       : {
+					type: "date"
+				}
+			}];
+			return list;
+		};
+		mySearch.setConfig({
+			targetID: "ui-search-finditem-target",
+			theme : "AXSearch",
+			rows:[
+				{display:true, addClass:"", style:"", list:get_list(0)}
+			]
+		});
+
+		$("#ui-search-finditem-find-0").click(function(){
+			alert( mySearch.getItemId("inputTextDate-" + 0) );
+		});
+		$("#ui-search-finditem-find-1").click(function(){
+			mySearch.setItemValue("inputTextDate-" + 0, "2012-01-01");
+			// mySearch.setItemValue("inputTextDate-" + 0); 값을 지울땐 이렇게
+			// mySearch.setItemValue("checkbox", ["all","open"]); 체크박스
+		});
+
+	})();
+&lt;/script>
+</pre><h4>Result</h4>
+<div id="ui-search-finditem-target" style="border-top:1px solid #ccc;"></div>
+<div class="DH10"></div>
+<button class="AXButton" id="ui-search-finditem-find-0">필드 아이디 찾기</button>
+<button class="AXButton" id="ui-search-finditem-find-1">필드 값 변경</button>
+<script>
+	(function(){
+		var mySearch = new AXSearch();
+		var get_list = function(idx) {
+			var list = [{
+				label        : "Selector-" + idx,
+				labelWidth   : "",
+				width        : "150",
+				key          : "inputTextSelector-" + idx,
+				addClass     : "",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : "123",
+				AXBind       : {
+					type: "selector", config: {
+						method: "GET", ajaxUrl: "data/selectorData.txt", ajaxPars: ""
+					}
+				}
+			}, {
+				label        : "Date-" + idx,
+				labelWidth   : "",
+				width        : "110",
+				key          : "inputTextDate-" + idx,
+				addClass     : "secondItem",
+				valueBoxStyle: "",
+				type         : "inputText",
+				value        : (new Date).print(),
+				AXBind       : {
+					type: "date"
+				}
+			}];
+			return list;
+		};
+		mySearch.setConfig({
+			targetID: "ui-search-finditem-target",
+			theme : "AXSearch",
+			rows:[
+				{display:true, addClass:"", style:"", list:get_list(0)}
+			]
+		});
+
+		$("#ui-search-finditem-find-0").click(function(){
+			alert( mySearch.getItemId("inputTextDate-" + 0) );
+		});
+		$("#ui-search-finditem-find-1").click(function(){
+			mySearch.setItemValue("inputTextDate-" + 0, "2012-01-01");
+			// mySearch.setItemValue("inputTextDate-" + 0); 값을 지울땐 이렇게
+			// mySearch.setItemValue("checkbox", ["all","open"]); 체크박스
+		});
+
+	})();
+</script>
+
+	<p>
+		"필드 아이디 찾기"를 클릭하면 <code>Date-0</code>의 input필드 아이디가 출력됩니다. 이 아이디 값을 이용해서 필드의 값을 컨트롤 할 수 있습니다.
+		"필드 값 변경"을 클릭하면 <code>Date-0</code>의 값을 "2012-01-01"으로 변경합니다. <code>setItemValue</code>를 이용합니다.
 	</p>
 </article>
 
@@ -1592,30 +1727,103 @@
     <h1 data-menu-item="ui-upload">AXUpload5</h1>
 
     <p>
-
+		AXUpload5는 HTML5업로드 모드와 Flash 업로드 모드를 사용자 브라우저에 따라 선택적으로 로드합니다.
+	    그러므로 파일 탐색기에서 파일 다중 선택이 모든 브라우저에서 가능하게 해줍니다.
+	    또한 업로드 진행상황을 큐 박스에 출력시켜주는 기능은 사용자에게 업로드 상황을 답답하지 않게 해줍니다.
     </p>
 
+	<p>
+		본 문서에서는 AXUpload5의 설정문만 설명하고 샘플은 <code>dev.axisj.com</code>에서 보도록 하겠습니다.
+	</p>
+
 <pre class="prettyprint linenums">
-&lt;div class="tag-result">
+var myUpload = new AXUpload5(); // 인스턴스를 만듭니다.
+myUpload.setConfig({
+	targetID: "AXUpload5",
+	targetButtonClass: "Green",
+	uploadFileName: "fileData",
+	file_types: "image/*",  //audio/*|video/*|image/*|MIME_type (accept)
+	dropBoxID: "uploadQueueBox",
+	queueBoxID: "uploadQueueBox", // upload queue targetID
 
-&lt;/div>
-&lt;script>
-	(function(){
+	// 파일 큐에 아이템을 삭제 할 수 없는 상태를 원할 때
+	//openMode: "view",
+	//queueBoxAppendType:"prepend|append",
 
-	})();
-&lt;/script>
-</pre><h4>Result</h4>
-<div class="tag-result">
+	// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
+	flash_url : "lib/swfupload.swf",
+	flash9_url : "lib/swfupload_fp9.swf",
+    flash_file_types: "*.jpg;*.jpeg;*.gif;*.bmp;*.png",
+    flash_file_types_description: "image",
 
-</div>
-<script>
-	(function(){
+	// 업로드된 목록을 클릭했을 때.
+	onClickUploadedItem: function(){
+		window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
+	},
 
-	})();
-</script>
+	// 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
+	uploadMaxFileSize: (20*1024*1024),
+	// 업로드될 파일갯수 제한 0 은 무제한
+	uploadMaxFileCount: 10,
 
+	uploadUrl: "fileUpload.php",
+	uploadPars: {p1:"1"},
+	deleteUrl: "fileDelete.php",
+	deletePars: {p1:"1"},
+
+	buttonTxt:"파일올리기",
+
+	// 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+	// 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+	fileKeys:{
+		//id:"id",
+		name:"name",
+		type:"type",
+		saveName:"saveName",
+		fileSize:"fileSize",
+		uploadedPath:"uploadedPath",
+		thumbPath:"thumbUrl"
+
+	},
+	onbeforeFileSelect: function(){
+		// 파일선택창이 열리기 전 - 여기서 return true하지 않으면 파일 선택창이 열리지 않습니다.
+		trace(this);
+		return true;
+	},
+	onUpload: function(){
+		//trace(this);
+	},
+	onComplete: function(){
+		trace(this);
+	},
+	onStart: function(){
+		trace(this);
+	},
+	onDelete: function(){
+		trace(this);
+	},
+	onError: function(errorType, extData){
+		if(errorType == "html5Support"){
+			//dialog.push('The File APIs are not fully supported in this browser.');
+		}else if(errorType == "fileSize"){
+			//trace(extData);
+			alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
+		}else if(errorType == "fileCount"){
+			alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
+		}
+	}
+});
+</pre>
+	<p>
+		실제 파일이 업로드되는 예제는 다음의 페이지에서 확인하세요.
+		<a href="http://dev.axisj.com/samples/AXUpload5/index.html" target="_blank">http://dev.axisj.com/samples/AXUpload5/index.html</a>
+	</p>
+
+	<p>
+		file_types의 값은 mime type값 입니다. (http://www.freeformatter.com/mime-types-list.html) 에서 설명을 자세히 하고 있는데요.
+		HTML5의 fileSelect 스펙이 mime type으로 되어 있기 때문에. flash 모드에서의 확장자 타입으로 처리하지 않고 있습니다.
+	</p>
 </article>
-
 
 <!-- split -->
 

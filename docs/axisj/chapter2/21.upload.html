@@ -3,17 +3,100 @@
     <h1 data-menu-item="ui-upload">AXUpload5</h1>
 
     <p>
-
+		AXUpload5는 HTML5업로드 모드와 Flash 업로드 모드를 사용자 브라우저에 따라 선택적으로 로드합니다.
+	    그러므로 파일 탐색기에서 파일 다중 선택이 모든 브라우저에서 가능하게 해줍니다.
+	    또한 업로드 진행상황을 큐 박스에 출력시켜주는 기능은 사용자에게 업로드 상황을 답답하지 않게 해줍니다.
     </p>
 
-<pre>
-<div class="tag-result">
+	<p>
+		본 문서에서는 AXUpload5의 설정문만 설명하고 샘플은 <code>dev.axisj.com</code>에서 보도록 하겠습니다.
+	</p>
 
-</div>
-<script>
-	(function(){
+<pre>$noscript$
+var myUpload = new AXUpload5(); // 인스턴스를 만듭니다.
+myUpload.setConfig({
+	targetID: "AXUpload5",
+	targetButtonClass: "Green",
+	uploadFileName: "fileData",
+	file_types: "image/*",  //audio/*|video/*|image/*|MIME_type (accept)
+	dropBoxID: "uploadQueueBox",
+	queueBoxID: "uploadQueueBox", // upload queue targetID
 
-	})();
-</script>
+	// 파일 큐에 아이템을 삭제 할 수 없는 상태를 원할 때
+	//openMode: "view",
+	//queueBoxAppendType:"prepend|append",
+
+	// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
+	flash_url : "lib/swfupload.swf",
+	flash9_url : "lib/swfupload_fp9.swf",
+    flash_file_types: "*.jpg;*.jpeg;*.gif;*.bmp;*.png",
+    flash_file_types_description: "image",
+
+	// 업로드된 목록을 클릭했을 때.
+	onClickUploadedItem: function(){
+		window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
+	},
+
+	// 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
+	uploadMaxFileSize: (20*1024*1024),
+	// 업로드될 파일갯수 제한 0 은 무제한
+	uploadMaxFileCount: 10,
+
+	uploadUrl: "fileUpload.php",
+	uploadPars: {p1:"1"},
+	deleteUrl: "fileDelete.php",
+	deletePars: {p1:"1"},
+
+	buttonTxt:"파일올리기",
+
+	// 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+	// 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+	fileKeys:{
+		//id:"id",
+		name:"name",
+		type:"type",
+		saveName:"saveName",
+		fileSize:"fileSize",
+		uploadedPath:"uploadedPath",
+		thumbPath:"thumbUrl"
+
+	},
+	onbeforeFileSelect: function(){
+		// 파일선택창이 열리기 전 - 여기서 return true하지 않으면 파일 선택창이 열리지 않습니다.
+		trace(this);
+		return true;
+	},
+	onUpload: function(){
+		//trace(this);
+	},
+	onComplete: function(){
+		trace(this);
+	},
+	onStart: function(){
+		trace(this);
+	},
+	onDelete: function(){
+		trace(this);
+	},
+	onError: function(errorType, extData){
+		if(errorType == "html5Support"){
+			//dialog.push('The File APIs are not fully supported in this browser.');
+		}else if(errorType == "fileSize"){
+			//trace(extData);
+			alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
+		}else if(errorType == "fileCount"){
+			alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
+		}
+	}
+});
 </pre>
+	<p>
+		실제 파일이 업로드되는 예제는 다음의 페이지에서 확인하세요.
+		<a href="http://dev.axisj.com/samples/AXUpload5/index.html" target="_blank">http://dev.axisj.com/samples/AXUpload5/index.html</a>
+	</p>
+
+	<p>
+		file_types의 값은 mime type값 입니다. (http://www.freeformatter.com/mime-types-list.html) 에서 설명을 자세히 하고 있는데요.
+		HTML5의 fileSelect 스펙이 mime type으로 되어 있기 때문에. flash 모드에서의 확장자 타입으로 처리하지 않고 있습니다.
+	</p>
 </article>
