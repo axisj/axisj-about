@@ -62,7 +62,7 @@
 	<h2 data-menu-item="ui-search-tagbind">AXSearch.tagBind</h2>
 	<p>HTML 태그로만들어진 필드에 AXSearch UI를 바인딩 하는 방식입니다.</p>
 <pre>
-<form id="ui-search-tagbind-target">
+<form id="ui-search-tagbind-target" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
 	<table>
 		<tr>
 			<td>
@@ -100,4 +100,8 @@
 })();
 </script>
 </pre>
+	<p>
+		필드에 값을 입력하거나 선택한 후 "확인"버튼을 클릭하면 <code>submit</code>이벤트와 생성된 파라미터 값이 출력됩니다.
+		자바스크립트로 필드의 값을 수집할 때엔 checkbox 나 radio의 값을 가져오는 것이 까다로운데 파라미터 확인을 해볼 수 있습니다.
+	</p>
 </article>
