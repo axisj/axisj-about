@@ -198,6 +198,8 @@ pre.prettyprint {
         margin: 0px 3px; }
       .app-page .app-content .script-result a, .app-page .app-content .tag-result a {
         color: #555; }
+    .app-page .app-content .axisj-ui a {
+      color: #555; }
     .app-page .app-content .ax-section {
       position: relative;
       border: 1px solid #ccc;

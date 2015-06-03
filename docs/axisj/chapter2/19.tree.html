@@ -66,12 +66,134 @@
 <article class="content">
 	<h2 data-menu-item="ui-tree-configs">AXTree.configs</h2>
 	<p>트리의 많은 설정요소중에 단일 값으로 설정되는 요소에 대해 설명드리겠습니다.</p>
+<pre>$noscript$
+var myTree = new AXTree();
+myTree.setConfig({
+    targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
+    theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
+
+	//부모자식 키 정의
+    relation:{
+        parentKey:"pno",    //부모아이디 키
+        childKey:"no"   //자식아이디 키
+    },
+    persistExpanded: true, // 쿠키를 이용해서 트리의 확장된 상태를 유지합니다.
+    persistSelected: true, // 쿠키를 이용해서 트리의 선택된 상태를 유지합니다.
+    colGroup: [ //트리 헤드정의
+        {
+            key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
+            label:"제목", //{String} - 컬럼에 표시할 라벨
+            width:"100%",   //[Number["px", "%"] = "auto"] - "100%", "500px", "auto"지정하면 트리의 너비만큼 단일 컬럼의 너비가 자동 맞춤 처리됩니다.
+            align:"left",   //[String = "left"[left, center, right]] - 정렬방식 지정
+            indent:true,    //[Boolean = true]
+            getIconClass: function(){   // [Function] - indent 속성 정의된 대상에 아이콘을 지정할 수 있습니다.
+                var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+                var iconName = "";
+                if(this.item.type) iconName = iconNames[this.item.type];
+                return iconName;
+            },
+            formatter:function(){   // [Function] - 컬럼값의 표현형식 각각 화폐표현식, urlDecode, input.Checkbox, input.radioBox, 사용자 정의 함수
+                return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+            }
+        }
+    ],
+    body: {
+        onclick:function(idx, item){ //[Function] 바디 클릭 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        ondblclick:function(idx, item){ //[Function] 바디 더블클릭 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        oncheck:function(idx, item){ //[Function] 트리 체크박스클릭시 함수연결
+            toast.push(Object.toJSON(item));
+        },
+        onexpand:function(idx, item){ //[Function] 트리 아이템 확장 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        oncontract:function(idx, item){ //[Function] 트리 아이템 축소 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        addClass:function(idx, item){ //[Function] 트리 아이템에 사용자 CSS 클래스를 추가할 수 있는 사용자 함수 추가하려는 클래스명을 return 으로 반환하십시요
+            toast.push(Object.toJSON(item));
+        }
+    }
+});
+</pre>
+</article>
+
+
+
+
+<!-- setList -->
+<article class="content">
+	<h2 data-menu-item="ui-tree-setlist">AXTree.setList</h2>
+	<p>트리를 구성하기 위해 <code>Tree</code>형 데이터를 이용하여 setTree할 수 도 있지만 부모자식키를 가진 <code>Array</code>형 데이터를 이용하여 setList할 수도 있습니다. 다음은 setList를 이용하여 트리를 구성하는 예제 입니다.</p>
 <pre>
-<div id="ui-tre-configs" style="height:150px;"></div>
+<div id="ui-tree-setlist-target" class="axisj-ui" style="height:200px;"></div>
 <script>
 (function(){
+	var myTree = new AXTree();
+	myTree.setConfig({
+		targetID : "ui-tree-setlist-target",
+		theme: "AXTree_none",
+
+		xscroll:false,
+		emptyListMSG:"<i class='fa fa-spinner'></i> List of Empty",
+		iconWidth:18,
+		indentRatio:0.75,
+
+		relation:{
+			parentKey: "pno",
+			childKey: "no",
+			parentName: "parentnm",
+			childName: "nodenm",
+			openKey: "open"
+		},
+
+		colGroup: [
+			{
+				key:"nodeName",
+				label: "제목",
+				width: "800",
+				align:"left",
+				indent:true,
+				getIconClass: function(){
+					return {
+						addClass:"userHtml",
+						html: ((this.item.__subTreeLength > 0) ? '<i class="axi axi-folder-open2"></i>' : '<i class="axi axi-folder3"></i>')
+					};
+				},
+				formatter:function(){
+					return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+				}
+			}
+		],
+
+		body: {
+			onclick:function(idx, item){
+				toast.push(Object.toJSON(item));
+			}
+		}
+	});
+
+	var List = [
+		{pno:0, no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", open:true}, // 최상위 부모
+		{pno:0, no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", open:true},
+		{pno:0, no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0"},
+		{pno:1, no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0"},
+		{pno:2, no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0"},
+		{pno:2, no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0"},
+		{pno:24, no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0"},
+		{pno:241, no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0"},
+		{pno:241, no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0"},
+		{pno:2, no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0"}
+	];
+	myTree.setList(List);
 
 })();
 </script>
 </pre>
+	<p>
+		getIconClass에서 html을 리턴하면 노드 아이콘을 html로 직접 컨트롤 할 수 있습니다.
+	</p>
 </article>
