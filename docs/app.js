@@ -76,36 +76,13 @@ ax5.dom.ready(function(){
 			menu_taping: function(opt){
 				if(typeof opt === "undefined" && nav_left_on) return false;
 				var s_top = ax5.dom.scroll().top, _i = null;
-				/*
-				while(i--){
-					if( menu_list[i].top > s_top){
-						_i = i;
-						if(i > 0) {
-							if(Math.abs(menu_list[i - 1].top - s_top) < Math.abs(menu_list[i].top - s_top - 60)){ // 메뉴 높이 제거
-								_i = i-1;
-							}
-						}
-					}
-					else break;
-				}
-				*/
-				//app_nav_left
 				for(var i= 0,l=menu_list.length;i<l;i++){
-					if( menu_list[i].top > s_top){
+					if( menu_list[i].top + ((i < l-1) ? menu_list[i+1].top - menu_list[i].top - window_height/3 : 0) > s_top){
 						_i = i;
-						if(i > 0) {
-							if(Math.abs(menu_list[i - 1].top - s_top) < Math.abs(menu_list[i].top - s_top - 60)){ // 메뉴 높이 제거
-								_i = i-1;
-							}else{
-								_i = i;
-							}
-						}
 						break;
 					}
 				}
-
 				if(_i == null) _i = menu_list.length-1;
-
 				if(selected_menu_list_index > -1) {
 					menu_list[selected_menu_list_index].el.class_name("remove", "open");
 					menu_list[selected_menu_list_index].el.parent({tagname:"ul", clazz:"H1"}).class_name("remove", "open");

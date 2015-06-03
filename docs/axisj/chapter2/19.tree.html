@@ -127,7 +127,11 @@ myTree.setConfig({
 <!-- setList -->
 <article class="content">
 	<h2 data-menu-item="ui-tree-setlist">AXTree.setList</h2>
-	<p>트리를 구성하기 위해 <code>Tree</code>형 데이터를 이용하여 setTree할 수 도 있지만 부모자식키를 가진 <code>Array</code>형 데이터를 이용하여 setList할 수도 있습니다. 다음은 setList를 이용하여 트리를 구성하는 예제 입니다.</p>
+	<p>
+		트리를 구성하기 위해 <code>Tree</code>형 데이터를 이용하여 setTree할 수 도 있지만 부모자식키를 가진 <code>Array</code>형 데이터를 이용하여 setList할 수도 있습니다.
+		다음은 setList를 이용하여 트리를 구성하는 예제 입니다.
+		트리를 리스트로 만들수 있으니 참으로 편리합니다.
+	</p>
 <pre>
 <div id="ui-tree-setlist-target" class="axisj-ui" style="height:200px;"></div>
 <script>
@@ -139,8 +143,8 @@ myTree.setConfig({
 
 		xscroll:false,
 		emptyListMSG:"<i class='fa fa-spinner'></i> List of Empty",
-		iconWidth:18,
-		indentRatio:0.75,
+		iconWidth: 22,
+		indentRatio: 1,
 
 		relation:{
 			parentKey: "pno",
@@ -160,7 +164,7 @@ myTree.setConfig({
 				getIconClass: function(){
 					return {
 						addClass:"userHtml",
-						html: ((this.item.__subTreeLength > 0) ? '<i class="axi axi-folder-open2"></i>' : '<i class="axi axi-folder3"></i>')
+						html: ((this.item.__subTreeLength > 0) ? '<i class="axi axi-folder-open2"></i>' : '<i class="axi axi-file"></i>')
 					};
 				},
 				formatter:function(){
@@ -196,4 +200,68 @@ myTree.setConfig({
 	<p>
 		getIconClass에서 html을 리턴하면 노드 아이콘을 html로 직접 컨트롤 할 수 있습니다.
 	</p>
+</article>
+
+
+
+
+<!-- control -->
+<article class="content">
+	<h2 data-menu-item="ui-tree-control">AXTree.control</h2>
+	<p>
+
+	</p>
+<pre>
+<div id="ui-tree-control-target" class="axisj-ui" style="height:200px;"></div>
+<div class="DH10"></div>
+<input type="button" value="추가" class="AXButton" />
+<input type="button" value="자식추가" class="AXButton" />
+<input type="button" value="선택삭제" class="AXButton" />
+<input type="button" value="수정" class="AXButton" />
+<input type="button" value="위로" class="AXButton" />
+<input type="button" value="아래로" class="AXButton" />
+<input type="button" value="이동하기" class="AXButton" />
+<script>
+	(function(){
+		var myTree = new AXTree();
+		myTree.setConfig({
+			targetID : "ui-tree-control-target",
+			theme: "AXTree",
+			relation:{
+				parentKey: "pno",
+				childKey: "no",
+				openKey: "open"
+			},
+			colGroup: [
+				{key:"no", label:"No.", width:"60", align:"left"},
+				{
+					key:"nodeName", label: "제목", width: "500", indent:true,
+					getIconClass: function(){
+						return {
+							addClass:"userHtml",
+							html: ((this.item.__subTreeLength > 0) ? '<i class="axi axi-folder-open2"></i>' : '<i class="axi axi-file"></i>')
+						};
+					},
+					formatter:function(){
+						return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+					}
+				}
+			],
+			colHead: {
+				display:true
+			}
+		});
+
+		var List = [
+			{pno:0, no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", open:true}, // 최상위 부모
+			{pno:0, no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", open:true},
+			{pno:0, no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0"},
+			{pno:1, no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0"},
+			{pno:2, no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0"},
+			{pno:2, no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0"}
+		];
+		myTree.setList(List);
+	})();
+</script>
+</pre>
 </article>
