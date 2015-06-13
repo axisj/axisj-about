@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
  axisj-about - v0.0.1 
- publish date : 2015-06-03 
+ publish date : 2015-06-13 
 -->
 <html lang="en">
 <head>
@@ -76,12 +76,19 @@
 
 <article class="content">
 
-	<h2 data-menu-item="intro-0">주의사항</h2>
-	<p>본 문서는 IE 하위 버전에서는 제대로 작동하지 않습니다. 부디 IE9+ 이상의 브라우저를 사용해주세요.</p>
+	<h2 data-menu-item="intro-0">시작하기</h2>
+	<p>
+		본 문서는 IE 하위 버전에서는 제대로 작동하지 않습니다. 부디 IE9+ 이상의 브라우저를 사용해주세요.
+	</p>
+	<p>
+		AXISJ는 IE7+, Chrome, FF, Safari 브라우저에서 작동이 확인되었으며 보장됩니다. 또한 AXISJ를 구동하기 위해서는 jQuery 1.6이상이 필요합니다.
+		AXISJ의 모든 소스는 다음의 주소(gitHub)에서 모두 다운로드 받으실 수 있고 사용상 질문도 하실 수 있습니다.
+		<a href="https://github.com/axisj/axisj" target="_blank">https://github.com/axisj/axisj</a>
+	</p>
 
     <h2 data-menu-item="intro-install">AXISJ 설치</h2>
 	<p>
-		소스코드를 깃허브에서 다운로드(https://github.com/axisj-com/axisj/releases) 받으신 후 다음의 코드를 html 헤드에 삽입합니다. 설치가 완료 되었습니다.
+		소스코드를 깃허브에서 다운로드(<a href="https://github.com/axisj-com/axisj/releases" target="_blank">https://github.com/axisj-com/axisj/releases</a>) 받으신 후 다음의 코드를 html 헤드에 삽입합니다.
 	</p>
 <pre class="prettyprint linenums">
 &lt;!-- css block -->
@@ -91,7 +98,9 @@
 &lt;script type="text/javascript" src="/axisj/jquery/jquery.min.js">&lt;/script>
 &lt;script type="text/javascript" src="/axisj/dist/AXJ.min.js">&lt;/script>
 </pre>
-
+	<p>
+		설치가 완료 되었습니다.
+	</p>
 </article>
 
 
@@ -217,5 +226,14 @@ AXConfig.AXGrid.emptyListMSG = "목록이 없습니다";
 </div>
 <!-- end div class="app-page"-->
 <script type="text/javascript" src="app.js"></script>
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-56252826-1', 'auto');
+	ga('send', 'pageview');
+</script>
 </body>
 </hml>
