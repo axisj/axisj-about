@@ -1,17 +1,20 @@
+#!/usr/bin/env node
+
 /**
  * Module dependencies.
  */
 
-var program = require('commander')
-  , path = require('path')
-  , fs = require('fs')
-  , resolve = path.resolve
-  , exists = fs.existsSync || path.existsSync
-  , Mocha = require('../')
-  , utils = Mocha.utils
-  , join = path.join
-  , cwd = process.cwd()
-  , mocha = new Mocha;
+var program = require('commander'),
+  path = require('path'),
+  fs = require('fs'),
+  resolve = path.resolve,
+  exists = fs.existsSync || path.existsSync,
+  Mocha = require('../'),
+  utils = Mocha.utils,
+  join = path.join,
+  cwd = process.cwd(),
+  getOptions = require('./options'),
+  mocha = new Mocha;
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
@@ -55,7 +58,7 @@ var images = {
 program
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
   .usage('[debug] [options] [files]')
-  .option('-A, --async-only', "force all tests to take a callback (async)")
+  .option('-A, --async-only', "force all tests to take a callback (async) or return a promise")
   .option('-c, --colors', 'force enabling of colors')
   .option('-C, --no-colors', 'force disabling of colors')
   .option('-G, --growl', 'enable growl notification support')
@@ -74,16 +77,12 @@ program
   .option('-u, --ui <name>', 'specify user-interface (bdd|tdd|exports)', 'bdd')
   .option('-w, --watch', 'watch files for changes')
   .option('--check-leaks', 'check for global variable leaks')
+  .option('--full-trace', 'display the full stack trace')
   .option('--compilers <ext>:<module>,...', 'use the given module(s) to compile files', list, [])
   .option('--debug-brk', "enable node's debugger breaking on the first line")
   .option('--globals <names>', 'allow the given comma-delimited global [names]', list, [])
-  .option('--harmony', 'enable all harmony features (except typeof)')
-  .option('--harmony-collections', 'enable harmony collections (sets, maps, and weak maps)')
-  .option('--harmony-generators', 'enable harmony generators')
-  .option('--harmony-proxies', 'enable harmony proxies')
-  .option('--harmony_shipping', 'enable all shipped harmony fetaures (iojs)')
-  .option('--harmony_arrow_functions', 'enable "harmony arrow functions" (iojs)')
-  .option('--harmony_proxies', 'enable "harmony proxies" (iojs)')
+  .option('--es_staging', 'enable all staged features')
+  .option('--harmony<_classes,_generators,...>', 'all node --harmony* flags are available')
   .option('--inline-diffs', 'display actual/expected differences inline within each string')
   .option('--interfaces', 'display available interfaces')
   .option('--no-deprecation', 'silence deprecation warnings')
@@ -170,26 +169,9 @@ program.on('require', function(mod){
   requires.push(mod);
 });
 
-// --opts
+// load mocha.opts into process.argv
 
-var optsPath = process.argv.indexOf('--opts') !== -1
-    ? process.argv[process.argv.indexOf('--opts') + 1]
-    : 'test/mocha.opts';
-
-try {
-  var opts = fs.readFileSync(optsPath, 'utf8')
-    .trim()
-    .split(/\s+/)
-    .filter(function(value) {
-      return value ? true : false;
-    });
-
-  process.argv = process.argv
-    .slice(0, 2)
-    .concat(opts.concat(process.argv.slice(2)));
-} catch (err) {
-  // ignore
-}
+getOptions();
 
 // parse args
 
@@ -205,10 +187,13 @@ var reporterOptions = {};
 if (program.reporterOptions !== undefined) {
     program.reporterOptions.split(",").forEach(function(opt) {
         var L = opt.split("=");
-        if (L.length != 2) {
+        if (L.length > 2 || L.length === 0) {
             throw new Error("invalid reporter option '" + opt + "'");
+        } else if (L.length === 2) {
+            reporterOptions[L[0]] = L[1];
+        } else {
+            reporterOptions[L[0]] = true;
         }
-        reporterOptions[L[0]] = L[1];
     });
 }
 
@@ -278,6 +263,10 @@ if (program.invert) mocha.invert();
 // --check-leaks
 
 if (program.checkLeaks) mocha.checkLeaks();
+
+// --stack-trace
+
+if(program.fullTrace) mocha.fullTrace();
 
 // --growl
 
@@ -396,13 +385,14 @@ if (program.watch) {
     }
   });
 
-  return;
-}
+} else {
 
 // load
 
-mocha.files = files;
-runner = mocha.run(program.exit ? exit : exitLater);
+  mocha.files = files;
+  runner = mocha.run(program.exit ? exit : exitLater);
+
+}
 
 function exitLater(code) {
   process.on('exit', function() { process.exit(code) })
